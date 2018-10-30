@@ -1,0 +1,19 @@
+<S> ::= PROGRAM id nl <SeccionConstantes> nl <SeccionVariables> nl <SeccionRutinas> <EntradaPrograma> 
+
+<SeccionConstantes> ::= CONST var_const nl Variables | epsilon
+
+<SeccionVariables> ::= VAR var_const nl Funciones | epsilon
+
+<SeccionRutinas> ::= FUNCTION id ( lista ): Tipo nl <Funcion> | PROCEDURE id ( lista ): void nl <Procedimiento>
+
+var_const ::= id = literales; | id = literales; nl var_const  
+
+<EntradaPrograma> ::= BEGIN nl <Expresiones> nl END
+
+<Funcion> ::= <SeccionConstantes> nl <SeccionVariables> nl <Cuerpo> nl id := 
+
+<Procedimiento> ::= <SeccionConstantes> nl <SeccionVariables> nl <Cuerpo>
+
+Tipo ::= BOOLEAN | INT | CHAR | LONGINT | SHORTINT | STRING | REAl 
+
+<Cuerpo> ::= BEGIN <Expresiones> END
