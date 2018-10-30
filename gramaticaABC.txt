@@ -1,19 +1,102 @@
-<S> ::= PROGRAM id nl <SeccionConstantes> nl <SeccionVariables> nl <SeccionRutinas> <EntradaPrograma> 
-
-<SeccionConstantes> ::= CONST var_const nl Variables | epsilon
-
-<SeccionVariables> ::= VAR var_const nl Funciones | epsilon
-
-<SeccionRutinas> ::= FUNCTION id ( lista ): Tipo nl <Funcion> | PROCEDURE id ( lista ): void nl <Procedimiento>
-
-var_const ::= id = literales; | id = literales; nl var_const  
+<S> ::= PROGRAM id nl <SeccionConstantes> nl <SeccionVariables> nl <Rutinas> <EntradaPrograma> 
 
 <EntradaPrograma> ::= BEGIN nl <Expresiones> nl END
 
-<Funcion> ::= <SeccionConstantes> nl <SeccionVariables> nl <Cuerpo> nl id := 
+**** Declaracion de Constantes y Variables ****
 
-<Procedimiento> ::= <SeccionConstantes> nl <SeccionVariables> nl <Cuerpo>
+<SeccionConstantes> ::= CONST nl <Constantes> 
+<SeccionConstantes> ::= epsilon
 
-Tipo ::= BOOLEAN | INT | CHAR | LONGINT | SHORTINT | STRING | REAl 
+<Constantes> ::= <Constante> nl <Constantes>
+<Constantes> ::= epsilon
 
-<Cuerpo> ::= BEGIN <Expresiones> END
+<Constante> ::= id = <literal>;
+<Constante> ::= epsilon
+
+<SeccionVariables> ::= VAR nl <Variables>
+<SeccionVariables> ::= epsilon
+
+<Variables> ::= <Variable> nl <Variables>
+<Variables> ::= epsilon
+
+<Variable> ::= id <Identificadores> : <Tipo> <Inicializar> ;
+<Variable> ::= epsilon
+
+<Identificadores> ::= , id <Identificadores>
+<Identificadores> ::= epsilon
+
+<Inicializar> ::= = <literal>
+<Inicializar> ::= epsilon
+
+**** Rutinas ****
+
+<Rutinas> ::= <Rutina> nl <Rutinas>
+<Rutinas> ::= epsilon
+
+<Rutina> ::= <EncabezadoProcedimiento> BEGIN <Expresiones> END
+<Rutina> ::= <EncabezadoFuncion> BEGIN <Expresiones> END
+<Rutina> ::= epsilon
+
+<EncabezadoProcedimiento> ::= PROCEDURE id ( <Parametros> )
+<EncabezadoFuncion> ::= FUNCTION id ( <Parametros> ) : <Tipo>
+
+
+//////////////////// Esto hay que arreglarlo
+<Parametros> ::= <Parametro> <masParametros>
+<Parametros> ::= epsilon
+
+<Parametro> ::= <Tipo> id
+<Parametro> ::= epsilon
+
+<masParametros> ::= , <Parametros>
+<masParametros> ::= epsilon
+////////////////////
+
+**** Expresiones ****
+
+<Expresiones> ::= <Expresion> ; nl <Expresiones> 
+<Expresiones> ::= epsilon
+
+!!!!!!!!!!!DUDA!!!!!!!!!!!!!!!!!!
+TENEMOS EXPRESIONES EN BLOQUE? ejm BEGIN ... END o { ... }
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+<Expresion> ::= <Instruccion> ;
+<Expresion> ::= <Asignacion> ;
+<Expresion> ::= <Operacion> ;
+<Expresion> ::= <literal> ;
+<Expresion> ::= epsilon
+
+<Asignacion> ::= id := <Expresion> ;
+
+<Instruccion> ::= <IfThenElse>
+<Instruccion> ::= <While>
+<Instruccion> ::= <For>
+
+<IfThenElse> ::= IF <Expresion> THEN <Expresiones> ELSE <Expresiones> END
+<IfThenElse> ::= IF <Expresion> THEN <Expresiones> END
+
+<While> ::= WHILE <Expresion> DO nl BEGIN <Expresiones> END
+
+<For> ::= FOR id := <Expresion> TO <Expresion> DO nl BEGIN <Expresiones> END
+
+**** Tipos y Literales ****
+
+<Tipo> ::= BOOLEAN 
+<Tipo> ::= INT
+<Tipo> ::= CHAR
+<Tipo> ::= LONGINT
+<Tipo> ::= SHORTINT
+<Tipo> ::= STRING
+<Tipo> ::= REAL
+
+<literal> ::= literal_entero
+<literal> ::= literal_longint
+<literal> ::= literal_shortint
+<literal> ::= literal_real
+<literal> ::= literal_string
+<literal> ::= literal_char
+<literal> ::= <Boolean>
+
+<Boolean> ::= TRUE
+<Boolean> ::= FALSE
