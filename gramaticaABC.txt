@@ -64,8 +64,10 @@
 <Instruccion> ::= <While>
 <Instruccion> ::= <For>
 
-<IfThenElse> ::= IF <Expresion> THEN <Expresiones> ELSE <Expresiones> END
-<IfThenElse> ::= IF <Expresion> THEN <Expresiones> END
+<IfThenElse> ::= IF <Expresion> THEN <Expresiones> <Else> END
+
+<Else> ::= ELSE <Expresiones>
+<Else> ::= epsilon
 
 <While> ::= WHILE <Expresion> DO nl BEGIN <Expresiones> END
 
@@ -73,9 +75,11 @@
 
 <Asignacion> ::= id <OperadorAsignacion> <Expresion> ;
 
-<Operacion> ::= <Expresion> <OperadorBinario> <Expresion>
+<Operacion> ::= <Expresion> <Operacion2>
 <Operacion> ::= <OperadorUnarioPrefijo> <Expresion>
-<Operacion> ::= <Expresion> <OperadorUnarioPosfijo>
+
+<Operacion2> ::= <OperadorBinario> <Expresion>
+<Operacion2> ::= <OperadorUnarioPosfijo>
 
 **** Operadores ****
 
