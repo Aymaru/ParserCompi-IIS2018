@@ -1,4 +1,4 @@
-<S> ::= PROGRAM id nl <SeccionConstantes> nl <SeccionVariables> nl <Rutinas> <EntradaPrograma> 
+<S> ::= PROGRAM id nl <SeccionConstantes> nl <SeccionVariables> nl <Rutinas> nl <EntradaPrograma> 
 
 <EntradaPrograma> ::= BEGIN nl <Expresiones> nl END
 
@@ -10,7 +10,7 @@
 <Constantes> ::= <Constante> nl <Constantes>
 <Constantes> ::= epsilon
 
-<Constante> ::= id = <literal>;
+<Constante> ::= id = <literal> ;
 <Constante> ::= epsilon
 
 <SeccionVariables> ::= VAR nl <Variables>
@@ -40,34 +40,25 @@
 <EncabezadoProcedimiento> ::= PROCEDURE id ( <Parametros> )
 <EncabezadoFuncion> ::= FUNCTION id ( <Parametros> ) : <Tipo>
 
-
-//////////////////// Esto hay que arreglarlo
-<Parametros> ::= <Parametro> <masParametros>
+<Parametros> ::= <Parametro>
 <Parametros> ::= epsilon
 
-<Parametro> ::= <Tipo> id
+<Parametro> ::= <Tipo> id <masParametros>
 <Parametro> ::= epsilon
 
-<masParametros> ::= , <Parametros>
+<masParametros> ::= , <Tipo> id <masParametros>
 <masParametros> ::= epsilon
-////////////////////
 
 **** Expresiones ****
 
 <Expresiones> ::= <Expresion> ; nl <Expresiones> 
 <Expresiones> ::= epsilon
 
-!!!!!!!!!!!DUDA!!!!!!!!!!!!!!!!!!
-TENEMOS EXPRESIONES EN BLOQUE? ejm BEGIN ... END o { ... }
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 <Expresion> ::= <Instruccion> ;
 <Expresion> ::= <Asignacion> ;
 <Expresion> ::= <Operacion> ;
 <Expresion> ::= <literal> ;
 <Expresion> ::= epsilon
-
-<Asignacion> ::= id := <Expresion> ;
 
 <Instruccion> ::= <IfThenElse>
 <Instruccion> ::= <While>
@@ -79,6 +70,53 @@ TENEMOS EXPRESIONES EN BLOQUE? ejm BEGIN ... END o { ... }
 <While> ::= WHILE <Expresion> DO nl BEGIN <Expresiones> END
 
 <For> ::= FOR id := <Expresion> TO <Expresion> DO nl BEGIN <Expresiones> END
+
+<Asignacion> ::= id <OperadorAsignacion> <Expresion> ;
+
+<Operacion> ::= <Expresion> <OperadorBinario> <Expresion>
+<Operacion> ::= <OperadorUnarioPrefijo> <Expresion>
+<Operacion> ::= <Expresion> <OperadorUnarioPosfijo>
+
+**** Operadores ****
+
+<OperadorBinario> ::= <OperadoresEnteros>
+<OperadorBinario> ::= <OperadoresComparacion>
+<OperadorBinario> ::= <OperadoresLogicosBinarios>
+
+<OperadorUnarioPrefijo> ::= <OperadoresLogicosUnarios>
+<OperadorUnarioPrefijo> ::= <Incremento>
+<OperadorUnarioPrefijo> ::= <Decremento>
+
+<OperadorUnarioPosfijo> ::= <Incremento>
+<OperadorUnarioPosfijo> ::= <Decremento>
+
+<Incremento> ::= ++
+<Decremento> ::= --
+ 
+<OperadoresEnteros> ::= +
+<OperadoresEnteros> ::= -
+<OperadoresEnteros> ::= *
+<OperadoresEnteros> ::= /
+<OperadoresEnteros> ::= MOD
+<OperadoresEnteros> ::= DIV
+
+<OperadorAsignacion> ::= :=
+<OperadorAsignacion> ::= +=
+<OperadorAsignacion> ::= -=
+<OperadorAsignacion> ::= *=
+<OperadorAsignacion> ::= /=
+
+<OperadoresComparacion> ::= =
+<OperadoresComparacion> ::= >=
+<OperadoresComparacion> ::= >
+<OperadoresComparacion> ::= <=
+<OperadoresComparacion> ::= <
+<OperadoresComparacion> ::= <>
+
+<OperadoresLogicosBinarios> ::= OR
+<OperadoresLogicosBinarios> ::= AND
+
+<OperadoresLogicosUnarios> ::= NOT
 
 **** Tipos y Literales ****
 
