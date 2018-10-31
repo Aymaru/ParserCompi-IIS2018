@@ -1,0 +1,179 @@
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+package Compilador;
+import java_cup.runtime.Symbol;
+
+//import java.util.LinkedList;
+
+//------> Codigo para el parser,variables, metodos
+parser code
+{:
+    public String resultado="";
+    //public static LinkedList<TError> TablaES = new LinkedList<TError>(); 
+
+    //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {        
+        String token = s.value.toString();
+        int linea = s.right;
+        int columna = s.left;
+        
+        System.out.println("!!!!!!! Error Sintactico Recuperado !!!!!!!");
+        System.out.println("\t\tLexema: "+token);
+        System.out.println("\t\tFila: "+linea);
+        System.out.println("\t\tColumna: "+columna);
+
+
+        ScannerABC.errores.add(new ErrorToken(token,"ERROR_SINTAXIS","Error Sintáctico: Caracter " + token + " no esperado. Linea: " + (linea+1), (linea+1)));
+        System.out.println(ScannerABC.errores.size());
+        //TError datos = new TError(lexema,linea,columna,"Error Sintactico:","Caracter no esperado");
+        //TablaES.add(datos);
+       
+        
+    }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {        
+        String token = s.value.toString();
+        int linea = s.right;
+        int columna = s.left;
+        
+        System.out.println("!!!!!!! Error Sintactico, Panic Mode !!!!!!! ");
+        System.out.println("\t\tLexema: "+token);
+        System.out.println("\t\tFila: "+linea);
+        System.out.println("\t\tColumna: "+columna);
+
+        ScannerABC.errores.add(new ErrorToken(token,"ERROR_SINTAXIS","Error Sintáctico: Caracter " + token + " no esperado. Linea: " + (linea+1), linea+1));
+     
+    }
+:}
+
+//------> Codigo para las acciones gramaticales
+action code
+{:
+:}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+//------> declaracion de terminales 
+terminal O_XOR,
+    PR_WRITE,
+    PR_WITH,
+    PR_WHILE,
+    PR_VAR,
+    PR_UNTIL,
+    PR_TYPE,
+    PR_TRUE,
+    PR_TO,
+    PR_THEN,
+    PR_STRING,
+    PR_SHORTINT,
+    PR_SET,
+    PR_REPEAT,
+    PR_RECORD,
+    PR_REAL,
+    PR_READ,
+    PR_PROGRAM,
+    PR_PROCEDURE,
+    PR_PACKED,
+    O_OR,
+    PR_OF,
+    O_NOT,
+    PR_NIL,
+    O_MOD,
+    PR_LONGINT,
+    PR_LABEL,
+    PR_INT,
+    PR_INLINE,
+    PR_IN,
+    PR_IF,
+    PR_GOTO,
+    PR_FUNCTION,
+    PR_FORWARD,
+    PR_FOR,
+    PR_FILE,
+    PR_FALSE,
+    PR_END,
+    PR_ELSE,
+    PR_DOWNTO,
+    PR_DO,
+    O_DIV,
+    PR_CONST,
+    PR_CHAR,
+    PR_CASE,
+    PR_BYTE,
+    PR_BOOLEAN,
+    PR_BEGIN,
+    PR_ARRAY,
+    O_AND,
+    O_RIGHT_SQUARE_BRACKET,
+    O_LEFT_SQUARE_BRACKET,
+    O_GREATER_GREATER_EQUALS,
+    O_GREATER_GREATER,
+    O_GREATER_EQUALS,
+    O_GREATER,
+    O_EQUALS,
+    O_LESS_GREATER,
+    O_LESS_EQUALS,
+    O_LESS_LESS_EQUALS,
+    O_LESS_LESS,
+    O_LESS,
+    O_SEMICOLON,
+    O_COLON_EQUALS,
+    O_COLON,
+    O_SLASH_EQUALS,
+    O_SLASH,
+    O_FULL_STOP,
+    O_MINUS_EQUALS,
+    O_MINUS_MINUS,
+    O_MINUS,
+    O_COMMA,
+    O_PLUS_EQUALS,
+    O_PLUS_PLUS,
+    O_PLUS,
+    O_ASTERISK_EQUALS,
+    O_ASTERISK,
+    O_RIGHT_PARENTHESIS,
+    O_LEFT_PARENTHESIS;
+terminal String L_INTEGER,L_CHAR,L_FLOAT,L_STRING,IDENTIFICADOR;
+
+//------> declaracion de no terminales
+non terminal String INICIO,E;
+
+//----> precedencia de menor a mayor 
+precedence left O_PLUS, O_MINUS;
+precedence left O_ASTERISK, O_SLASH; 
+
+start with INICIO;
+
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+INICIO::=E:a {: resultado=a; :};
+
+E::= E:a O_PLUS E:b {: 
+                    System.out.println(a + "+" + b);
+                    int val1= Integer.parseInt(a);
+                    int val2= Integer.parseInt(b);
+                    int r = val1+val2;
+                    RESULT = String.valueOf(r); :}
+    |E:a O_MINUS E:b {: 
+                    System.out.println(a + "-" + b);
+                    int val1= Integer.parseInt(a);
+                    int val2= Integer.parseInt(b);
+                    int r = val1-val2;
+                    RESULT = String.valueOf(r); :}
+    |E:a O_SLASH E:b {: 
+                    System.out.println(a + "/" + b);
+                    int val1= Integer.parseInt(a);
+                    int val2= Integer.parseInt(b);
+                    int r = val1/val2;
+                    RESULT = String.valueOf(r); :}
+    |E:a O_ASTERISK E:b {: 
+                    System.out.println(a + "*" + b);
+                    int val1= Integer.parseInt(a);
+                    int val2= Integer.parseInt(b);
+                    int r = val1*val2;
+                    RESULT = String.valueOf(r); :}
+    |O_LEFT_PARENTHESIS E:a O_RIGHT_PARENTHESIS {: System.out.println("AAAAAAAAAAAA-" + a); 
+                                                    RESULT = a; :}
+    |L_INTEGER:a {: RESULT = a; :}
+    |error E;
