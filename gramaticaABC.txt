@@ -1,6 +1,6 @@
 <S> ::= PROGRAM id nl <SeccionConstantes> nl <SeccionVariables> nl <Rutinas> nl <EntradaPrograma> 
 
-<EntradaPrograma> ::= BEGIN nl <Expresiones> nl END
+<EntradaPrograma> ::= BEGIN nl <Instrucciones> nl END
 
 **** Declaracion de Constantes y Variables ****
 
@@ -33,8 +33,8 @@
 <Rutinas> ::= <Rutina> nl <Rutinas>
 <Rutinas> ::= epsilon
 
-<Rutina> ::= <EncabezadoProcedimiento> BEGIN <Expresiones> END
-<Rutina> ::= <EncabezadoFuncion> BEGIN <Expresiones> END
+<Rutina> ::= <EncabezadoProcedimiento> nl BEGIN nl <Instrucciones> END nl
+<Rutina> ::= <EncabezadoFuncion> nl BEGIN nl <Instrucciones> END nl
 <Rutina> ::= epsilon
 
 <EncabezadoProcedimiento> ::= PROCEDURE id ( <Parametros> )
@@ -51,51 +51,55 @@
 
 **** Expresiones ****
 
-<Expresiones> ::= <Expresion> ; nl <Expresiones> 
-<Expresiones> ::= epsilon
+<Instrucciones> ::= <Instruccion> nl <Instrucciones>
+<Instrucciones> ::= epsilon
 
-<Expresion> ::= <Instruccion> ;
-<Expresion> ::= <Asignacion> ;
-<Expresion> ::= <Operacion> ;
-<Expresion> ::= <literal> ;
-<Expresion> ::= epsilon
+<Expresion> ::= <Expresion2> <ExpresionOperadoresLogicos>
+
+<ExpresionOperadoresLogicos> ::= <OperadoresLogicosBinarios> <Expresion2> <ExpresionOperadoresLogicos>
+<ExpresionOperadoresLogicos> ::= epsilon
+
+<Expresion2> ::= <Expresion3> <ExpresionOperadoresComparacion>
+
+<ExpresionOperadoresComparacion> ::= <OperadoresComparacion> <Expresion3> <ExpresionOperadoresComparacion>
+<ExpresionOperadoresComparacion> ::= epsilon
+
+<Expresion3> ::= <Expresion4> <ExpresionOperadoresEnteros>
+
+<ExpresionOperadoresEnteros> ::= <OperadoresEnteros> <Expresion4> <ExpresionOperadoresEnteros>
+<ExpresionOperadoresEnteros> ::= epsilon
+
+<Expresion4> ::= <IncrementoDecremento> <Expresion5>
+<Expresion4> ::= <OperadoresLogicosUnarios> <Expresion5>
+<Expresion4> ::= <Expresion5>
+
+<Expresion5> ::= <Expresion6> <IncrementoDecremento>
+
+<Expresion6> ::= ( <Expresion> )
+<Expresion6> ::= id <ExpresionAsignacion>
+<Expresion6> ::= <literal>
+
+<ExpresionAsignacion> ::= <OperadorAsignacion> <Expresion>
 
 <Instruccion> ::= <IfThenElse>
 <Instruccion> ::= <While>
-<Instruccion> ::= <For>
+<Instruccion> ::= <For> 
+<Instruccion> ::= <Expresion> ; nl
 
-<IfThenElse> ::= IF <Expresion> THEN <Expresiones> <Else> END
+<IfThenElse> ::= IF <Expresion> nl THEN <Instrucciones> nl <Else> END nl
 
-<Else> ::= ELSE <Expresiones>
+<Else> ::= ELSE <Instrucciones> nl
 <Else> ::= epsilon
 
-<While> ::= WHILE <Expresion> DO nl BEGIN <Expresiones> END
+<While> ::= WHILE <Expresion> DO nl BEGIN nl <Instrucciones> END nl
 
-<For> ::= FOR id := <Expresion> TO <Expresion> DO nl BEGIN <Expresiones> END
-
-<Asignacion> ::= id <OperadorAsignacion> <Expresion> ;
-
-<Operacion> ::= <Expresion> <Operacion2>
-<Operacion> ::= <OperadorUnarioPrefijo> <Expresion>
-
-<Operacion2> ::= <OperadorBinario> <Expresion>
-<Operacion2> ::= <OperadorUnarioPosfijo>
+<For> ::= FOR id := <Expresion> TO <Expresion> DO nl BEGIN nl <Instrucciones> END nl
 
 **** Operadores ****
 
-<OperadorBinario> ::= <OperadoresEnteros>
-<OperadorBinario> ::= <OperadoresComparacion>
-<OperadorBinario> ::= <OperadoresLogicosBinarios>
-
-<OperadorUnarioPrefijo> ::= <OperadoresLogicosUnarios>
-<OperadorUnarioPrefijo> ::= <Incremento>
-<OperadorUnarioPrefijo> ::= <Decremento>
-
-<OperadorUnarioPosfijo> ::= <Incremento>
-<OperadorUnarioPosfijo> ::= <Decremento>
-
-<Incremento> ::= ++
-<Decremento> ::= --
+<IncrementoDecremento> ::= ++
+<IncrementoDecremento> ::= --
+<IncrementoDecremento> ::= epsilon
  
 <OperadoresEnteros> ::= +
 <OperadoresEnteros> ::= -
