@@ -55,98 +55,219 @@ action code
 :}
 
 /*--------------- 2da Area: Declaraciones -----------------------*/
-//------> declaracion de terminales 
+//------> declaracion de terminales
+
+
+terminal String L_INTEGER, L_CHAR, L_FLOAT, L_STRING, IDENTIFICADOR; 
 terminal O_XOR,
-    PR_WRITE,
-    PR_WITH,
-    PR_WHILE,
-    PR_VAR,
-    PR_UNTIL,
-    PR_TYPE,
-    PR_TRUE,
-    PR_TO,
-    PR_THEN,
-    PR_STRING,
-    PR_SHORTINT,
-    PR_SET,
-    PR_REPEAT,
-    PR_RECORD,
-    PR_REAL,
-    PR_READ,
-    PR_PROGRAM,
-    PR_PROCEDURE,
-    PR_PACKED,
-    O_OR,
-    PR_OF,
-    O_NOT,
-    PR_NIL,
-    O_MOD,
-    PR_LONGINT,
-    PR_LABEL,
-    PR_INT,
-    PR_INLINE,
-    PR_IN,
-    PR_IF,
-    PR_GOTO,
-    PR_FUNCTION,
-    PR_FORWARD,
-    PR_FOR,
-    PR_FILE,
-    PR_FALSE,
-    PR_END,
-    PR_ELSE,
-    PR_DOWNTO,
-    PR_DO,
-    O_DIV,
-    PR_CONST,
-    PR_CHAR,
-    PR_CASE,
-    PR_BYTE,
-    PR_BOOLEAN,
-    PR_BEGIN,
-    PR_ARRAY,
-    O_AND,
-    O_RIGHT_SQUARE_BRACKET,
-    O_LEFT_SQUARE_BRACKET,
-    O_GREATER_GREATER_EQUALS,
-    O_GREATER_GREATER,
-    O_GREATER_EQUALS,
-    O_GREATER,
-    O_EQUALS,
-    O_LESS_GREATER,
-    O_LESS_EQUALS,
-    O_LESS_LESS_EQUALS,
-    O_LESS_LESS,
-    O_LESS,
-    O_SEMICOLON,
-    O_COLON_EQUALS,
-    O_COLON,
-    O_SLASH_EQUALS,
-    O_SLASH,
-    O_FULL_STOP,
-    O_MINUS_EQUALS,
-    O_MINUS_MINUS,
-    O_MINUS,
-    O_COMMA,
-    O_PLUS_EQUALS,
-    O_PLUS_PLUS,
-    O_PLUS,
-    O_ASTERISK_EQUALS,
-    O_ASTERISK,
-    O_RIGHT_PARENTHESIS,
-    O_LEFT_PARENTHESIS;
-terminal String L_INTEGER,L_CHAR,L_FLOAT,L_STRING,IDENTIFICADOR;
+        PR_WRITE,
+        PR_WITH,
+        PR_WHILE,
+        PR_VAR,
+        PR_UNTIL,
+        PR_TYPE,
+        PR_TRUE,
+        PR_TO,
+        PR_THEN,
+        PR_STRING,
+        PR_SHORTINT,
+        PR_SET,
+        PR_REPEAT,
+        PR_RECORD,
+        PR_REAL,
+        PR_READ,
+        PR_PROGRAM,
+        PR_PROCEDURE,
+        PR_PACKED,
+        O_OR,
+        PR_OF,
+        O_NOT,
+        PR_NIL,
+        O_MOD,
+        PR_LONGINT,
+        PR_LABEL,
+        PR_INT,
+        PR_INLINE,
+        PR_IN,
+        PR_IF,
+        PR_GOTO,
+        PR_FUNCTION,
+        PR_FORWARD,
+        PR_FOR,
+        PR_FILE,
+        PR_FALSE,
+        PR_END,
+        PR_ELSE,
+        PR_DOWNTO,
+        PR_DO,
+        O_DIV,
+        PR_CONST,
+        PR_CHAR,
+        PR_CASE,
+        PR_BYTE,
+        PR_BOOLEAN,
+        PR_BEGIN,
+        PR_ARRAY,
+        O_AND,
+        O_RIGHT_SQUARE_BRACKET,
+        O_LEFT_SQUARE_BRACKET,
+        O_GREATER_GREATER_EQUALS,
+        O_GREATER_GREATER,
+        O_GREATER_EQUALS,
+        O_GREATER,
+        O_EQUALS,
+        O_LESS_GREATER,
+        O_LESS_EQUALS,
+        O_LESS_LESS_EQUALS,
+        O_LESS_LESS,
+        O_LESS,
+        O_SEMICOLON,
+        O_COLON_EQUALS,
+        O_COLON,
+        O_SLASH_EQUALS,
+        O_SLASH,
+        O_FULL_STOP,
+        O_MINUS_EQUALS,
+        O_MINUS_MINUS,
+        O_MINUS,
+        O_COMMA,
+        O_PLUS_EQUALS,
+        O_PLUS_PLUS,
+        O_PLUS,
+        O_ASTERISK_EQUALS,
+        O_ASTERISK,
+        O_RIGHT_PARENTHESIS,
+        O_LEFT_PARENTHESIS;
 
 //------> declaracion de no terminales
-non terminal String INICIO,E;
+non terminal String INICIO,E,
+        S,
+        EntradaPrograma,
+        SeccionConstantes,
+        Constantes,
+        Constante,
+        SeccionVariables,
+        Variables,
+        Variable,
+        Identificadores, 
+        Inicializar,
+        Rutinas, 
+        Rutina, 
+        EncabezadoProcedimiento, 
+        EncabezadoFuncion, 
+        Parametros,
+        Parametro, 
+        masParametros, 
+        Instrucciones, 
+        Expresion, 
+        ExpresionOperadoresLogicos, 
+        Expresion2,
+        ExpresionOperadoresComparacion,
+        Expresion3, 
+        ExpresionOperadoresEnteros, 
+        Expresion4,
+        Expresion5,
+        Expresion6,
+        ExpresionAsignacion, 
+        Instruccion, 
+        IfThenElse, 
+        Else,
+        While,
+        For, 
+        IncrementoDecremento,
+        OperadoresEnteros,
+        OperadorAsignacion, 
+        OperadoresComparacion,
+        OperadoresLogicosBinarios,
+        OperadoresLogicosUnarios, 
+        Tipo,
+        literal,
+        Boolean;
 
-//----> precedencia de menor a mayor 
+//----> precedencia de menor a mayor
+precedence left IDENTIFICADOR;
+precedence left L_CHAR,
+                L_STRING,
+                L_INTEGER,
+                L_FLOAT,
+                PR_WRITE,
+                PR_WITH,
+                PR_WHILE,
+                PR_VAR,
+                PR_UNTIL,
+                PR_TYPE,
+                PR_TRUE,
+                PR_TO,
+                PR_THEN,
+                PR_STRING,
+                PR_SHORTINT,
+                PR_SET,
+                PR_REPEAT,
+                PR_RECORD,
+                PR_REAL,
+                PR_READ,
+                PR_PROGRAM,
+                PR_PROCEDURE,
+                PR_PACKED,
+                PR_OF,
+                PR_NIL,
+                PR_LONGINT,
+                PR_LABEL,
+                PR_INT,
+                PR_INLINE,
+                PR_IN,
+                PR_IF,
+                PR_GOTO,
+                PR_FUNCTION,
+                PR_FORWARD,
+                PR_FOR,
+                PR_FILE,
+                PR_FALSE,
+                PR_END,
+                PR_ELSE,
+                PR_DOWNTO,
+                PR_DO,
+                O_DIV,
+                PR_CONST,
+                PR_CHAR,
+                PR_CASE,
+                PR_BYTE,
+                PR_BOOLEAN,
+                PR_BEGIN,
+                PR_ARRAY,
+                O_RIGHT_SQUARE_BRACKET,
+                O_LEFT_SQUARE_BRACKET,
+                O_GREATER_GREATER_EQUALS,
+                O_GREATER_GREATER,
+                O_LESS_LESS_EQUALS,
+                O_LESS_LESS,
+                O_SEMICOLON,
+                O_COLON_EQUALS,
+                O_COLON,
+                O_SLASH_EQUALS,
+                O_FULL_STOP,
+                O_MINUS_EQUALS,
+                O_COMMA,
+                O_PLUS_EQUALS,
+                O_ASTERISK_EQUALS;
+
+precedence left O_OR;
+precedence left O_XOR;
+precedence left O_AND;
+precedence left O_EQUALS, O_LESS_GREATER;
+precedence left O_LESS, O_LESS_EQUALS, O_GREATER, O_GREATER_EQUALS;
 precedence left O_PLUS, O_MINUS;
-precedence left O_ASTERISK, O_SLASH; 
+precedence left O_ASTERISK, O_SLASH,O_DIV,O_MOD;
+precedence left O_NOT,O_PLUS_PLUS,O_MINUS_MINUS;
+precedence left O_LEFT_PARENTHESIS, O_RIGHT_PARENTHESIS;
+precedence left PR_TRUE;
+precedence left PR_FALSE;
+
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+/*
 INICIO::=E:a {: resultado=a; :};
 
 E::= E:a O_PLUS E:b {: 
@@ -177,3 +298,153 @@ E::= E:a O_PLUS E:b {:
                                                     RESULT = a; :}
     |L_INTEGER:a {: RESULT = a; :}
     |error E;
+*/
+
+INICIO ::= PR_PROGRAM IDENTIFICADOR SeccionConstantes SeccionVariables Rutinas EntradaPrograma;
+
+EntradaPrograma ::= PR_BEGIN Instrucciones PR_END;
+
+/**** Declaracion de Constantes y Variables ****/
+
+SeccionConstantes ::= PR_CONST Constantes 
+	|;
+
+Constantes ::= Constante Constantes
+	|;
+
+Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON
+	|;
+
+SeccionVariables ::= PR_VAR Variables
+	|;
+
+Variables ::= Variable Variables
+	|;
+
+Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON
+	|;
+
+Identificadores ::= O_COMMA IDENTIFICADOR Identificadores
+	|;
+
+Inicializar ::= O_EQUALS literal
+	|;
+
+/**** Rutinas ****/ 
+
+Rutinas ::= Rutina Rutinas
+	|;
+
+Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END
+	|EncabezadoFuncion PR_BEGIN Instrucciones PR_END
+	|;
+
+EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS;
+
+EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS : Tipo;
+
+Parametros ::= Parametro
+	|;
+
+Parametro ::= Tipo IDENTIFICADOR masParametros
+	|;
+
+masParametros ::= O_COMMA Tipo IDENTIFICADOR masParametros
+	|;
+
+/**** Expresiones ****/
+
+Instrucciones ::= Instruccion Instrucciones
+	|;
+
+Expresion ::= Expresion2 ExpresionOperadoresLogicos;
+
+ExpresionOperadoresLogicos ::= OperadoresLogicosBinarios Expresion2 ExpresionOperadoresLogicos
+	|;
+
+Expresion2 ::= Expresion3 ExpresionOperadoresComparacion;
+
+ExpresionOperadoresComparacion ::= OperadoresComparacion Expresion3 ExpresionOperadoresComparacion
+	|;
+
+Expresion3 ::= Expresion4 ExpresionOperadoresEnteros;
+
+ExpresionOperadoresEnteros ::= OperadoresEnteros Expresion4 ExpresionOperadoresEnteros
+	|;
+
+Expresion4 ::= IncrementoDecremento Expresion5
+	|OperadoresLogicosUnarios Expresion5
+	|Expresion5;
+
+Expresion5 ::= Expresion6 IncrementoDecremento;
+
+Expresion6 ::= O_LEFT_PARENTHESIS Expresion O_RIGHT_PARENTHESIS
+	|IDENTIFICADOR ExpresionAsignacion
+	|literal;
+
+ExpresionAsignacion ::= OperadorAsignacion Expresion;
+
+Instruccion ::= IfThenElse
+	|While
+	|For 
+	|Expresion O_SEMICOLON;
+
+IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END;
+
+Else ::= PR_ELSE Instrucciones
+	|;
+
+While ::= PR_WHILE Expresion PR_DO PR_BEGIN Instrucciones PR_END;
+
+For ::= PR_FOR IDENTIFICADOR O_COLON_EQUALS Expresion PR_TO Expresion PR_DO PR_BEGIN Instrucciones PR_END;
+
+/**** Operadores ****/
+
+IncrementoDecremento ::= O_PLUS_PLUS
+	|O_MINUS_MINUS
+	|;
+ 
+OperadoresEnteros ::= O_PLUS
+	|O_MINUS
+	|O_ASTERISK
+	|O_SLASH
+	|O_MOD
+	|O_DIV;
+
+OperadorAsignacion ::= O_COLON_EQUALS
+	|O_PLUS_EQUALS
+	|O_MINUS_EQUALS
+	|O_ASTERISK_EQUALS
+	|O_SLASH_EQUALS;
+
+OperadoresComparacion ::= O_EQUALS
+	|O_GREATER_EQUALS
+	|O_GREATER
+	|O_LESS_EQUALS
+	|O_LESS
+	|O_LESS_GREATER;
+
+OperadoresLogicosBinarios ::= O_OR
+	|O_AND;
+
+OperadoresLogicosUnarios ::= O_NOT;
+
+/**** Tipos y Literales ****/
+
+Tipo ::= PR_BOOLEAN 
+	|PR_INT
+	|PR_CHAR
+	|PR_LONGINT
+	|PR_SHORTINT
+	|PR_STRING
+	|PR_REAL;
+
+literal ::= L_INTEGER
+	|L_FLOAT
+	|L_STRING
+	|L_CHAR
+	|Boolean;
+
+Boolean ::= PR_TRUE
+	|PR_FALSE; 
+
