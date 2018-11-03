@@ -9,6 +9,7 @@ import java_cup.runtime.Symbol;
 parser code
 {:
     public String resultado="";
+
     //public static LinkedList<TError> TablaES = new LinkedList<TError>(); 
 
     //Metodo al que se llama automaticamente ante algun error sintactico
@@ -57,7 +58,7 @@ action code
 /*--------------- 2da Area: Declaraciones -----------------------*/
 //------> declaracion de terminales
 
-
+//terminal empty;
 terminal String L_INTEGER, L_CHAR, L_FLOAT, L_STRING, IDENTIFICADOR; 
 terminal O_XOR,
         PR_WRITE,
@@ -140,7 +141,8 @@ terminal O_XOR,
         O_LEFT_PARENTHESIS;
 
 //------> declaracion de no terminales
-non terminal String INICIO,E,
+non terminal Object empty;
+non terminal Object INICIO,E,
         S,
         EntradaPrograma,
         SeccionConstantes,
@@ -152,7 +154,7 @@ non terminal String INICIO,E,
         Identificadores, 
         Inicializar,
         Rutinas, 
-        Rutina, 
+        Rutina,
         EncabezadoProcedimiento, 
         EncabezadoFuncion, 
         Parametros,
@@ -186,11 +188,15 @@ non terminal String INICIO,E,
 
 //----> precedencia de menor a mayor
 precedence left IDENTIFICADOR;
-precedence left L_CHAR,
+precedence nonassoc L_CHAR,
                 L_STRING,
                 L_INTEGER,
-                L_FLOAT,
-                PR_WRITE,
+                L_FLOAT;
+
+precedence left O_LEFT_PARENTHESIS, O_RIGHT_PARENTHESIS;
+precedence left PR_BEGIN, PR_VAR, PR_PROCEDURE, PR_FUNCTION;
+/*
+precedence nonassoc PR_WRITE,
                 PR_WITH,
                 PR_WHILE,
                 PR_VAR,
@@ -249,7 +255,8 @@ precedence left L_CHAR,
                 O_MINUS_EQUALS,
                 O_COMMA,
                 O_PLUS_EQUALS,
-                O_ASTERISK_EQUALS;
+                O_ASTERISK_EQUALS; 
+*/
 
 precedence left O_OR;
 precedence left O_XOR;
@@ -259,9 +266,11 @@ precedence left O_LESS, O_LESS_EQUALS, O_GREATER, O_GREATER_EQUALS;
 precedence left O_PLUS, O_MINUS;
 precedence left O_ASTERISK, O_SLASH,O_DIV,O_MOD;
 precedence left O_NOT,O_PLUS_PLUS,O_MINUS_MINUS;
-precedence left O_LEFT_PARENTHESIS, O_RIGHT_PARENTHESIS;
+precedence left O_LEFT_PARENTHESIS;
+precedence left O_RIGHT_PARENTHESIS;
 precedence left PR_TRUE;
 precedence left PR_FALSE;
+//precedence left empty;
 
 
 start with INICIO;
@@ -307,70 +316,66 @@ EntradaPrograma ::= PR_BEGIN Instrucciones PR_END;
 /**** Declaracion de Constantes y Variables ****/
 
 SeccionConstantes ::= PR_CONST Constantes 
-	|;
+	| empty;
 
-Constantes ::= Constante Constantes
-	|;
+Constantes ::= Constante
+	|empty;
 
-Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON
-	|;
+Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON Constantes;
 
 SeccionVariables ::= PR_VAR Variables
-	|;
+	|empty;
 
-Variables ::= Variable Variables
-	|;
+Variables ::= Variable
+	|empty;
 
-Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON
-	|;
+Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON Variables;
 
 Identificadores ::= O_COMMA IDENTIFICADOR Identificadores
-	|;
+	|empty;
 
 Inicializar ::= O_EQUALS literal
-	|;
+	|empty;
 
 /**** Rutinas ****/ 
 
-Rutinas ::= Rutina Rutinas
-	|;
+Rutinas ::= Rutina
+	|empty;
 
-Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END
-	|EncabezadoFuncion PR_BEGIN Instrucciones PR_END
-	|;
+Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END Rutinas
+	|EncabezadoFuncion PR_BEGIN Instrucciones PR_END Rutinas;
 
 EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS;
 
-EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS : Tipo;
+EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo;
 
-Parametros ::= Parametro
-	|;
+Parametros ::= Parametro;
 
 Parametro ::= Tipo IDENTIFICADOR masParametros
-	|;
+	|empty;
 
 masParametros ::= O_COMMA Tipo IDENTIFICADOR masParametros
-	|;
+	|empty;
 
 /**** Expresiones ****/
 
 Instrucciones ::= Instruccion Instrucciones
-	|;
+	|empty;
 
 Expresion ::= Expresion2 ExpresionOperadoresLogicos;
 
 ExpresionOperadoresLogicos ::= OperadoresLogicosBinarios Expresion2 ExpresionOperadoresLogicos
-	|;
+	|empty;
 
 Expresion2 ::= Expresion3 ExpresionOperadoresComparacion;
 
 ExpresionOperadoresComparacion ::= OperadoresComparacion Expresion3 ExpresionOperadoresComparacion
-	|;
+	|empty;
 
 Expresion3 ::= Expresion4 ExpresionOperadoresEnteros;
 
 ExpresionOperadoresEnteros ::= OperadoresEnteros Expresion4 ExpresionOperadoresEnteros
-	|;
+	|empty;
 
 Expresion4 ::= IncrementoDecremento Expresion5
 	|OperadoresLogicosUnarios Expresion5
@@ -392,7 +397,7 @@ Instruccion ::= IfThenElse
 IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END;
 
 Else ::= PR_ELSE Instrucciones
-	|;
+	|empty;
 
 While ::= PR_WHILE Expresion PR_DO PR_BEGIN Instrucciones PR_END;
 
@@ -402,7 +407,7 @@ For ::= PR_FOR IDENTIFICADOR O_COLON_EQUALS Expresion PR_TO Expresion PR_DO PR_B
 
 IncrementoDecremento ::= O_PLUS_PLUS
 	|O_MINUS_MINUS
-	|;
+	|empty;
  
 OperadoresEnteros ::= O_PLUS
 	|O_MINUS
@@ -447,4 +452,6 @@ literal ::= L_INTEGER
 
 Boolean ::= PR_TRUE
 	|PR_FALSE; 
+
+empty ::= /* vacio */ ;
 

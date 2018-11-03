@@ -43,6 +43,7 @@ public class Compilador
             {
                 case GENERAR: 
                 {
+                    ScannerABC.errores.clear();
                     String path = System.getProperty("user.dir") + File.separator + "src"+ File.separator +"Compilador"+ File.separator +"Scanner"+ File.separator +"Analizador_Lexico.flex";
 
 
@@ -58,11 +59,26 @@ public class Compilador
                     String[] asintactico = {"-parser", "Analizador_Sintactico", archSintactico};       
                     jflex.Main.main(alexico);
                     try 
-                    {
+                    {   
+                        java_cup.Main.dump_tables();
+                        java_cup.Main.dump_grammar();
+                        
                         java_cup.Main.main(asintactico);
+                        java_cup.Main.dump_tables();
+                        java_cup.Main.dump_grammar();
+                        
                     } 
                     catch (Exception ex) 
                     {
+                         try 
+                         { 
+                        java_cup.Main.dump_tables();
+                        java_cup.Main.dump_grammar();
+                         }
+                         catch(Exception e)
+                         {
+                             
+                         }
                         //Logger.getLogger(EjemploCUP.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -80,23 +96,31 @@ public class Compilador
                 {
                     String nombreArchivo = "prueba";
                     ScannerABC s = new ScannerABC();
+                    ScannerABC.errores.clear();
+                    System.out.println("--Alpha Reached--");
                     try
                     {
                         Analizador_Lexico lexico = new Analizador_Lexico(new BufferedReader(new FileReader(nombreArchivo+"")));
 
+                        System.out.println("--Bravo Reached--");
                         System.out.println(ScannerABC.nombreTokens.size());
 
                         Analizador_Sintactico sintactico = new Analizador_Sintactico(lexico);
                         sintactico.parse();
                         //sintactico.
 
-                        System.out.println(ScannerABC.nombreTokens.size());
+                        System.out.println("--Charlie Reached--");
+                        System.out.println("1----" + ScannerABC.nombreTokens.size());
 
+                        System.out.println("--Delta Reached--");
                         System.out.println(sintactico.resultado);
 
-                        System.out.println(ScannerABC.errores.size());
+                        System.out.println("--Echo Reached--");
+                        System.out.println("Cantidad de Errores: " + ScannerABC.errores.size());
 
+                        System.out.println("--Foxtrot Reached--");
                         System.out.println(ScannerABC.imprimir());
+                        
                         XML.XML.writeXML(s,nombreArchivo);
 
                         Source xml = new StreamSource(new File(nombreArchivo+".xml"));
@@ -108,7 +132,9 @@ public class Compilador
                     }
                     catch(Exception e)
                     {
-
+                        System.out.println("--Hit Alpha--");
+                        System.out.println(e.toString());
+                        System.out.println(ScannerABC.imprimirErrores());
                     }
                     break;
                 }

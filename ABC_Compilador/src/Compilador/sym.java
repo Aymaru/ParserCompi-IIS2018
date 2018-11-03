@@ -8,95 +8,100 @@ package Compilador;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int IDENTIFICADOR = 85;
-  public static final int PR_FOR = 36;
-  public static final int O_SLASH_EQUALS = 67;
-  public static final int PR_TO = 10;
-  public static final int PR_TRUE = 9;
-  public static final int O_LEFT_PARENTHESIS = 80;
-  public static final int PR_FORWARD = 35;
-  public static final int PR_SHORTINT = 13;
-  public static final int PR_INT = 29;
-  public static final int PR_CHAR = 45;
-  public static final int PR_PROGRAM = 19;
-  public static final int O_COLON_EQUALS = 65;
-  public static final int O_DIV = 43;
-  public static final int PR_ELSE = 40;
-  public static final int PR_INLINE = 30;
-  public static final int PR_LABEL = 28;
-  public static final int L_INTEGER = 81;
-  public static final int PR_FUNCTION = 34;
-  public static final int PR_RECORD = 16;
-  public static final int PR_SET = 14;
-  public static final int O_SLASH = 68;
-  public static final int O_LESS_LESS_EQUALS = 61;
-  public static final int PR_END = 39;
-  public static final int PR_PROCEDURE = 20;
-  public static final int O_RIGHT_PARENTHESIS = 79;
-  public static final int O_LESS = 63;
-  public static final int PR_DOWNTO = 41;
-  public static final int PR_BEGIN = 49;
-  public static final int O_MINUS_EQUALS = 70;
-  public static final int O_MINUS_MINUS = 71;
-  public static final int O_LESS_GREATER = 59;
-  public static final int L_STRING = 84;
-  public static final int L_CHAR = 82;
-  public static final int PR_FILE = 37;
-  public static final int O_LESS_LESS = 62;
-  public static final int PR_CASE = 46;
-  public static final int O_MINUS = 72;
-  public static final int O_ASTERISK_EQUALS = 77;
-  public static final int PR_BYTE = 47;
-  public static final int O_LESS_EQUALS = 60;
-  public static final int O_AND = 51;
-  public static final int PR_REPEAT = 15;
-  public static final int PR_WITH = 4;
-  public static final int PR_CONST = 44;
-  public static final int PR_BOOLEAN = 48;
-  public static final int O_XOR = 2;
-  public static final int PR_LONGINT = 27;
-  public static final int O_COLON = 66;
-  public static final int L_FLOAT = 83;
-  public static final int PR_REAL = 17;
-  public static final int PR_UNTIL = 7;
-  public static final int O_GREATER_GREATER = 55;
-  public static final int O_FULL_STOP = 69;
-  public static final int PR_DO = 42;
-  public static final int PR_TYPE = 8;
+  public static final int IDENTIFICADOR = 6;
+  public static final int PR_FOR = 41;
+  public static final int O_SLASH_EQUALS = 72;
+  public static final int PR_TO = 15;
+  public static final int PR_TRUE = 14;
+  public static final int O_LEFT_PARENTHESIS = 85;
+  public static final int PR_FORWARD = 40;
+  public static final int PR_SHORTINT = 18;
+  public static final int PR_INT = 34;
+  public static final int PR_CHAR = 50;
+  public static final int PR_PROGRAM = 24;
+  public static final int O_COLON_EQUALS = 70;
+  public static final int O_DIV = 48;
+  public static final int PR_ELSE = 45;
+  public static final int PR_INLINE = 35;
+  public static final int PR_LABEL = 33;
+  public static final int L_INTEGER = 2;
+  public static final int PR_FUNCTION = 39;
+  public static final int PR_RECORD = 21;
+  public static final int O_SLASH = 73;
+  public static final int PR_SET = 19;
+  public static final int O_LESS_LESS_EQUALS = 66;
+  public static final int PR_END = 44;
+  public static final int PR_PROCEDURE = 25;
+  public static final int O_RIGHT_PARENTHESIS = 84;
+  public static final int O_LESS = 68;
+  public static final int PR_DOWNTO = 46;
+  public static final int PR_BEGIN = 54;
+  public static final int O_MINUS_EQUALS = 75;
+  public static final int O_MINUS_MINUS = 76;
+  public static final int O_LESS_GREATER = 64;
+  public static final int L_STRING = 5;
+  public static final int L_CHAR = 3;
+  public static final int PR_FILE = 42;
+  public static final int O_LESS_LESS = 67;
+  public static final int PR_CASE = 51;
+  public static final int O_MINUS = 77;
+  public static final int O_ASTERISK_EQUALS = 82;
+  public static final int PR_BYTE = 52;
+  public static final int O_LESS_EQUALS = 65;
+  public static final int O_AND = 56;
+  public static final int PR_REPEAT = 20;
+  public static final int PR_WITH = 9;
+  public static final int PR_CONST = 49;
+  public static final int PR_BOOLEAN = 53;
+  public static final int O_XOR = 7;
+  public static final int PR_LONGINT = 32;
+  public static final int O_COLON = 71;
+  public static final int L_FLOAT = 4;
+  public static final int PR_REAL = 22;
+  public static final int PR_UNTIL = 12;
+  public static final int O_GREATER_GREATER = 60;
+  public static final int O_FULL_STOP = 74;
+  public static final int PR_DO = 47;
+  public static final int PR_TYPE = 13;
   public static final int EOF = 0;
-  public static final int PR_READ = 18;
-  public static final int O_PLUS_EQUALS = 74;
+  public static final int PR_READ = 23;
+  public static final int O_PLUS_EQUALS = 79;
   public static final int error = 1;
-  public static final int PR_STRING = 12;
-  public static final int O_RIGHT_SQUARE_BRACKET = 52;
-  public static final int PR_FALSE = 38;
-  public static final int O_LEFT_SQUARE_BRACKET = 53;
-  public static final int PR_NIL = 25;
-  public static final int PR_ARRAY = 50;
-  public static final int O_PLUS_PLUS = 75;
-  public static final int PR_VAR = 6;
-  public static final int O_EQUALS = 58;
-  public static final int PR_IN = 31;
-  public static final int O_OR = 22;
-  public static final int O_GREATER_GREATER_EQUALS = 54;
-  public static final int O_PLUS = 76;
-  public static final int PR_IF = 32;
-  public static final int O_ASTERISK = 78;
-  public static final int O_GREATER = 57;
-  public static final int O_NOT = 24;
-  public static final int PR_OF = 23;
-  public static final int PR_PACKED = 21;
-  public static final int PR_THEN = 11;
-  public static final int PR_GOTO = 33;
-  public static final int O_GREATER_EQUALS = 56;
-  public static final int PR_WRITE = 3;
-  public static final int O_COMMA = 73;
-  public static final int O_SEMICOLON = 64;
-  public static final int PR_WHILE = 5;
-  public static final int O_MOD = 26;
+  public static final int PR_STRING = 17;
+  public static final int O_RIGHT_SQUARE_BRACKET = 57;
+  public static final int PR_FALSE = 43;
+  public static final int O_LEFT_SQUARE_BRACKET = 58;
+  public static final int PR_NIL = 30;
+  public static final int PR_ARRAY = 55;
+  public static final int O_PLUS_PLUS = 80;
+  public static final int PR_VAR = 11;
+  public static final int O_EQUALS = 63;
+  public static final int PR_IN = 36;
+  public static final int O_OR = 27;
+  public static final int O_GREATER_GREATER_EQUALS = 59;
+  public static final int O_PLUS = 81;
+  public static final int PR_IF = 37;
+  public static final int O_ASTERISK = 83;
+  public static final int O_GREATER = 62;
+  public static final int O_NOT = 29;
+  public static final int PR_OF = 28;
+  public static final int PR_PACKED = 26;
+  public static final int PR_THEN = 16;
+  public static final int PR_GOTO = 38;
+  public static final int O_GREATER_EQUALS = 61;
+  public static final int PR_WRITE = 8;
+  public static final int O_COMMA = 78;
+  public static final int O_SEMICOLON = 69;
+  public static final int PR_WHILE = 10;
+  public static final int O_MOD = 31;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "L_INTEGER",
+  "L_CHAR",
+  "L_FLOAT",
+  "L_STRING",
+  "IDENTIFICADOR",
   "O_XOR",
   "PR_WRITE",
   "PR_WITH",
@@ -175,12 +180,7 @@ public class sym {
   "O_ASTERISK_EQUALS",
   "O_ASTERISK",
   "O_RIGHT_PARENTHESIS",
-  "O_LEFT_PARENTHESIS",
-  "L_INTEGER",
-  "L_CHAR",
-  "L_FLOAT",
-  "L_STRING",
-  "IDENTIFICADOR"
+  "O_LEFT_PARENTHESIS"
   };
 }
 

@@ -31,6 +31,7 @@ public class ScannerABC
     
     public ScannerABC() {}
     
+    /*
     public static void generarLexer(String path)
     {
         File file=new File(path);
@@ -152,6 +153,16 @@ public class ScannerABC
         for(Identificador token: tokenslist)
         {
             resultado+=token.imprimir();
+        }
+        return resultado;
+    }
+    
+    public static String imprimirErrores()
+    {
+        String resultado="|         Token        |       Tipo de Token     |    Linea\n";
+        for(ErrorToken token: errores)
+        {
+            resultado+=token.detalle + " - " + token.tipoError + " - " + token.token;
         }
         return resultado;
     }
