@@ -1424,7 +1424,7 @@ class CUP$Analizador_Sintactico$actions {
             {
               Object RESULT =null;
 
-              CUP$Analizador_Sintactico$result = parser.getSymbolFactory().newSymbol("empty",0, ((java_cup.runtime.Symbol)CUP$Analizador_Sintactico$stack.peek()), RESULT);
+              CUP$Analizador_Sintactico$result = parser.getSymbolFactory().newSymbol("empty",0,((java_cup.runtime.Symbol)CUP$Analizador_Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Analizador_Sintactico$stack.peek()), RESULT);
             }
           return CUP$Analizador_Sintactico$result;
 

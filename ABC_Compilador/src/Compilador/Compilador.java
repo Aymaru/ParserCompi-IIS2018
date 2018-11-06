@@ -60,9 +60,6 @@ public class Compilador
                     jflex.Main.main(alexico);
                     try 
                     {   
-                        java_cup.Main.dump_tables();
-                        java_cup.Main.dump_grammar();
-                        
                         java_cup.Main.main(asintactico);
                         java_cup.Main.dump_tables();
                         java_cup.Main.dump_grammar();
@@ -105,9 +102,14 @@ public class Compilador
                         System.out.println("--Bravo Reached--");
                         System.out.println(ScannerABC.nombreTokens.size());
 
+                        /*lexico.
+                        File file=new File(System.getProperty("user.dir")+ "/src/Compilador/Analizador_Lexico.flex");
+                        jflex.Main.generate(file);
+                        */
                         Analizador_Sintactico sintactico = new Analizador_Sintactico(lexico);
-                        sintactico.parse();
-                        //sintactico.
+                        sintactico.debug_parse();
+                        //System.out.println("--Charlie Reached--");
+                        //sintactico.parse();
 
                         System.out.println("--Charlie Reached--");
                         System.out.println("1----" + ScannerABC.nombreTokens.size());
@@ -121,6 +123,7 @@ public class Compilador
                         System.out.println("--Foxtrot Reached--");
                         System.out.println(ScannerABC.imprimir());
                         
+                        /*
                         XML.XML.writeXML(s,nombreArchivo);
 
                         Source xml = new StreamSource(new File(nombreArchivo+".xml"));
@@ -129,11 +132,13 @@ public class Compilador
                         XML.XML.convertXMLToHTML(xml, xslt, nombreArchivo);
                         File htmlFile = new File(nombreArchivo+".html");
                         Desktop.getDesktop().browse(htmlFile.toURI());
+                        */
                     }
                     catch(Exception e)
                     {
                         System.out.println("--Hit Alpha--");
                         System.out.println(e.toString());
+                        System.out.println(e.getCause());
                         System.out.println(ScannerABC.imprimirErrores());
                     }
                     break;

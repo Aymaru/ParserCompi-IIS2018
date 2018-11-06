@@ -58,7 +58,7 @@ action code
 /*--------------- 2da Area: Declaraciones -----------------------*/
 //------> declaracion de terminales
 
-//terminal empty;
+
 terminal String L_INTEGER, L_CHAR, L_FLOAT, L_STRING, IDENTIFICADOR; 
 terminal O_XOR,
         PR_WRITE,
@@ -141,8 +141,8 @@ terminal O_XOR,
         O_LEFT_PARENTHESIS;
 
 //------> declaracion de no terminales
-non terminal Object empty;
-non terminal Object INICIO,E,
+//non terminal String empty;
+non terminal empty,INICIO,E,
         S,
         EntradaPrograma,
         SeccionConstantes,
@@ -316,7 +316,7 @@ EntradaPrograma ::= PR_BEGIN Instrucciones PR_END;
 /**** Declaracion de Constantes y Variables ****/
 
 SeccionConstantes ::= PR_CONST Constantes 
-	| empty;
+	|empty;
 
 Constantes ::= Constante
 	|empty;
@@ -453,5 +453,5 @@ literal ::= L_INTEGER
 Boolean ::= PR_TRUE
 	|PR_FALSE; 
 
-empty ::= /* vacio */ ;
+empty ::= /* nothing */;
 
