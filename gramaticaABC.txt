@@ -75,11 +75,21 @@
 
 <Expresion5> ::= <Expresion6> <IncrementoDecremento>
 
+<Expresion6> ::= id <Expresion7> 
 <Expresion6> ::= ( <Expresion> )
-<Expresion6> ::= id <ExpresionAsignacion>
 <Expresion6> ::= <literal>
 
+<Expresion7> ::= <ExpresionAsignacion>
+<Expresion7> ::= ( <Parametro> )
+
 <ExpresionAsignacion> ::= <OperadorAsignacion> <Expresion>
+<ExpresionAsignacion> ::= epsilon
+
+<Parametro> ::= Expresion <ListaParametros>
+<Parametro> ::= epsilon
+
+<ListaParametros> ::= , Expresion <ListaParametros>
+<ListaParametros> ::= epsilon
 
 <Instruccion> ::= <IfThenElse>
 <Instruccion> ::= <While>
