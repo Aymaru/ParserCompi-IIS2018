@@ -170,6 +170,9 @@ non terminal empty,INICIO,E,
         Expresion4,
         Expresion5,
         Expresion6,
+        Expresion7,
+        LParametro,
+        ListaParametros,
         ExpresionAsignacion, 
         Instruccion, 
         IfThenElse, 
@@ -381,14 +384,35 @@ Expresion4 ::= IncrementoDecremento Expresion5
 	|OperadoresLogicosUnarios Expresion5
 	|Expresion5;
 
+Expresion5::= Expresion6 IncrementoDecremento;
+
+Expresion6::= IDENTIFICADOR Expresion7
+	|O_LEFT_PARENTHESIS Expresion O_RIGHT_PARENTHESIS
+	|literal;
+
+Expresion7::= ExpresionAsignacion
+	|O_LEFT_PARENTHESIS LParametro O_RIGHT_PARENTHESIS;
+
+ExpresionAsignacion::= OperadorAsignacion Expresion
+	|empty;
+
+LParametro::= Expresion ListaParametros
+	|empty;
+
+ListaParametros::= O_COMMA Expresion ListaParametros
+	|empty;
+
+/*ORIGINAL
+
 Expresion5 ::= Expresion6 IncrementoDecremento;
 
 Expresion6 ::= O_LEFT_PARENTHESIS Expresion O_RIGHT_PARENTHESIS
 	|IDENTIFICADOR ExpresionAsignacion
 	|literal;
 
-ExpresionAsignacion ::= OperadorAsignacion Expresion;
-
+ExpresionAsignacion ::= OperadorAsignacion Expresion
+        |empty;
+*/
 Instruccion ::= IfThenElse
 	|While
 	|For 
