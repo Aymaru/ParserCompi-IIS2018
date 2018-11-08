@@ -549,8 +549,6 @@ public class Analizador_Sintactico extends java_cup.runtime.lr_parser {
 
     public String resultado="";
 
-    //public static LinkedList<TError> TablaES = new LinkedList<TError>(); 
-
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
     {        
@@ -566,8 +564,6 @@ public class Analizador_Sintactico extends java_cup.runtime.lr_parser {
 
         ScannerABC.errores.add(new ErrorToken(token,"ERROR_SINTAXIS","Error Sintáctico: Caracter " + token + " no esperado. Linea: " + (linea+1), (linea+1)));
         System.out.println(ScannerABC.errores.size());
-        //TError datos = new TError(lexema,linea,columna,"Error Sintactico:","Caracter no esperado");
-        //TablaES.add(datos);
        
         
     }
@@ -1526,7 +1522,7 @@ class CUP$Analizador_Sintactico$actions {
             {
               Object RESULT =null;
 
-              CUP$Analizador_Sintactico$result = parser.getSymbolFactory().newSymbol("empty",0,((java_cup.runtime.Symbol)CUP$Analizador_Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Analizador_Sintactico$stack.peek()), RESULT);
+              CUP$Analizador_Sintactico$result = parser.getSymbolFactory().newSymbol("empty",0, ((java_cup.runtime.Symbol)CUP$Analizador_Sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$Analizador_Sintactico$stack.peek()), RESULT);
             }
           return CUP$Analizador_Sintactico$result;
 

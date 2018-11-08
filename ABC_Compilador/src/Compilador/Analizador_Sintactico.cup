@@ -10,8 +10,6 @@ parser code
 {:
     public String resultado="";
 
-    //public static LinkedList<TError> TablaES = new LinkedList<TError>(); 
-
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
     {        
@@ -27,8 +25,6 @@ parser code
 
         ScannerABC.errores.add(new ErrorToken(token,"ERROR_SINTAXIS","Error Sintáctico: Caracter " + token + " no esperado. Linea: " + (linea+1), (linea+1)));
         System.out.println(ScannerABC.errores.size());
-        //TError datos = new TError(lexema,linea,columna,"Error Sintactico:","Caracter no esperado");
-        //TablaES.add(datos);
        
         
     }
@@ -141,7 +137,6 @@ terminal O_XOR,
         O_LEFT_PARENTHESIS;
 
 //------> declaracion de no terminales
-//non terminal String empty;
 non terminal empty,INICIO,E,
         S,
         EntradaPrograma,
@@ -279,38 +274,6 @@ precedence left PR_FALSE;
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
-/*
-INICIO::=E:a {: resultado=a; :};
-
-E::= E:a O_PLUS E:b {: 
-                    System.out.println(a + "+" + b);
-                    int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1+val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a O_MINUS E:b {: 
-                    System.out.println(a + "-" + b);
-                    int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1-val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a O_SLASH E:b {: 
-                    System.out.println(a + "/" + b);
-                    int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1/val2;
-                    RESULT = String.valueOf(r); :}
-    |E:a O_ASTERISK E:b {: 
-                    System.out.println(a + "*" + b);
-                    int val1= Integer.parseInt(a);
-                    int val2= Integer.parseInt(b);
-                    int r = val1*val2;
-                    RESULT = String.valueOf(r); :}
-    |O_LEFT_PARENTHESIS E:a O_RIGHT_PARENTHESIS {: System.out.println("AAAAAAAAAAAA-" + a); 
-                                                    RESULT = a; :}
-    |L_INTEGER:a {: RESULT = a; :}
-    |error E;
-*/
 
 INICIO ::= PR_PROGRAM IDENTIFICADOR SeccionConstantes SeccionVariables Rutinas EntradaPrograma;
 
@@ -402,17 +365,6 @@ LParametro::= Expresion ListaParametros
 ListaParametros::= O_COMMA Expresion ListaParametros
 	|empty;
 
-/*ORIGINAL
-
-Expresion5 ::= Expresion6 IncrementoDecremento;
-
-Expresion6 ::= O_LEFT_PARENTHESIS Expresion O_RIGHT_PARENTHESIS
-	|IDENTIFICADOR ExpresionAsignacion
-	|literal;
-
-ExpresionAsignacion ::= OperadorAsignacion Expresion
-        |empty;
-*/
 Instruccion ::= IfThenElse
 	|While
 	|For 
