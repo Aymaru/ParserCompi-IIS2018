@@ -107,9 +107,9 @@ public class Compilador
                         jflex.Main.generate(file);
                         */
                         Analizador_Sintactico sintactico = new Analizador_Sintactico(lexico);
-                        sintactico.debug_parse();
+                        //sintactico.debug_parse();
                         //System.out.println("--Charlie Reached--");
-                        //sintactico.parse();
+                        sintactico.parse();
 
                         System.out.println("--Charlie Reached--");
                         System.out.println("1----" + ScannerABC.nombreTokens.size());

@@ -5,9 +5,9 @@
 
 PROGRAM prueba
 CONST
- idf=3.2
+ idf=3.2;
 VAR
- i:int;
+ i:int
 
 FUNCTION funcion1( int y ): int
 BEGIN

@@ -292,12 +292,11 @@ Constantes ::= Constante
 	|empty;
 
 Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON Constantes
-        |error ErrorConstante {:System.out.println("Error Sintactico Beta");:};
+        |error ErrorConstante {:System.out.println("Error");:};
 
-ErrorConstante ::= O_SEMICOLON Constantes {:System.out.println("Error Sintactico Beta");:}
-        |PR_VAR Variables  {:System.out.println("Error Sintactico Beta");:}
-        |PR_BEGIN Instrucciones PR_END {:System.out.println("Error Sintactico Beta");:};
-
+ErrorConstante ::= O_SEMICOLON Constantes {:System.out.println("Error Sintactico Constantes Recuperado con O_SEMICOLON Constantes");:}
+        |PR_VAR Variables  {:System.out.println("Error Sintactico Constantes Recuperado con PR_VAR Variables");:}
+        |Rutinas {:System.out.println("Error Sintactico Constantes Recuperado con Rutinas");:};
 
 SeccionVariables ::= PR_VAR Variables
 	|empty;
@@ -306,14 +305,11 @@ Variables ::= Variable
 	|empty;
 
 Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON Variables
-        |ErrorVariable;
+        |error ErroresVariables;
 
-ErrorVariable ::= error ErroresVariables;// O_SEMICOLON Variables {:System.out.println("Error Sintactico Beta");:};
 
-ErroresVariables::= O_SEMICOLON Variables {:System.out.println("Error Sintactico Beta");:}
-        |PR_FUNCTION {:System.out.println("Error Sintactico Beta");:}
-        |PR_PROCEDURE {:System.out.println("Error Sintactico Beta");:}
-        |PR_BEGIN {:System.out.println("Error Sintactico Beta");:};
+ErroresVariables::= O_SEMICOLON Variables {:System.out.println("Error Sintactico Variable Recuperado con O_SEMICOLON Variables");:}
+        |Rutinas {:System.out.println("Error Sintactico Constantes Recuperado con Rutinas");:};
 
 Identificadores ::= O_COMMA IDENTIFICADOR Identificadores
 	|empty;
