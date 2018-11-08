@@ -143,9 +143,13 @@ non terminal empty,INICIO,E,
         SeccionConstantes,
         Constantes,
         Constante,
+        ErrorConstante,
+        ErroresConstantes,
         SeccionVariables,
         Variables,
         Variable,
+        ErrorVariable,
+        ErroresVariables,
         Identificadores, 
         Inicializar,
         Rutinas, 
@@ -287,7 +291,15 @@ SeccionConstantes ::= PR_CONST Constantes
 Constantes ::= Constante
 	|empty;
 
-Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON Constantes;
+Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON Constantes
+        |error ErrorConstante;
+
+ErrorConstante ::= error ErroresConstantes;// O_SEMICOLON Variables {:System.out.println("Error Sintactico Beta");:};
+
+ErroresConstantes::= O_SEMICOLON Constantes {:System.out.println("Error Sintactico Beta");:}
+        |PR_VAR Variables  {:System.out.println("Error Sintactico Beta");:}
+        |Rutinas {:System.out.println("Error Sintactico Beta");:}
+        |EntradaPrograma {:System.out.println("Error Sintactico Beta");:};
 
 SeccionVariables ::= PR_VAR Variables
 	|empty;
@@ -295,7 +307,15 @@ SeccionVariables ::= PR_VAR Variables
 Variables ::= Variable
 	|empty;
 
-Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON Variables;
+Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON Variables
+        |ErrorVariable;
+
+ErrorVariable ::= error ErroresVariables;// O_SEMICOLON Variables {:System.out.println("Error Sintactico Beta");:};
+
+ErroresVariables::= O_SEMICOLON Variables {:System.out.println("Error Sintactico Beta");:}
+        |PR_FUNCTION {:System.out.println("Error Sintactico Beta");:}
+        |PR_PROCEDURE {:System.out.println("Error Sintactico Beta");:}
+        |PR_BEGIN {:System.out.println("Error Sintactico Beta");:};
 
 Identificadores ::= O_COMMA IDENTIFICADOR Identificadores
 	|empty;
@@ -311,9 +331,11 @@ Rutinas ::= Rutina
 Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END Rutinas
 	|EncabezadoFuncion PR_BEGIN Instrucciones PR_END Rutinas;
 
-EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS;
+EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
+        |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
 
-EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo;
+EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo
+        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :};
 
 Parametros ::= Parametro;
 

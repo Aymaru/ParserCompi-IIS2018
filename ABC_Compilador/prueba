@@ -4,9 +4,16 @@
 //aqui efectuadas tienen validez
 
 PROGRAM prueba
-
+CONST
+ idf=3.2
 VAR
  i:int;
+
+FUNCTION funcion1( int y ): int
+BEGIN
+	x := y;
+END
+
 BEGIN
 
 i:= ++x;
