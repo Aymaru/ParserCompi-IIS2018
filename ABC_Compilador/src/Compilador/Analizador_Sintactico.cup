@@ -292,14 +292,12 @@ Constantes ::= Constante
 	|empty;
 
 Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON Constantes
-        |error ErrorConstante;
+        |error ErrorConstante {:System.out.println("Error Sintactico Beta");:};
 
-ErrorConstante ::= error ErroresConstantes;// O_SEMICOLON Variables {:System.out.println("Error Sintactico Beta");:};
-
-ErroresConstantes::= O_SEMICOLON Constantes {:System.out.println("Error Sintactico Beta");:}
+ErrorConstante ::= O_SEMICOLON Constantes {:System.out.println("Error Sintactico Beta");:}
         |PR_VAR Variables  {:System.out.println("Error Sintactico Beta");:}
-        |Rutinas {:System.out.println("Error Sintactico Beta");:}
-        |EntradaPrograma {:System.out.println("Error Sintactico Beta");:};
+        |PR_BEGIN Instrucciones PR_END {:System.out.println("Error Sintactico Beta");:};
+
 
 SeccionVariables ::= PR_VAR Variables
 	|empty;
