@@ -96,8 +96,11 @@ public class Compilador
                     ScannerABC.errores.clear();
                     System.out.println("--Alpha Reached--");
                     try
-                    {
-                        Analizador_Lexico lexico = new Analizador_Lexico(new BufferedReader(new FileReader(nombreArchivo+"")));
+                    {   
+                        FileReader fr = new FileReader(nombreArchivo+"");
+                        BufferedReader bf = new BufferedReader(fr);
+                        
+                        Analizador_Lexico lexico = new Analizador_Lexico(bf);
 
                         System.out.println("--Bravo Reached--");
                         System.out.println(ScannerABC.nombreTokens.size());
@@ -123,6 +126,7 @@ public class Compilador
                         System.out.println("--Foxtrot Reached--");
                         System.out.println(ScannerABC.imprimir());
                         
+                        fr.close();
                         /*
                         XML.XML.writeXML(s,nombreArchivo);
 

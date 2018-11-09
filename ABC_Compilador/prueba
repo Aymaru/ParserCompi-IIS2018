@@ -1,13 +1,9 @@
-//Esta es una prueba para probar las expresiones que son aceptadas por el parser
-//Se considera esta una parte muy importante, puesto que las expresiones son muy usadas
-//en el resto de la gramatica.  Donde sea que aparece una expresion en la gramatica, las pruebas
-//aqui efectuadas tienen validez
-
 PROGRAM prueba
+
 CONST
  idf=3.2;
 VAR
- i:int
+ i:int;
 
 FUNCTION funcion1( int y ): int
 BEGIN
@@ -17,6 +13,7 @@ END
 BEGIN
 
 i:= ++x;
+
 i:= funcion1(4);
 
 i:= funcion1(x=3);

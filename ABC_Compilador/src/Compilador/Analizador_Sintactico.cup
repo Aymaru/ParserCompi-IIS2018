@@ -160,6 +160,8 @@ non terminal empty,INICIO,E,
         Parametro, 
         masParametros, 
         Instrucciones, 
+        InstruccionBE,
+        InstruccionSC,
         Expresion, 
         ExpresionOperadoresLogicos, 
         Expresion2,
@@ -381,11 +383,24 @@ LParametro::= Expresion ListaParametros
 ListaParametros::= O_COMMA Expresion ListaParametros
 	|empty;
 
+
 Instruccion ::= IfThenElse
 	|While
-	|For 
-	|Expresion O_SEMICOLON;
+	|For
+        |Expresion  O_SEMICOLON;
 
+/*
+Instruccion ::= InstruccionBE
+            | InstruccionSC;
+
+InstruccionBE ::= IfThenElse
+	|While
+	|For
+        | error PR_END {:System.out.println("Error Sintactico instru be Recuperado con Rutinas");:};
+	
+InstruccionSC ::= Expresion 
+        | error O_SEMICOLON {:System.out.println("Error Sintactico instru sc Recuperado con Rutinas");:};
+*/
 IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END;
 
 Else ::= PR_ELSE Instrucciones
