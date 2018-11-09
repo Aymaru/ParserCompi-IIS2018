@@ -21,7 +21,7 @@ i:= funcion1(x=3);
 i:= funcion1(3 - x);
 //caÒa := 8; // error lexico
 
-While (a > 3) do
+While (a > 3) 
 BEGIN
   i:= 3;
 END

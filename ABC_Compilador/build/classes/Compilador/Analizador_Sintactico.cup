@@ -396,19 +396,22 @@ Instruccion ::= InstruccionBE
 InstruccionBE ::= IfThenElse
 	|While
 	|For
-        | error PR_END {:System.out.println("Error Sintactico instru be Recuperado con Rutinas");:};
+        |error PR_END {:System.out.println("Error Sintactico instruccionbe Recuperado con PR_END");:};
 	
 InstruccionSC ::= Expresion 
-        | error O_SEMICOLON {:System.out.println("Error Sintactico instru sc Recuperado con Rutinas");:};
+        |error O_SEMICOLON {:System.out.println("Error Sintactico instruccion sc Recuperado con Rutinas");:};
 */
-IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END;
+IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END
+        |PR_IF error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
 
 Else ::= PR_ELSE Instrucciones
 	|empty;
 
-While ::= PR_WHILE Expresion PR_DO PR_BEGIN Instrucciones PR_END;
+While ::= PR_WHILE Expresion PR_DO PR_BEGIN Instrucciones PR_END
+        |PR_WHILE error PR_END {:System.out.println("Error Sintactico instruccion WHILE Recuperado con PR_END");:};
 
-For ::= PR_FOR IDENTIFICADOR O_COLON_EQUALS Expresion PR_TO Expresion PR_DO PR_BEGIN Instrucciones PR_END;
+For ::= PR_FOR IDENTIFICADOR O_COLON_EQUALS Expresion PR_TO Expresion PR_DO PR_BEGIN Instrucciones PR_END
+        |PR_FOR error PR_END {:System.out.println("Error Sintactico instruccion FOR Recuperado con PR_END");:};
 
 /**** Operadores ****/
 
