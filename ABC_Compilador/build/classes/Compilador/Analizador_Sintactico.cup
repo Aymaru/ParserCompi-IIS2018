@@ -369,10 +369,12 @@ Expresion5::= Expresion6 IncrementoDecremento;
 
 Expresion6::= IDENTIFICADOR Expresion7
 	|O_LEFT_PARENTHESIS Expresion O_RIGHT_PARENTHESIS
+        |O_LEFT_PARENTHESIS Expresion error {:System.out.println("Error Sintaxix, ) esperado");:}
 	|literal;
 
 Expresion7::= ExpresionAsignacion
-	|O_LEFT_PARENTHESIS LParametro O_RIGHT_PARENTHESIS;
+	|O_LEFT_PARENTHESIS LParametro O_RIGHT_PARENTHESIS
+        |O_LEFT_PARENTHESIS LParametro error {:System.out.println("Error Sintaxix, ) esperado");:};
 
 ExpresionAsignacion::= OperadorAsignacion Expresion
 	|empty;
