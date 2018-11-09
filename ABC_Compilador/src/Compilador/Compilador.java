@@ -97,6 +97,9 @@ public class Compilador
                     System.out.println("--Alpha Reached--");
                     try
                     {   
+                        ScannerABC.errores.clear();
+                        ScannerABC.nombreTokens.clear();
+                        ScannerABC.tokenslist.clear();
                         FileReader fr = new FileReader(nombreArchivo+"");
                         BufferedReader bf = new BufferedReader(fr);
                         

@@ -383,13 +383,13 @@ LParametro::= Expresion ListaParametros
 ListaParametros::= O_COMMA Expresion ListaParametros
 	|empty;
 
-
+/*
 Instruccion ::= IfThenElse
 	|While
 	|For
-        |Expresion  O_SEMICOLON;
+        |Expresion O_SEMICOLON;
+*/
 
-/*
 Instruccion ::= InstruccionBE
             | InstruccionSC;
 
@@ -398,9 +398,10 @@ InstruccionBE ::= IfThenElse
 	|For
         |error PR_END {:System.out.println("Error Sintactico instruccionbe Recuperado con PR_END");:};
 	
-InstruccionSC ::= Expresion 
-        |error O_SEMICOLON {:System.out.println("Error Sintactico instruccion sc Recuperado con Rutinas");:};
-*/
+InstruccionSC ::= Expresion O_SEMICOLON
+        |error O_SEMICOLON {:System.out.println("Error Sintactico instruccion sc Recuperado con O_SEMICOLON");:};
+
+
 IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END
         |PR_IF error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
 
