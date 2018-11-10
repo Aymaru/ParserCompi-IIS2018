@@ -1,0 +1,70 @@
+PROGRAM Prueba1
+
+CONST
+
+x = 5;
+z = "Hola Mundo!";
+
+VAR
+
+ i:int;
+ b:int;
+ c:int;
+
+FUNCTION funcion1(int num, boolean ft): int
+BEGIN
+
+	for i:= 0 TO 10 DO
+	BEGIN
+		x = "Ciclo";
+	END
+
+	funcion1 := 3;
+END
+
+PROCEDURE procedimiento1()
+BEGIN
+
+	tan := 6;
+	x := FALSE;
+	y := TRUE;
+	
+	z := x + y;
+
+END
+
+BEGIN
+
+
+	i:= ++x;
+	
+	i:= funcion1(4);
+
+	IF X = 5 THEN
+	
+		p = TRUE;
+		
+		ELSE
+		
+		p = FALSE;
+		
+	END
+
+	i := 0;
+
+	While (a > 3) do
+	BEGIN
+		i:= i+1;
+	END
+
+	IF g = 2 THEN
+		k = i + a;
+	END
+	
+	
+END
+
+
+
+
+
