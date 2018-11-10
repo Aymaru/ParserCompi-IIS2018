@@ -274,7 +274,6 @@ precedence left O_LEFT_PARENTHESIS;
 precedence left O_RIGHT_PARENTHESIS;
 precedence left PR_TRUE;
 precedence left PR_FALSE;
-//precedence left empty;
 
 
 start with INICIO;
@@ -391,13 +390,6 @@ ListaParametros::= O_COMMA Expresion ListaParametros
         |O_COMMA error {:System.out.println("Error Sintaxix: Expresion esperada despues de la coma.");:}//////////////////////////////////
 	|empty;
 
-/*
-Instruccion ::= IfThenElse
-	|While
-	|For
-        |Expresion O_SEMICOLON;
-*/
-
 Instruccion ::= InstruccionBE
             | InstruccionSC;
 
@@ -475,4 +467,3 @@ Boolean ::= PR_TRUE
 	|PR_FALSE; 
 
 empty ::= /* nothing */;
-

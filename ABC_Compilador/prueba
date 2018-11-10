@@ -17,10 +17,10 @@ END
 
 FUNCTION funcionBuena(int x): int
 BEGIN
- //funcionBuena(1); //llamada correcta a una funcion
- //funcion();  //se espera que la acepte, aunque no este declarada y sin parametros
- //funcion(4;   //llamada incorrecta
- //funcionBuena:=0;
+ funcionBuena(1); //llamada correcta a una funcion
+ funcion();  //se espera que la acepte, aunque no este declarada y sin parametros
+ funcion(4;   //llamada incorrecta
+ funcionBuena:=0;
 END
 BEGIN
 
