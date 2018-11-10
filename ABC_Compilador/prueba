@@ -1,33 +1,63 @@
-PROGRAM Prueba
+//Se desea probar tanto la declaracion como el llamado de funciones
 
-VAR
 
- i:int;
- b:int;
- c:int;
+PROGRAM Prueba2
 
+
+// se definen funciones con errores
+PROCEDURE funcion1( x:int, y:int) // parametros de forma incorrecta
 BEGIN
-
-i:= ++x;
-i:= funcion1(4);
-x:=2 :=4; //error no mas de una asignacion en cada linea. segun acuerdo en la clase
-
-i:= funcion1(x=3);
-
-i:= funcion1(3 - x);
-caÒa := 8; // error lexico
-
-While (a > 3) do
-BEGIN
-  i:= 3;
+ funcion1:=0;
 END
 
-While (1*4) do  // en una condicion no pueden venir operaciones aritmeticas
+PROCEDURE funcion3( int, int)  //no definio los identificadores
 BEGIN
-  i:= 3;
+ funcion3:=0;
 END
 
+FUNCTION funcionBuena(int x): int
+BEGIN
+ //funcionBuena(1); //llamada correcta a una funcion
+ //funcion();  //se espera que la acepte, aunque no este declarada y sin parametros
+ //funcion(4;   //llamada incorrecta
+ //funcionBuena:=0;
 END
+BEGIN
+
+END
+
+
+
+//PROGRAM Prueba
+
+//VAR
+
+// i:int;
+// b:int;
+// c:int;
+
+//BEGIN
+
+//i:= ++x;
+//i:= funcion1(4);
+//x:=2 :=4; //error no mas de una asignacion en cada linea. segun acuerdo en la clase
+
+//i:= funcion1(x=3);
+
+//i:= funcion1(3 - x);
+//caÒa := 8; // error lexico
+
+//While (a > 3) do
+//BEGIN
+//  i:= 3;
+//END
+
+//While (1*4) do  // en una condicion no pueden venir operaciones aritmeticas
+//BEGIN
+//  i:= 3;
+//END
+
+//END
 
 
 

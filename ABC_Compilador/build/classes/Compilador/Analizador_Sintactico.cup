@@ -281,7 +281,8 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO ::= PR_PROGRAM IDENTIFICADOR SeccionConstantes SeccionVariables Rutinas EntradaPrograma;
+INICIO ::= PR_PROGRAM IDENTIFICADOR SeccionConstantes SeccionVariables Rutinas EntradaPrograma
+        |error {:System.out.println("Error de sintaxis, faltan ENDS");:};
 
 EntradaPrograma ::= PR_BEGIN Instrucciones PR_END;
 

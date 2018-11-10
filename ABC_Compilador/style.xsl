@@ -52,7 +52,7 @@
 
 					</tr>
 
-					<xsl:for-each select="Scanner/Tokens/Token">
+					<xsl:for-each select="Compilador/Tokens/Token">
 
 						<tr>
 							<td class="colfmt">
@@ -75,7 +75,7 @@
 						<th class="thm1" style="width:200px">Apariciones</th>
 						<th class="thm1" style="width:500px">Detalle</th>
 					</tr>
-					<xsl:for-each select="Scanner/Errores/Error">
+					<xsl:for-each select="Compilador/Errores/Error">
 						<tr>
                             <td class="colfmt1">
 								<xsl:value-of select="Tipo" />

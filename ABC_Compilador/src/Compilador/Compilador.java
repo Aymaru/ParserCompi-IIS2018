@@ -130,7 +130,7 @@ public class Compilador
                         System.out.println(ScannerABC.imprimir());
                         
                         fr.close();
-                        /*
+                        
                         XML.XML.writeXML(s,nombreArchivo);
 
                         Source xml = new StreamSource(new File(nombreArchivo+".xml"));
@@ -139,7 +139,7 @@ public class Compilador
                         XML.XML.convertXMLToHTML(xml, xslt, nombreArchivo);
                         File htmlFile = new File(nombreArchivo+".html");
                         Desktop.getDesktop().browse(htmlFile.toURI());
-                        */
+                        
                     }
                     catch(Exception e)
                     {

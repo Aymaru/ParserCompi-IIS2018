@@ -162,7 +162,7 @@ public class ScannerABC
         String resultado="|         Token        |       Tipo de Token     |    Linea\n";
         for(ErrorToken token: errores)
         {
-            resultado+=token.detalle + " - " + token.tipoError + " - " + token.token;
+            resultado+=token.detalle + " - " + token.tipoError + " - " + token.token + "\n";
         }
         return resultado;
     }
