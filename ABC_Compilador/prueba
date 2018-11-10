@@ -1,29 +1,175 @@
-PROGRAM prueba
+PROGRAM Prueba
 
-CONST
- idf=3.2;
 VAR
- i:int;
 
-FUNCTION funcion1( int y ): int
-BEGIN
-	x := y;
-END
+ i:int;
+ b:int;
+ c:int;
 
 BEGIN
 
 i:= ++x;
-
 i:= funcion1(4);
+x:=2 :=4; //error no mas de una asignacion en cada linea. segun acuerdo en la clase
 
 i:= funcion1(x=3);
 
 i:= funcion1(3 - x);
-//caÒa := 8; // error lexico
+caÒa := 8; // error lexico
 
 While (a > 3) do
 BEGIN
   i:= 3;
 END
 
+While (1*4) do  // en una condicion no pueden venir operaciones aritmeticas
+BEGIN
+  i:= 3;
 END
+
+END
+
+
+
+
+
+//Esta es una prueba para verificar las estructuras de control
+//if-else, while, for
+
+//PROGRAM prueba
+
+//VAR
+
+// i:int;
+
+//BEGIN
+
+// Pruebas del IF
+
+//  if () then //deberia dar error, pues debe haber una expresion
+//   i:=0;
+//  else
+//    i:=0;
+//  END
+  
+//  if (a<>TRUE then //deberia dar error, pues no cierra la expresion
+//     i:=0;
+//  else
+//    i:=0;
+//  END
+  
+//  if (x=2)  //error sin then
+//     i:= x++;
+//  else
+//      i:= x--;
+
+//	if (x>4)  then //deberia aceptar if anidados y cualquier tipo de expresion dentro de ( )
+//       if (a>=2) then
+//          i:= x++;
+//       else
+//           i:=x--;
+//   END
+//   else
+   
+//      i:= x;
+//   END
+
+
+   // PRUEBAS DEL FOR
+
+//       for i>9 to 8 do // la primer expresion no es asignacion
+//       BEGIN
+//         i:=0;
+//       END
+
+//       for x:= 7 to (f>9) do // segunda expresion no puede ser una condicion
+//       BEGIN
+//	      i:=0;
+//       END
+
+//       for X:= 1 to 10 do
+//	   BEGIN
+//	   	while (a>8) do
+//		BEGIN
+//		   i:=0;
+//        END
+//       END
+
+   //PRUEBAS DEL WHILE
+
+//        while () do  //debe dar error no tiene expresion
+//		BEGIN
+//		   i:=0;
+//        END
+
+//        while (a>8) do
+//		BEGIN
+//		   i:=0;
+//        END
+
+
+//        while (a>8) do
+//		  i:=0;//falta el BEGIN
+//       END
+
+
+//        while (a>8) do
+//		BEGIN
+//			if (b= false) then
+//   				i:=0;
+//  			else
+//    			i:=0;
+//    	END
+//        END
+
+//END
+
+
+
+
+//PROGRAM prueba
+
+//CONST
+// idf=3.2;
+//VAR
+// i:int;
+
+//PROCEDURE funcion1( x:int, y:int) // parametros de forma incorrecta
+
+
+//PROCEDURE funcion3( int , int y)  //no definio los identificadores
+//BEGIN
+
+//END
+
+//FUNCTION funcion1( int y ): int
+//BEGIN
+//	x := y;
+//END
+
+//FUNCTION funcionBuena(int x): int
+//BEGIN
+// funcionBuena(1); //llamada correcta a una funcion
+// funcion();  //se espera que la acepte, aunque no este declarada y sin parametros
+
+// funcion(4;   //llamada incorrecta
+// funcionBuena:=0;
+//END
+
+//BEGIN
+
+//i:= ++x;
+
+//i:= funcion1(4);
+
+//i:= funcion1(x=3);
+
+//i:= funcion1(3 - x);
+//caÒa := 8; // error lexico
+
+//While (a > 3) do
+//BEGIN
+//  i:= 3;
+//END
+
+//END

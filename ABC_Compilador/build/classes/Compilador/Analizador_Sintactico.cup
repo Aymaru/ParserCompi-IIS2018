@@ -307,7 +307,7 @@ Variables ::= Variable
 	|empty;
 
 Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON Variables
-        |error ErroresVariables;
+        |error ErroresVariables {:System.out.println("Error Sintactico Variable Recuperado con ErroresVariables Variables");:};
 
 
 ErroresVariables::= O_SEMICOLON Variables {:System.out.println("Error Sintactico Variable Recuperado con O_SEMICOLON Variables");:}
@@ -328,14 +328,18 @@ Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END Rutinas
 	|EncabezadoFuncion PR_BEGIN Instrucciones PR_END Rutinas;
 
 EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
-        |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
+        |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
+        //|PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
+        //|PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS  error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
 
 EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo
-        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :};
+        //|PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
+        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :};
 
 Parametros ::= Parametro;
 
 Parametro ::= Tipo IDENTIFICADOR masParametros
+        |Tipo error {: System.out.println("Error en Parametros recuperado en Parametro"); :}
 	|empty;
 
 masParametros ::= O_COMMA Tipo IDENTIFICADOR masParametros
@@ -383,6 +387,7 @@ LParametro::= Expresion ListaParametros
 	|empty;
 
 ListaParametros::= O_COMMA Expresion ListaParametros
+        |O_COMMA error {:System.out.println("Error Sintaxix: Expresion esperada despues de la coma.");:}//////////////////////////////////
 	|empty;
 
 /*
@@ -405,6 +410,8 @@ InstruccionSC ::= Expresion O_SEMICOLON
 
 
 IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END
+        |PR_IF error PR_THEN {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
+        |PR_IF Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
         |PR_IF error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
 
 Else ::= PR_ELSE Instrucciones
