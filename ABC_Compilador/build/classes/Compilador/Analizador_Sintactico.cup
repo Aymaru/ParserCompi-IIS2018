@@ -137,7 +137,7 @@ terminal O_XOR,
         O_LEFT_PARENTHESIS;
 
 //------> declaracion de no terminales
-non terminal empty,INICIO,E,
+non terminal rrr, rr, r, kk, empty,INICIO,E,
         S,
         EntradaPrograma,
         SeccionConstantes,
@@ -281,7 +281,7 @@ start with INICIO;
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
 INICIO ::= PR_PROGRAM IDENTIFICADOR SeccionConstantes SeccionVariables Rutinas EntradaPrograma
-        |error {:System.out.println("Error de sintaxis, faltan ENDS");:};
+        |error {:System.out.println("Error en la estructura del programa");:};
 
 EntradaPrograma ::= PR_BEGIN Instrucciones PR_END;
 
@@ -325,16 +325,21 @@ Rutinas ::= Rutina
 	|empty;
 
 Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END Rutinas
-	|EncabezadoFuncion PR_BEGIN Instrucciones PR_END Rutinas;
+	|EncabezadoFuncion r;
 
+r ::= PR_BEGIN Instrucciones PR_END Rutinas
+    | error rr {: System.out.println("Error en Parametros"); :};
+
+rr ::= PR_END | Rutinas;
 EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
         |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
-        //|PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
-        //|PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS  error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
 
 EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo
         //|PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
-        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :};
+        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
+        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS error kk {: System.out.println("Error en Parametros2"); :};
+
+kk ::= Tipo | r;
 
 Parametros ::= Parametro;
 
@@ -403,9 +408,11 @@ InstruccionSC ::= Expresion O_SEMICOLON
 
 
 IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END
-        |PR_IF error PR_THEN {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
+        //|PR_IF error PR_THEN {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
         |PR_IF Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
-        |PR_IF error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
+        |PR_IF error  PR_THEN Instrucciones Else PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
+
+rrr ::= PR_THEN Instrucciones Else PR_END | Instrucciones Else PR_END | Else PR_END | PR_END ;
 
 Else ::= PR_ELSE Instrucciones
 	|empty;
@@ -465,5 +472,9 @@ literal ::= L_INTEGER
 
 Boolean ::= PR_TRUE
 	|PR_FALSE; 
+
+//id = IDENTIFICADOR
+//    | PR_WRITE 
+//    | PR_READ;
 
 empty ::= /* nothing */;

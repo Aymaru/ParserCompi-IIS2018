@@ -1,0 +1,43 @@
+//Esta es una prueba para probar las expresiones que son aceptadas por el parser
+//Se considera esta una parte muy importante, puesto que las expresiones son muy usadas
+//en el resto de la gramatica.  Donde sea que aparece una expresion en la gramatica, las pruebas
+//aqui efectuadas tienen validez
+
+
+PROGRAM Prueba
+
+VAR
+
+ i:int;
+
+BEGIN
+
+i:= ++x;
+i:= ++++x; //error
+i:= y[1]++;
+i:= funcion1(4);
+x:=2 :=4; //error no mas de una asignacion en cada linea. segun acuerdo en la clase
+
+a:= a + b
+a:= a + b;
+
+i:= funcion1(x=3);
+
+i:= funcion1(3 AND x);
+i:= (2 DIV 3 * 345 + 8/9 + 5- 6 MOD 3);
+i:= 3 * 5 AND TRUE OR i // no deberia dar error porque los tipos los prueba hasta el analisis semantico
+
+a~b:= 8; // error lexico
+
+    read;  //se espera error
+    read();
+    read(X);
+    read(123);  //se espera error, pues no se acepta expresion entre ( )
+    read(x++); //se espera error
+
+    write(213+ 518- 345);
+    write(C);
+    write(C, 123, "Hola");
+    write( );     //se espera error]
+    write ;       //se espera error
+END
