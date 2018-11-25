@@ -1,4 +1,4 @@
-//Esta es una prueba para las declaraciones de variables globales y locales y constantes
+//Se desea probar tanto la declaracion como el llamado de funciones
 
 
 PROGRAM Prueba
@@ -7,63 +7,49 @@ VAR
 
  numero,limite,contador:int;  // todo esta bien
 
- :integer; //hizo falta el identificador
 
- respuesta : STRING ; // todo esta bien
-
- varsintipo ; //error porque no se le declara el tipo
+// se definen funciones con errores
 
 
-CONST
 
-	 Min        = 0;
-     Max        = 1000;
-     Incremento = 5;
-     N          = Max div Incremento;  // Deberia dar un error
-     Saludo     = "Hola";
-     Suma       = (3 * 2) + (5 * 4);   //deberia dar error. Aqui no van operaciones
-
-
-PROCEDURE funcion1() //esta esta bien
-//VAR
-//   variable: int;
+PROCEDURE funcion1( int x, int y)
 BEGIN
-   funcion1:= 0;
+ funcion1:=0;
 END
 
 
-PROCEDURE funcion1() //esta esta bien
-//VAR
-//   variable: int;
-
-//CONST
-//	A= 123;
+PROCEDURE funcion2( x, y)  //no declaro tipos de los parametros
 BEGIN
-   funcion1:= 0;
+ funcion2:=0;
 END
 
-PROCEDURE funcion1() //esta esta bien
+
+PROCEDURE funcion3( int, int)  //no definio los identificadores
 BEGIN
-   funcion1:= 0;
+ funcion3:=0;
 END
 
-PROCEDURE funcion1() //tiene errores
-//VAR
-//   variable; // no le define tipo
-//   i: int;
 
-//CONST
-//	A := 123; // error: es solo el =
+FUNCTION funcion4 ()  // es una funcion por lo que debe tener tipo de retorno
 BEGIN
-   funcion1:= 0;
+ funcion4:=0;
 END
 
-//variable: int;  //error pues no se permiten variables globales despues de la primer declaracion de funcion
 
+//FUNCTION funcion5 ( int x // error porque no cierra los parametros
+//BEGIN
+// funcion5:=0; // nada de esto deberia dar error porque se deberia recuperar del error anterior
+//END
+
+
+FUNCTION funcionBuena(int x) : int
+BEGIN
+ funcionBuena(1); //llamada correcta a una funcion
+ funcion();  //se espera que la acepte, aunque no este declarada y sin parametros
+
+ funcion(4;   //llamada incorrecta
+ funcionBuena:=0;
+END
 
 BEGIN
-VAR //error pues no se permiten variables globales dentro del bloque
- variable: int;
- 
- write(5);
 END

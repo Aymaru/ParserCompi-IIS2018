@@ -3,6 +3,9 @@
 /*------------  1ra Area: Codigo de Usuario ---------*/
 //------> Paquetes,importaciones
 package Compilador;
+import Compilador.ErrorToken;
+import Compilador.ScannerABC;
+import Compilador.Token;
 import java_cup.runtime.*;
 import java.util.ArrayList;
 

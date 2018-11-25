@@ -6,6 +6,8 @@
 
 package Compilador;
 
+import Compilador.ErrorToken;
+import Compilador.ScannerABC;
 import java_cup.runtime.Symbol;
 
 /** CUP v0.11a beta 20060608 generated parser.
