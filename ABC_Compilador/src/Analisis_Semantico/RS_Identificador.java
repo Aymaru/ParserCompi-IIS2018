@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package RegistroSemantico;
+package Analisis_Semantico;
 
 /**
  *
  * @author Orlando José Hidalgo Ramírez
  * @author Aymarú Castillo Flores
  */
-public class RS_Operador {
-    public String valor;
+public class RS_Identificador extends RegistroSemantico{
+    public String nombre;
 
-    public String getValor() {
-        return valor;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setValor(String valor) {
-        this.valor = valor;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
     
     

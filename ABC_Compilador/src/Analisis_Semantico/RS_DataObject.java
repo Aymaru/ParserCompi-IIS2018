@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package RegistroSemantico;
+package Analisis_Semantico;
 
 /**
  *
  * @author Orlando José Hidalgo Ramírez
  * @author Aymarú Castillo Flores
  */
-public class RS_DataObject {
+public class RS_DataObject extends RegistroSemantico{
     public String tipo;
     public String valor;
 
