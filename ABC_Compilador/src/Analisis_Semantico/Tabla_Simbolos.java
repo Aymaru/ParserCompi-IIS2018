@@ -5,6 +5,9 @@
  */
 package Analisis_Semantico;
 
+import Compilador.ErrorToken;
+import Compilador.ScannerABC;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,29 +17,64 @@ import java.util.HashMap;
 public class Tabla_Simbolos {
     
     
-    private HashMap<String,Simbolo> Tabla_Simbolo;
-    private int linea;
+    private HashMap<String,Simbolo> tabla_simbolos;
     
     
  
     public Tabla_Simbolos() {
-        this.Tabla_Simbolo = new HashMap<>();
-        this.linea = 0;
+        this.tabla_simbolos = new HashMap<>();
     }
     
        //agregar simbolo
     // *agregar funcion
     
-    
+    public boolean agregar_funcion(String nombre, String tipo, ArrayList parametros, int linea){
+        
+        if(tabla_simbolos.containsKey(nombre)){
+            
+            ScannerABC.errores.add(new ErrorToken(nombre,"ERROR_SEMANTICO","Error Semántico: Funcion " + nombre + " ya declarada. Linea: " + (linea), linea));
+            return false;
+        }
+        
+        Simbolo tmp = new Simbolo(nombre.toUpperCase(), tipo.toUpperCase(), "funcion", parametros, linea);
+        tabla_simbolos.put(nombre, tmp);
+        
+        return true;
+    }
     
     // *agregar var global
     
-    
+    public boolean agregar_var_global(String nombre, String tipo, int linea){
+        
+        if(tabla_simbolos.containsKey(nombre)){
+            
+            ScannerABC.errores.add(new ErrorToken(nombre,"ERROR_SEMANTICO","Error Semántico: Variable " + nombre + " ya declarada. Linea: " + (linea), linea));
+            return false;
+        }
+        
+        Simbolo tmp = new Simbolo(nombre.toUpperCase(), tipo.toUpperCase(), "variable_global", linea);
+        tabla_simbolos.put(nombre, tmp);
+        
+        return true;
+    }
     
     
     // *agregar const global
     
-    
+    public Boolean agregarConstGlobal(String nombre, String tipo, Object valor,  int linea)
+    {
+        if(tabla_simbolos.containsKey(nombre))
+        {
+            ScannerABC.errores.add(new ErrorToken(nombre,"ERROR_SEMANTICO","Error Semántico: Constante " + nombre + " ya declarada. Linea: " + (linea), linea));
+            return false;
+        }
+      
+        Simbolo s = new Simbolo(nombre.toUpperCase(), tipo.toUpperCase(), "constante", valor, linea);
+        
+        tabla_simbolos.put(nombre, s);
+        return true;
+ 
+    }
     
     
     // *agregar var local
@@ -49,12 +87,24 @@ public class Tabla_Simbolos {
     
     
     
-    // *elimiar 
+    // *elimiar
+    public Boolean eliminarSimblolo(String key)
+    {
+        Simbolo tmp = tabla_simbolos.remove(key);
+        if(tmp!=null)
+            return true;
+        return false;
+    }
     
     
-    
-    // *buscar  
-    
+    // *buscar 
+    public Simbolo buscarSimblolo(String key)
+    {
+        Simbolo tmp = tabla_simbolos.get(key);
+        if(tmp!=null)
+            return tmp;
+        return null;
+    }
     
     
     
