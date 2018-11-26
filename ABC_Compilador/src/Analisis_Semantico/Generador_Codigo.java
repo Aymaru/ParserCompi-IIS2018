@@ -27,8 +27,6 @@ public class Generador_Codigo {
         this.generar = true;
     }
     
-    
-    
     public void recordarIdentificador(String id) {
         pila_semantica.push(new RS_Identificador(id));
     }
@@ -38,7 +36,7 @@ public class Generador_Codigo {
     }
     
     public void recordarDO(String tipo, String valor) {
-        pila_semantica.push(new RS_DataObject(tipo, valor));
+        pila_semantica.push(new RS_DataObject(tipo, valor)); //Cambia nombreVariable por tipo
     }
 
     //public void recordarOperacion(String operador) {
@@ -57,42 +55,38 @@ public class Generador_Codigo {
 
     //public void guardarConstanteEnTSimbolos(String nombre, String tipo, Object valor) {
 
+    //public void evalBinaria() {
 
-  //  public void evalBinaria() {
+    //private boolean isOperacion(String operador) {
 
-   // private boolean isOperacion(String operador) {
+    //private int realizarOperacion(int op1, int op2, String operador) {
 
-  //  private int realizarOperacion(int op1, int op2, String operador) {
+    //private Float realizarOperacion(Float op1, Float op2, String operador) {
 
-   // private Float realizarOperacion(Float op1, Float op2, String operador) {
+    //public void generarCodigoAsignacion(String tipo) {
 
-  //  public void generarCodigoAsignacion(String tipo) {
+    //public void preIncDec() {
 
-   // public void preIncDec() {
+    //public void postIncDec() {
 
-  //  public void postIncDec() {
+    //private void generarCodigoIncDec(RS_DO operando, RS_Operacion operador) {
 
-  //  private void generarCodigoIncDec(RS_DO operando, RS_Operacion operador) {
+    //public void start_if() {
 
+    //public void else_if() {
 
-  //  public void start_if() {
+    //public void end_if() {
 
-  //  public void else_if() {
-
-  //  public void end_if() {
-
-   // public void start_while() {
+    //public void start_while() {
 
     //private RS_Operacion generarCodigoCmp() {
 
     //public void evalExp_if() {
 
-
     //private void generarCodigoJump(String operador, String label) {
 
-   // public void evalExp_While() {
-
-
+    //public void evalExp_While() {
+    
     //public void end_while() {
 
 }

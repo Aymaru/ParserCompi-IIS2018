@@ -13,6 +13,10 @@ package Analisis_Semantico;
 public class RS_Identificador extends RegistroSemantico{
     public String nombre;
 
+    public RS_Identificador(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getNombre() {
         return nombre;
     }
