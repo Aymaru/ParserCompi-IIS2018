@@ -61,7 +61,7 @@ public class Tabla_Simbolos {
     
     // *agregar const global
     
-    public Boolean agregarConstGlobal(String nombre, String tipo, Object valor,  int linea)
+    public Boolean agregar_const_global(String nombre, String tipo, Object valor,  int linea)
     {
         if(tabla_simbolos.containsKey(nombre))
         {

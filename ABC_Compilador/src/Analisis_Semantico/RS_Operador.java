@@ -11,18 +11,18 @@ package Analisis_Semantico;
  * @author Aymarú Castillo Flores
  */
 public class RS_Operador extends RegistroSemantico{
-    public String valor;
+    public String operador;
 
-    public RS_Operador(String valor) {
-        this.valor = valor;
+    public RS_Operador(String operador) {
+        this.operador = operador;
     }
 
-    public String getValor() {
-        return valor;
+    public String getOperador() {
+        return operador;
     }
 
-    public void setValor(String valor) {
-        this.valor = valor;
+    public void setOperador(String operador) {
+        this.operador = operador;
     }
     
     
