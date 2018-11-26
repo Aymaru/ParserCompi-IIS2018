@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Compilador;
+package Analisis_Semantico;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -11,51 +13,118 @@ package Compilador;
  */
 public class Simbolo 
 {
-    public Object name;
-    public Object type;
-    public String ambito;
-    public String linea;
+    private String nombre; //var_funcionx
+    private String tipo;
+    private String scope; //global, constante, funcion, locales
+    private String funcion;
 
-    public Simbolo(Object name, Object type,String ambito, String linea) {
-        this.name = name;
-        this.type = type;
-        this.ambito = ambito;
+    private ArrayList<Simbolo> parametros;
+    private Object valor;
+    private int linea;
+
+    //funcion
+    public Simbolo(String nombre, String tipo, String scope, ArrayList<Simbolo> parametros, int linea) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.scope = scope;
+        this.parametros = parametros;
         this.linea = linea;
     }
 
-    public Object getType() {
-        return type;
+    //variable global
+    public Simbolo(String nombre, String tipo, String scope, int linea) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.scope = scope;
+        this.linea = linea;
     }
 
-    public void setType(Object type) {
-        this.type = type;
+    //variable local
+    public Simbolo(String nombre, String tipo, String scope, String funcion, int linea) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.scope = scope;
+        this.funcion = funcion;
+        this.linea = linea;
     }
-    public Object getName() {
-        return name;
+    
+    //const local
+    public Simbolo(String nombre, String tipo, String scope, String funcion, Object valor, int linea) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.scope = scope;
+        this.funcion = funcion;
+        this.linea = linea;
+        this.valor = valor;
     }
 
-    public void setName(Object name) {
-        this.name = name;
+    
+    // Constante 
+    public Simbolo(String nombre, String tipo, String scope, Object valor, int linea) {
+        this.nombre = nombre;
+        this.scope = scope;
+        this.valor = valor;
+        this.tipo = tipo;
+        this.linea = linea;
+    }
+    
+    
+
+    public String getNombre() {
+        return nombre;
     }
 
-    public String getAmbito() {
-        return ambito;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setAmbito(String ambito) {
-        this.ambito = ambito;
+    public String getTipo() {
+        return tipo;
     }
 
-    public String getLinea() {
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public ArrayList<Simbolo> getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(ArrayList<Simbolo> parametros) {
+        this.parametros = parametros;
+    }
+
+    public Object getValor() {
+        return valor;
+    }
+
+    public void setValor(Object valor) {
+        this.valor = valor;
+    }
+
+    public int getLinea() {
         return linea;
     }
 
-    public void setLinea(String linea) {
+    public void setLinea(int linea) {
         this.linea = linea;
     }
 
-    @Override
-    public String toString() {
-        return "Nombre = " + name + ", Tipo = " + type + ", Ambito = " + ambito + ","+ linea;
+    
+    public String getFuncion() {
+        return funcion;
     }
+
+    public void setFuncion(String funcion) {
+        this.funcion = funcion;
+    }
+
 }

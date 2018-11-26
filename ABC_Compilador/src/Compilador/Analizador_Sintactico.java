@@ -5,6 +5,7 @@
 
 package Compilador;
 
+import Analisis_Semantico.Simbolo;
 import java_cup.runtime.Symbol;
 import java.util.ArrayList;
 //import java_cup.runtime.XMLElement;
@@ -748,10 +749,7 @@ public class Analizador_Sintactico extends java_cup.runtime.lr_parser {
         ScannerABC.errores.add(new ErrorToken(token,"ERROR_SINTAXIS","Error Sintáctico: Caracter " + token + " no esperado. Linea: " + (linea+1), linea+1));
      
     }
-
-    //*********************************************************************************************************// 
-    //**********************************Funcionalidad de la Tabla de Simbolos**********************************//
-    //*********************************************************************************************************// 
+/*
     static boolean agregarSimbolo(Object name, Object type, String ambito, String linea){
       for(Simbolo sym:tablaSimbolos){
             if(name.equals(sym.getName()) && ambito.equals(sym.getAmbito())){
@@ -765,14 +763,14 @@ public class Analizador_Sintactico extends java_cup.runtime.lr_parser {
         //System.err.println("Simbolo agregado :"+tablaSimbolos.get(tablaSimbolos.size()-1).toString());
         return true;
     }
-/*
+
     static void addListaVar(){
         for(String ss: lista_vars){
             agregarSimbolo(ss,tipoActual,getFunction(),s.current_line());
         }
         lista_vars = new ArrayList<>();
     }
-*/
+
     static void addListaParam(){
         ArrayList<String> funcs = new ArrayList<>();
         funcs.add(funActual);
@@ -813,6 +811,7 @@ public class Analizador_Sintactico extends java_cup.runtime.lr_parser {
       int a=2;
 
     }
+    */
 /*
     static void printTablaSimbolos(){
         try {
