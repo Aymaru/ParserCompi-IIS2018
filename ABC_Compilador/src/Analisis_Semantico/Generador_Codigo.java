@@ -109,17 +109,17 @@ public class Generador_Codigo {
     }
     
     public void finalizar_variables() {
-        codigo += "datos ends " + System.lineSeparator();
+        codigo += "datos ends " + System.lineSeparator()+ System.lineSeparator();
     }
 
     public void inicializar_pila(){
         codigo += "pila segment stack \'stack\'" + System.lineSeparator();
         codigo += "dw 256 dup (?)" + System.lineSeparator();
-        codigo += "pila ends" + System.lineSeparator();
+        codigo += "pila ends" + System.lineSeparator()+ System.lineSeparator();
     }
     public void iniciar_codigo() {
         codigo += "codigo segment" + System.lineSeparator();
-        codigo += "assume  cs:codigo, ds:datos, ss:pila" + System.lineSeparator();
+        codigo += "assume  cs:codigo, ds:datos, ss:pila" + System.lineSeparator()+ System.lineSeparator();
     }
     
     public void inicio_programa(){
@@ -132,20 +132,101 @@ public class Generador_Codigo {
         codigo += "mov ss,ax" + System.lineSeparator();
         codigo += "mov si,80h" + System.lineSeparator();
         codigo += "mov cl,byte ptr es:[si]" + System.lineSeparator();
-        codigo += "xor ch,ch" + System.lineSeparator();
+        codigo += "xor ch,ch" + System.lineSeparator()+ System.lineSeparator();
     }
     
     public void fin_programa(){
-        codigo += "salir:" + System.lineSeparator();
+        codigo += "salir:" + System.lineSeparator()+ System.lineSeparator();
         codigo += "    mov ax, 4C00h" + System.lineSeparator();
-        codigo += "    int 21h" + System.lineSeparator();
+        codigo += "    int 21h" + System.lineSeparator()+ System.lineSeparator();
         codigo += "codigo ends" + System.lineSeparator();
         codigo += "end inicio" + System.lineSeparator();
     }
 
-    //public void evalBinaria() {
+    public void evalBinaria() {
+        RS_DataObject operando2 = (RS_DataObject) pila_semantica.pop();
+        RS_Operador operador = (RS_Operador) pila_semantica.pop();
+        RS_DataObject operando1 = (RS_DataObject) pila_semantica.pop();      
 
-    //private boolean isOperacion(String operador) {
+        if (!isOperacion(operador.getOperador())) {
+            pila_semantica.push(operando1);
+            pila_semantica.push(operador);
+            pila_semantica.push(operando2);
+            return;
+        }
+        if (operando1.getTipo().equals(operando2.getTipo())) {
+            
+            String tipo = operando1.getTipo();
+
+            if (tipo.equals("Int") && operando1.getValor() != null) {
+                int operando1Int = Integer.parseInt(operando1.getValor());
+                int operando2Int = Integer.parseInt(operando2.getValor());
+                
+                int resultado = realizarOperacion(operando1Int, operando2Int, operador.getOperador());
+                
+                pila_semantica.push(new RS_DataObject("Int", Integer.toString(resultado)));
+                return;
+            } else if (tipo.equals("Float") && operando1.getValor() != null) {
+                Float operando1Float = Float.parseFloat(operando1.getValor());
+                Float operando2Float = Float.parseFloat(operando2.getValor());
+
+                Float resultado = realizarOperacion(operando1Float, operando2Float, operador.getOperador());
+                pila_semantica.push(new RS_DataObject("Float", Float.toString(resultado)));
+                return;
+            }
+
+        }
+
+        //es una operacion que tiene identificadores
+        //validar que existen
+        //validar tipos
+        //generar codigo
+        codigo += "     mov ax, ";
+        if ((operando1.getTipo().equals("Int") || operando1.getTipo().equals("Float")) && operando1.getValor() != null) {
+            //primer operador es un entero o un flotante
+            codigo += operando1.getValor() + System.lineSeparator();
+        } else {
+            codigo += operando1.getValor()  + System.lineSeparator();
+        }
+
+        switch (operador.getOperador().toUpperCase()) {
+            case "+":
+                codigo += "     add ax, ";
+                break;
+            case "-":
+                codigo += "     sub ax, ";
+                break;
+            case "*":
+                codigo += "     mul ";
+                break;
+            case "/":
+            case "DIV":
+            case "MOD":
+                codigo += "     div ";
+
+        }
+
+        if ((operando2.getTipo().equals("Int") || operando2.getTipo().equals("Float")) && operando2.getValor() != null) {
+            //segunfo operador es un entero o un flotante
+            codigo += operando2.getValor()  + System.lineSeparator();
+        } else {
+            codigo += operando2.getValor() + System.lineSeparator();
+        }
+
+        if (operador.getOperador().toUpperCase().equals("MOD")) {
+            recordar_RS_DO("dx", null);
+            return;
+        }
+        //crear rs_do resultado
+        //push pila
+        recordar_RS_DO("ax", null);
+
+    }
+
+    private boolean isOperacion(String operador) {
+        return operador.equals("+") || operador.equals("-") || operador.equals("*") || operador.equals("/")
+                || operador.toUpperCase().equals("DIV") || operador.toUpperCase().equals("MOD");
+    }
 
     private int realizarOperacion(int op1, int op2, String operador) {
         switch (operador) {
@@ -295,6 +376,10 @@ public class Generador_Codigo {
                 codigo += "     je " + label + System.lineSeparator();
                 break;
         }
+    }
+
+    public String getCodigo() {
+        return codigo;
     }
 
     

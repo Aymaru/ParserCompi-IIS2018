@@ -3,11 +3,18 @@
 package Compilador;
 import java_cup.runtime.Symbol;
 import java.util.ArrayList;
+import Analisis_Semantico.*;
 //import java.util.LinkedList;
 
 //------> Codigo para el parser,variables, metodos
 parser code
 {:
+
+    private Generador_Codigo generador = new Generador_Codigo();
+
+    public Generador_Codigo getGenerador() {
+        return generador;
+    }
     public String resultado="";
     public static ArrayList<Simbolo> tablaSimbolos = new ArrayList();
 
@@ -55,88 +62,6 @@ parser code
      
     }
 
-    //*********************************************************************************************************// 
-    //**********************************Funcionalidad de la Tabla de Simbolos**********************************//
-    //*********************************************************************************************************// 
-    static boolean agregarSimbolo(Object name, Object type, String ambito, String linea){
-      for(Simbolo sym:tablaSimbolos){
-            if(name.equals(sym.getName()) && ambito.equals(sym.getAmbito())){
-                //ScannerABC.errores.add(new ErrorToken((String)sym.getName(),"ERROR_SEMANTICO","Error Semántico: Variable " + sym.getName() + " doblemente declarada. Linea Original: " + sym.getLinea() + " Segunda declaracion: " + (linea+1), linea+1));
-                //errSemantic.add("Variable doblemente declarada: "+name+" Variable Vieja: "+sym.getLinea()+"\t Variable Nueva: "+linea);
-                return false;
-            }
-        }
-        Simbolo nuevoS = new Simbolo(name, type, ambito, linea);
-        tablaSimbolos.add(nuevoS);
-        //System.err.println("Simbolo agregado :"+tablaSimbolos.get(tablaSimbolos.size()-1).toString());
-        return true;
-    }
-/*
-    static void addListaVar(){
-        for(String ss: lista_vars){
-            agregarSimbolo(ss,tipoActual,getFunction(),s.current_line());
-        }
-        lista_vars = new ArrayList<>();
-    }
-*/
-    static void addListaParam(){
-        ArrayList<String> funcs = new ArrayList<>();
-        funcs.add(funActual);
-        for(String[] ss: lista_params){
-            funcs.add(ss[0].toString());
-            agregarSimbolo(ss[1],ss[0]+" Parametro",ss[3],ss[2]);
-        }
-        funciones.add(funcs);
-        lista_params = new ArrayList<>();
-    }
-
-    static boolean useSymbol(Object name){
-        for(Simbolo sym:tablaSimbolos){
-            String[] func=sym.getType().toString().split(" ");
-            if(func[0].equals("Funcion") && name.equals(sym.getName()))
-                return true;
-            if(sym.getAmbito().equals("Global") && name.equals(sym.getName()))
-                return true;
-            if(name.equals(sym.getName()) && (getFunction().equals(sym.getAmbito())))
-                return true;        
-        }
-    //ScannerABC.errores.add(new ErrorToken((String)sym.getName(),"ERROR_SEMANTICO","Error Semántico: Variable o Funcion " + name.toString() + " no declarada. Linea: " + (linea+1), linea+1));
-    //errSemantic.add("Variable o funcion ->"+name+"<- usada sin ser declarada en "+s.current_line());
-    return false;
-    }
-
-    static String getFunction(){
-        if (funActual != null && !funActual.isEmpty())
-            return funActual;
-        else
-            return "Global";
-    }
-
-    static void addPar(Object par, String func){
-      // for(ArrayList<> a: funciones){
-
-      // }
-      int a=2;
-
-    }
-/*
-    static void printTablaSimbolos(){
-        try {
-            String arch = "TablaSimbolos.txt";
-            BufferedWriter out = new BufferedWriter(new FileWriter(arch));
-            int cont=0;
-            for(Simbolo s: tablaSimbolos){
-                out.write(cont+"=>"+s.toString());
-                out.newLine();
-                cont++;
-            }
-            out.close();
-            } 
-        catch (IOException ex) {
-            Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-*/
 :}
 
 //------> Codigo para las acciones gramaticales
@@ -318,10 +243,10 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO ::= PR_PROGRAM IDENTIFICADOR SeccionConstantes SeccionVariables Rutinas EntradaPrograma
+INICIO ::= PR_PROGRAM IDENTIFICADOR {: parser.getGenerador().iniciar_variables(); :} SeccionConstantes SeccionVariables {: parser.getGenerador().finalizar_variables(); parser.getGenerador().inicializar_pila(); parser.getGenerador().iniciar_codigo(); :} Rutinas EntradaPrograma {: System.out.println(parser.getGenerador().getCodigo()); :}
         |error {:System.out.println("Error en la estructura del programa");:};
 
-EntradaPrograma ::= PR_BEGIN Instrucciones PR_END;
+EntradaPrograma ::= PR_BEGIN {: parser.getGenerador().inicio_programa(); :} Instrucciones PR_END {: parser.getGenerador().fin_programa(); :};
 
 /**** Declaracion de Constantes y Variables ****/
 
