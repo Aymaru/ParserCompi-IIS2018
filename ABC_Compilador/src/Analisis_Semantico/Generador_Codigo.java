@@ -29,11 +29,17 @@ public class Generador_Codigo {
     
     
     
-    //public void recordarIdentificador(String id) {
-
-    //public void recordarTipo(String tipo) {
-
-    //public void recordarDO(String nombreVariable, String valor) {
+    public void recordarIdentificador(String id) {
+        pila_semantica.push(new RS_Identificador(id));
+    }
+    
+    public void recordarTipo(String tipo) {
+        pila_semantica.push(new RS_Tipo(tipo));
+    }
+    
+    public void recordarDO(String tipo, String valor) {
+        pila_semantica.push(new RS_DataObject(tipo, valor));
+    }
 
     //public void recordarOperacion(String operador) {
 

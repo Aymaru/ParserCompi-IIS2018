@@ -14,6 +14,11 @@ public class RS_DataObject extends RegistroSemantico{
     public String tipo;
     public String valor;
 
+    public RS_DataObject(String tipo, String valor) {
+        this.tipo = tipo;
+        this.valor = valor;
+    }
+
     public String getTipo() {
         return tipo;
     }

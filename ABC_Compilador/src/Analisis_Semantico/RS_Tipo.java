@@ -13,6 +13,10 @@ package Analisis_Semantico;
 public class RS_Tipo extends RegistroSemantico{
     public String tipo;
 
+    public RS_Tipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public String getTipo() {
         return tipo;
     }
