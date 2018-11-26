@@ -5,6 +5,10 @@
  */
 package Analisis_Semantico;
 
+import Compilador.ErrorToken;
+import Compilador.ScannerABC;
+import java.util.ArrayList;
+
 /**
  *
  * @author ayma-93
@@ -17,6 +21,7 @@ public class Generador_Codigo {
     private String codigo;
     private String cod_tmp;
     private boolean generar;
+    private ArrayList<String> registros;
 
     public Generador_Codigo() {
         this.pila_semantica = new Pila_Semantica();
@@ -25,6 +30,9 @@ public class Generador_Codigo {
         this.codigo = "";
         this.cod_tmp = "";
         this.generar = true;
+        registros = new ArrayList();
+        registros.add("ax");
+        registros.add("bx");
     }
     
     public void recordarIdentificador(String id) {
@@ -36,7 +44,12 @@ public class Generador_Codigo {
     }
     
     public void recordarDO(String tipo, String valor) {
-        pila_semantica.push(new RS_DataObject(tipo, valor)); //Cambia nombreVariable por tipo
+        if(valor == null && !registros.contains(tipo)){
+            Simbolo s = tabla_simbolos.buscarSimblolo(tipo);
+            if(s == null)
+                ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico: Funcion " + tipo + " ya declarada. Linea: -" , 0));            
+        }
+        pila_semantica.push(new RS_DataObject(tipo, valor));
     }
 
     //public void recordarOperacion(String operador) {
