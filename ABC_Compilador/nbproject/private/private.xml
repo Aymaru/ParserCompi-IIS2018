@@ -3,9 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ayma-93/Documents/Semestre%20II%20-%202018/Compiladores%20e%20Interpretes/Compilador/Parser/ParserCompi-IIS2018/ABC_Compilador/src/Compilador/Compilador.java</file>
-            <file>file:/C:/Users/ayma-93/Documents/Semestre%20II%20-%202018/Compiladores%20e%20Interpretes/Compilador/Parser/ParserCompi-IIS2018/ABC_Compilador/src/Compilador/Analizador_Sintactico.cup</file>
-            <file>file:/C:/Users/ayma-93/Documents/Semestre%20II%20-%202018/Compiladores%20e%20Interpretes/Compilador/Parser/ParserCompi-IIS2018/ABC_Compilador/src/Compilador/Analizador_Sintactico.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/Token.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/Analizador_Lexico.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/Identificador.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/ScannerABC.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/Analizador_Sintactico.cup</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/Analizador_Sintactico.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/sym.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/ErrorToken.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/Compilador.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/XML/XML.java</file>
+            <file>file:/Users/orlandojose/NetBeansProjects/ABC_Compilador/src/Compilador/Analizador_Lexico.flex</file>
         </group>
     </open-files>
 </project-private>
