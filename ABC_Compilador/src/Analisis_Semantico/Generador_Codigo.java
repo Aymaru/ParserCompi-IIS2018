@@ -52,13 +52,13 @@ public class Generador_Codigo {
         pila_semantica.push(new RS_DataObject(tipo, valor));
     }
 
-    //public void recordarOperacion(String operador) {
+    public void recordarOperador(String operador) {
+         pila_semantica.push(new RS_Operador(operador));
+    }
 
     //public void guardarFuncionEnTsimbolo(String nombre) {
 
     //public void startFunction(){
-
-    //public void recordarFuncion() {
 
     //public void guardarVariablesEnTSimbolos(String tipo) {
 
@@ -72,9 +72,39 @@ public class Generador_Codigo {
 
     //private boolean isOperacion(String operador) {
 
-    //private int realizarOperacion(int op1, int op2, String operador) {
+    private int realizarOperacion(int op1, int op2, String operador) {
+        switch (operador) {
+            case "+":
+                return op1 + op2;
+            case "-":
+                return op1 - op2;
+            case "*":
+                return op1 * op2;
+            case "/":
+            case "DIV":
+                return op1 / op2;
+            case "MOD":
+                return op1 % op2;
+        }
+        return 0;
+    }
 
-    //private Float realizarOperacion(Float op1, Float op2, String operador) {
+    private Float realizarOperacion(Float op1, Float op2, String operador) {
+        switch (operador) {
+            case "+":
+                return op1 + op2;
+            case "-":
+                return op1 - op2;
+            case "*":
+                return op1 * op2;
+            case "/":
+            case "DIV":
+                return op1 / op2;
+            case "MOD":
+                return op1 % op2;
+        }
+        return 0F;
+    }
 
     //public void generarCodigoAsignacion(String tipo) {
 

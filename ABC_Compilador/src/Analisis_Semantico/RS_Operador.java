@@ -13,6 +13,10 @@ package Analisis_Semantico;
 public class RS_Operador extends RegistroSemantico{
     public String valor;
 
+    public RS_Operador(String valor) {
+        this.valor = valor;
+    }
+
     public String getValor() {
         return valor;
     }
