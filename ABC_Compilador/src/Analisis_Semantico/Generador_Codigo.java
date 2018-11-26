@@ -116,10 +116,28 @@ public class Generador_Codigo {
 
     //public void start_if() {
 
-    //public void else_if() {
+    public void start_if(){
+        RegistroSemantico RS_IF = new RS_IF();
+        this.pila_semantica.push(RS_IF);
+    }
+    
+    
+    public void else_if() {
+        
+        RegistroSemantico rs = this.pila_semantica.buscar("RS_If");
+        
+        codigo += "     jmp " + ((RS_IF) rs).getEnd_label() + System.lineSeparator();
+        codigo += " " + ((RS_IF) rs).getElse_label() + ":"  + System.lineSeparator();
+    }
 
-    //public void end_if() {
-
+    public void end_if() {
+        
+        RegistroSemantico rs = this.pila_semantica.pop();
+        while (!(rs instanceof RS_IF)) {
+            rs = this.pila_semantica.pop();
+        }
+        codigo += " " + ((RS_IF) rs).getEnd_label() + ":"  + System.lineSeparator();
+    }
     //public void start_while() {
 
     //private RS_Operacion generarCodigoCmp() {
