@@ -2,22 +2,23 @@
 //-------> importaciones, paquetes
 package Compilador;
 import java_cup.runtime.Symbol;
-
+import java.util.ArrayList;
 //import java.util.LinkedList;
 
 //------> Codigo para el parser,variables, metodos
 parser code
 {:
     public String resultado="";
-    public ArrayList<Simbolo> tablaSimbolos = new ArrayList();
+    public static ArrayList<Simbolo> tablaSimbolos = new ArrayList();
 
-    funActual=null;
-    inCiclo=false;
-    tipoActual="null";
-    funciones = new ArrayList<>();
-    tabSymb = new ArrayList<>();
-    lista_vars = new ArrayList<>(); 
-    lista_params = new ArrayList<>();
+    public static boolean inCiclo=false;
+    public static ArrayList<String> errores = new ArrayList<>();
+    public static ArrayList<String> errSemantic = new ArrayList<>();
+    public static ArrayList<String> lista_vars = new ArrayList<>();
+    public static ArrayList<String[]> lista_params = new ArrayList<>();
+    public static ArrayList<ArrayList<String>> funciones = new ArrayList<>();
+    public static String funActual;
+    public static String tipoActual;
 
     //Metodo al que se llama automaticamente ante algun error sintactico
     public void syntax_error(Symbol s)
@@ -60,7 +61,7 @@ parser code
     static boolean agregarSimbolo(Object name, Object type, String ambito, String linea){
       for(Simbolo sym:tablaSimbolos){
             if(name.equals(sym.getName()) && ambito.equals(sym.getAmbito())){
-                ScannerABC.errores.add(new ErrorToken(sym.getName(),"ERROR_SEMANTICO","Error Semántico: Variable " + sym.getName() + “ doblemente declarada. Linea Original: " + sym.getLinea() + " Segunda declaracion: " + (linea+1), linea+1));
+                //ScannerABC.errores.add(new ErrorToken((String)sym.getName(),"ERROR_SEMANTICO","Error Semántico: Variable " + sym.getName() + " doblemente declarada. Linea Original: " + sym.getLinea() + " Segunda declaracion: " + (linea+1), linea+1));
                 //errSemantic.add("Variable doblemente declarada: "+name+" Variable Vieja: "+sym.getLinea()+"\t Variable Nueva: "+linea);
                 return false;
             }
@@ -70,18 +71,18 @@ parser code
         //System.err.println("Simbolo agregado :"+tablaSimbolos.get(tablaSimbolos.size()-1).toString());
         return true;
     }
-
+/*
     static void addListaVar(){
-        for(String ss: Parser.lista_vars){
+        for(String ss: lista_vars){
             agregarSimbolo(ss,tipoActual,getFunction(),s.current_line());
         }
         lista_vars = new ArrayList<>();
     }
-
+*/
     static void addListaParam(){
         ArrayList<String> funcs = new ArrayList<>();
         funcs.add(funActual);
-        for(String[] ss: Parser.lista_params){
+        for(String[] ss: lista_params){
             funcs.add(ss[0].toString());
             agregarSimbolo(ss[1],ss[0]+" Parametro",ss[3],ss[2]);
         }
@@ -99,7 +100,7 @@ parser code
             if(name.equals(sym.getName()) && (getFunction().equals(sym.getAmbito())))
                 return true;        
         }
-    ScannerABC.errores.add(new ErrorToken(sym.getName(),"ERROR_SEMANTICO","Error Semántico: Variable o Funcion " + name.toString() + “ no declarada. Linea: " + (linea+1), linea+1));
+    //ScannerABC.errores.add(new ErrorToken((String)sym.getName(),"ERROR_SEMANTICO","Error Semántico: Variable o Funcion " + name.toString() + " no declarada. Linea: " + (linea+1), linea+1));
     //errSemantic.add("Variable o funcion ->"+name+"<- usada sin ser declarada en "+s.current_line());
     return false;
     }
@@ -118,6 +119,7 @@ parser code
       int a=2;
 
     }
+/*
     static void printTablaSimbolos(){
         try {
             String arch = "TablaSimbolos.txt";
@@ -134,7 +136,7 @@ parser code
             Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+*/
 :}
 
 //------> Codigo para las acciones gramaticales
@@ -245,6 +247,13 @@ non terminal rrr, rr, r, kk, empty,INICIO,E,
         Inicializar,
         Rutinas, 
         Rutina,
+        SeccionConstantesFuncion,
+        ConstantesFuncion,
+        ConstanteFuncion,
+        ErrorConstanteFuncion,
+        SeccionVariablesFuncion,
+        VariablesFuncion,
+        VariableFuncion,
         EncabezadoProcedimiento, 
         EncabezadoFuncion, 
         Parametros,
@@ -353,18 +362,44 @@ Inicializar ::= O_EQUALS literal
 Rutinas ::= Rutina
 	|empty;
 
-Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END Rutinas
+Rutina ::= EncabezadoProcedimiento SeccionConstantesFuncion SeccionVariablesFuncion PR_BEGIN Instrucciones PR_END Rutinas
 	|EncabezadoFuncion r;
 
-r ::= PR_BEGIN Instrucciones PR_END Rutinas
+r ::= SeccionConstantesFuncion SeccionVariablesFuncion PR_BEGIN Instrucciones PR_END Rutinas
     | error rr {: System.out.println("Error en Parametros"); :};
 
 rr ::= PR_END | Rutinas;
+
+//
+
+SeccionConstantesFuncion ::= PR_CONST ConstantesFuncion
+	|empty;
+
+ConstantesFuncion ::= Constante
+	|empty;
+
+ConstanteFuncion ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON ConstantesFuncion
+        |error ErrorConstante {:System.out.println("Error");:};
+
+ErrorConstanteFuncion ::= O_SEMICOLON ConstantesFuncion {:System.out.println("Error Sintactico Constantes Recuperado con O_SEMICOLON Constantes");:}
+        |PR_VAR VariablesFuncion  {:System.out.println("Error Sintactico Constantes Recuperado con PR_VAR Variables");:}
+        |Rutinas {:System.out.println("Error Sintactico Constantes Recuperado con Rutinas");:};
+
+SeccionVariablesFuncion ::= PR_VAR VariablesFuncion
+	|empty;
+
+VariablesFuncion ::= VariableFuncion
+	|empty;
+
+VariableFuncion ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON VariablesFuncion
+        |error ErroresVariables {:System.out.println("Error Sintactico Variable Recuperado con ErroresVariables Variables");:};
+
+//
+
 EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
         |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
 
 EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo
-        //|PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
         |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
         |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS error kk {: System.out.println("Error en Parametros2"); :};
 
@@ -437,7 +472,6 @@ InstruccionSC ::= Expresion O_SEMICOLON
 
 
 IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END
-        //|PR_IF error PR_THEN {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
         |PR_IF Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
         |PR_IF error  PR_THEN Instrucciones Else PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
 
@@ -485,13 +519,13 @@ OperadoresLogicosUnarios ::= O_NOT;
 
 /**** Tipos y Literales ****/
 
-Tipo ::= PR_BOOLEAN {: RESULT = "BOOLEAN"; :}
-	|PR_INT {: RESULT = "INT"; :}
-	|PR_CHAR {: RESULT = "CHAR"; :}
-	|PR_LONGINT {: RESULT = "LONGINT"; :}
-	|PR_SHORTINT {: RESULT = "SHORTINT"; :}
-	|PR_STRING {: RESULT = "STRING"; :}
-	|PR_REAL {: RESULT = "REAL"; :};
+Tipo ::= PR_BOOLEAN:t {: RESULT = "BOOLEAN"; :}
+	|PR_INT:t {: RESULT = t; :}
+	|PR_CHAR:t {: RESULT = t; :}
+	|PR_LONGINT:t {: RESULT = t; :}
+	|PR_SHORTINT:t {: RESULT = t; :}
+	|PR_STRING:t {: RESULT = t; :}
+	|PR_REAL:t {: RESULT = t; :};
 
 literal ::= L_INTEGER
 	|L_FLOAT
@@ -501,9 +535,5 @@ literal ::= L_INTEGER
 
 Boolean ::= PR_TRUE
 	|PR_FALSE; 
-
-//id = IDENTIFICADOR
-//    | PR_WRITE 
-//    | PR_READ;
 
 empty ::= /* nothing */;
