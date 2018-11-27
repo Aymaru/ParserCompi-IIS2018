@@ -1,21 +1,34 @@
+//PROGRAM Prueba
+
+//VAR
+// i:int;
+// b:int;
+// c:int;
+ 
+//Function procedimiento1( int x ) : int
+//BEGIN
+
+
+
+//END
+
+//BEGIN
+
+
+//c := 5;
+
+
+//END
+
 PROGRAM Prueba
 
-VAR
- i:int;
- b:int;
- c:int;
- 
-PROCEDURE procedimiento1()
+
+FUNCTION funcionBuena(int Z) : int
 BEGIN
-
-
 
 END
 
+
 BEGIN
-
-
-c := 5;
-
 
 END

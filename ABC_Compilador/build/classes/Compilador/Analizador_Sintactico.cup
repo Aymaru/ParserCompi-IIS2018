@@ -325,16 +325,16 @@ VariableFuncion ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEM
 
 EncabezadoProcedimiento ::= PR_PROCEDURE id O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
         |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
-
+//:i :t  {: parser.getGenerador().guardar_funcion_TS((String) i,((String) t));:}
 EncabezadoFuncion ::= PR_FUNCTION id:i O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo:t  {: parser.getGenerador().guardar_funcion_TS((String) i,((String) t));:}
-        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
-        |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS error kk {: System.out.println("Error en Parametros2"); :};
+        |PR_FUNCTION id O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
+        |PR_FUNCTION id O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS error kk {: System.out.println("Error en Parametros2"); :};
 
 kk ::= Tipo | r;
 
 Parametros ::= Parametro ;
-
-Parametro ::= Tipo:t {: parser.getGenerador().recordar_tipo((String) t);:}  id masParametros
+//:t {: parser.getGenerador().recordar_tipo((String) t);:} 
+Parametro ::= Tipo:t {: parser.getGenerador().recordar_tipo((String) t);:}  id   masParametros 
         |Tipo error {: System.out.println("Error en Parametros recuperado en Parametro"); :}
 	|empty;
 
@@ -468,6 +468,6 @@ literal ::= L_INTEGER :l {: RESULT = l; parser.getGenerador().recordar_RS_DO("In
 Boolean ::= PR_TRUE:l {: RESULT = l; parser.getGenerador().recordar_RS_DO("Boolean",(String) l);:}
 	|PR_FALSE:l {: RESULT = l; parser.getGenerador().recordar_RS_DO("Boolean",(String) l);:}; 
 
-id ::= IDENTIFICADOR: i {: parser.getGenerador().recordar_identificador((String) i);:};
+id ::= IDENTIFICADOR:i {:RESULT = i; parser.getGenerador().recordar_identificador((String) i);:};
 
 empty ::= /* nothing */;

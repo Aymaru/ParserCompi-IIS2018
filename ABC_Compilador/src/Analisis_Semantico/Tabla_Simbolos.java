@@ -123,6 +123,14 @@ public class Tabla_Simbolos {
             Simbolo value = entry.getValue();
             result += value.getNombre()+ "  tipo: "+value.getTipo()+"\n";
             
+            if(value.getScope().equals("funcion")){
+                System.out.println("SIZE===="+value.getParametros().size());
+                for (int i = 0; i < value.getParametros().size(); i++) {
+                    Simbolo get = tablaSimbolos.get(i);
+                    result += get.getNombre()+ "  tipo: "+get.getTipo()+"\n";
+                }
+            }
+            
         }
         return result;
     }
