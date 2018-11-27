@@ -35,6 +35,25 @@ public class Generador_Codigo {
         this.registros.add("bx");
     }
     
+    public void guardar_funcion_TS(String id, String tipo){
+        
+        RegistroSemantico primero;
+        RegistroSemantico segundo;
+        ArrayList<Simbolo> parametros = new ArrayList<>();        
+        primero = pila_semantica.pop();
+        
+        while(primero.getClass().getName().equals("Analisis_Semantico.RS_Identificador") && !((RS_Identificador) primero).getNombre().equals(id)){
+            segundo = pila_semantica.pop();
+            
+            Simbolo tmp = new Simbolo(((RS_Identificador) primero).getNombre(), ((RS_Tipo) segundo).getTipo(), id, 0);
+            parametros.add(tmp);
+            
+            primero = pila_semantica.pop();
+        }
+        
+         tabla_simbolos.agregar_funcion(id, tipo, parametros, 0);
+    }
+    
     public void recordar_identificador(String id) {
         System.out.println("recordando id");
         pila_semantica.push(new RS_Identificador(id));
@@ -46,7 +65,8 @@ public class Generador_Codigo {
     }
     
     public void recordar_RS_DO(String tipo, String valor) {
-        System.out.println("recordando DO");
+        System.out.println("recordando DO "+valor);
+        
         if(valor == null && !registros.contains(tipo)){
             Simbolo s = tabla_simbolos.buscarSimbolo(tipo);
             if(s == null)
@@ -57,20 +77,21 @@ public class Generador_Codigo {
 
     public void recordar_operador(String operador) {
         System.out.println("recordando operador");
+        System.out.println(operador);
          pila_semantica.push(new RS_Operador(operador));
     }
 
-       public void guardar_variables_TS(String tipo, int linea) {
-           System.out.println("guardando variable");
+    public void guardar_variables_TS(String tipo, int linea) {
+        System.out.println("guardando variable");
         RegistroSemantico top = pila_semantica.top();
-        
+
         while (top instanceof RS_Identificador) {
             boolean resultado = tabla_simbolos.agregar_var_global(((RS_Identificador) top).getNombre(), tipo, linea);
-            
+
             generar = resultado;
-            
+
             pila_semantica.pop();
-            
+
             codigo += ((RS_Identificador) top).getNombre();
 
             switch (tipo.toUpperCase()) {
@@ -182,16 +203,28 @@ public class Generador_Codigo {
 
     public void eval_exp_binaria() {
         System.out.println("evaluando exp bin");
-        RS_DataObject operando2 = (RS_DataObject) pila_semantica.pop();
-        RS_Operador operador = (RS_Operador) pila_semantica.pop();
-        RS_DataObject operando1 = (RS_DataObject) pila_semantica.pop();      
-
-        if (!isOperacion(operador.getOperador())) {
+        
+        RegistroSemantico operando2 = pila_semantica.pop();
+        RegistroSemantico operador =  pila_semantica.pop();
+        RegistroSemantico operando1 = pila_semantica.pop();   
+        
+        System.out.println("punto 1");
+        
+        
+        
+        /*if(operando1 == null)
+            System.out.println("orlando imvecil");
+        System.out.println(operador.getOperador());
+        String s = operador.getOperador();
+        System.out.println("punto 1.5");
+        if (!isOperacion(s)) {
+            System.out.println("punto 1.1");
             pila_semantica.push(operando1);
             pila_semantica.push(operador);
             pila_semantica.push(operando2);
             return;
         }
+        System.out.println("punto 2");
         if (operando1.getTipo().equals(operando2.getTipo())) {
             
             String tipo = operando1.getTipo();
@@ -254,12 +287,13 @@ public class Generador_Codigo {
         //crear rs_do resultado
         //push pila
         recordar_RS_DO("ax", null);
-
+*/
     }
 
     private boolean isOperacion(String operador) {
+        System.out.println("punto 1.1.1");
         return operador.equals("+") || operador.equals("-") || operador.equals("*") || operador.equals("/")
-                || operador.toUpperCase().equals("DIV") || operador.toUpperCase().equals("MOD");
+                || operador.toUpperCase().equals("O_DIV") || operador.toUpperCase().equals("O_MOD");
     }
 
     private int realizarOperacion(int op1, int op2, String operador) {

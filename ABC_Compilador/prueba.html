@@ -51,69 +51,54 @@
 <td class="colfmt">VAR</td><td class="colfmt">PR_VAR</td><td class="colfmt">| 3 |</td>
 </tr>
 <tr>
-<td class="colfmt">i</td><td class="colfmt">IDENTIFICADOR</td><td class="colfmt">| 4 | 9 | 13 | 15 |</td>
+<td class="colfmt">i</td><td class="colfmt">IDENTIFICADOR</td><td class="colfmt">| 4 |</td>
 </tr>
 <tr>
 <td class="colfmt">:</td><td class="colfmt">O_COLON</td><td class="colfmt">| 4 | 5 | 6 |</td>
 </tr>
 <tr>
-<td class="colfmt">int</td><td class="colfmt">PR_INT</td><td class="colfmt">| 4 | 6 |</td>
+<td class="colfmt">int</td><td class="colfmt">PR_INT</td><td class="colfmt">| 4 | 5 | 6 |</td>
 </tr>
 <tr>
-<td class="colfmt">;</td><td class="colfmt">O_SEMICOLON</td><td class="colfmt">| 4 | 5 | 6 | 9 | 10 | 11 | 15 |</td>
+<td class="colfmt">;</td><td class="colfmt">O_SEMICOLON</td><td class="colfmt">| 4 | 5 | 6 | 18 |</td>
 </tr>
 <tr>
-<td class="colfmt">b</td><td class="colfmt">IDENTIFICADOR</td><td class="colfmt">| 5 | 10 |</td>
+<td class="colfmt">b</td><td class="colfmt">IDENTIFICADOR</td><td class="colfmt">| 5 |</td>
 </tr>
 <tr>
-<td class="colfmt">float</td><td class="colfmt">PR_FLOAT</td><td class="colfmt">| 5 |</td>
+<td class="colfmt">c</td><td class="colfmt">IDENTIFICADOR</td><td class="colfmt">| 6 | 18 |</td>
 </tr>
 <tr>
-<td class="colfmt">c</td><td class="colfmt">IDENTIFICADOR</td><td class="colfmt">| 6 | 11 | 13 |</td>
+<td class="colfmt">PROCEDURE</td><td class="colfmt">PR_PROCEDURE</td><td class="colfmt">| 8 |</td>
 </tr>
 <tr>
-<td class="colfmt">BEGIN</td><td class="colfmt">PR_BEGIN</td><td class="colfmt">| 8 |</td>
+<td class="colfmt">procedimiento1</td><td class="colfmt">IDENTIFICADOR</td><td class="colfmt">| 8 |</td>
 </tr>
 <tr>
-<td class="colfmt">:=</td><td class="colfmt">O_COLON_EQUALS</td><td class="colfmt">| 9 | 10 | 11 | 15 |</td>
+<td class="colfmt">(</td><td class="colfmt">O_LEFT_PARENTHESIS</td><td class="colfmt">| 8 |</td>
 </tr>
 <tr>
-<td class="colfmt">0</td><td class="colfmt">L_INTEGER</td><td class="colfmt">| 9 |</td>
+<td class="colfmt">)</td><td class="colfmt">O_RIGHT_PARENTHESIS</td><td class="colfmt">| 8 |</td>
 </tr>
 <tr>
-<td class="colfmt">45</td><td class="colfmt">L_INTEGER</td><td class="colfmt">| 11 |</td>
+<td class="colfmt">BEGIN</td><td class="colfmt">PR_BEGIN</td><td class="colfmt">| 9 | 15 |</td>
 </tr>
 <tr>
-<td class="colfmt">while</td><td class="colfmt">PR_WHILE</td><td class="colfmt">| 13 |</td>
+<td class="colfmt">END</td><td class="colfmt">PR_END</td><td class="colfmt">| 13 | 21 |</td>
 </tr>
 <tr>
-<td class="colfmt">=</td><td class="colfmt">O_EQUALS</td><td class="colfmt">| 13 |</td>
+<td class="colfmt">:=</td><td class="colfmt">O_COLON_EQUALS</td><td class="colfmt">| 18 |</td>
 </tr>
 <tr>
-<td class="colfmt">do</td><td class="colfmt">PR_DO</td><td class="colfmt">| 13 |</td>
-</tr>
-<tr>
-<td class="colfmt">begin</td><td class="colfmt">PR_BEGIN</td><td class="colfmt">| 14 |</td>
-</tr>
-<tr>
-<td class="colfmt">4</td><td class="colfmt">L_INTEGER</td><td class="colfmt">| 15 |</td>
-</tr>
-<tr>
-<td class="colfmt">+</td><td class="colfmt">O_PLUS</td><td class="colfmt">| 15 |</td>
-</tr>
-<tr>
-<td class="colfmt">5</td><td class="colfmt">L_INTEGER</td><td class="colfmt">| 15 |</td>
-</tr>
-<tr>
-<td class="colfmt">end</td><td class="colfmt">PR_END</td><td class="colfmt">| 16 |</td>
-</tr>
-<tr>
-<td class="colfmt">END</td><td class="colfmt">PR_END</td><td class="colfmt">| 18 |</td>
+<td class="colfmt">5</td><td class="colfmt">L_INTEGER</td><td class="colfmt">| 18 |</td>
 </tr>
 </table>
 <table class="tfmt1">
 <tr>
 <th class="thm1" style="width:200px">Tipo Error</th><th class="thm1" style="width:350px">Token</th><th class="thm1" style="width:200px">Apariciones</th><th class="thm1" style="width:500px">Detalle</th>
+</tr>
+<tr>
+<td class="colfmt1">ERROR_SINTAXIS</td><td class="colfmt1">)</td><td class="colfmt1">| 8 |</td><td class="colfmt1">Error Sint&aacute;ctico: Caracter ) no esperado. Linea: 8</td>
 </tr>
 </table>
 </body>

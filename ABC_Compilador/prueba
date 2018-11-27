@@ -2,17 +2,20 @@ PROGRAM Prueba
 
 VAR
  i:int;
- b:float;
+ b:int;
  c:int;
+ 
+PROCEDURE procedimiento1()
+BEGIN
+
+
+
+END
 
 BEGIN
-i := 0;
-b := 7.5;
-c := 45;
 
-while i = c do
-begin
-	i := 4 + 5;
-end
+
+c := 5;
+
 
 END

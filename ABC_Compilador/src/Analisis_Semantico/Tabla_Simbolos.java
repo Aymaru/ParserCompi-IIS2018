@@ -31,7 +31,7 @@ public class Tabla_Simbolos {
        //agregar simbolo
     // *agregar funcion
     
-    public boolean agregar_funcion(String nombre, String tipo, ArrayList parametros, int linea){
+    public boolean agregar_funcion(String nombre, String tipo, ArrayList<Simbolo> parametros, int linea){
         
         if(tabla_simbolos.containsKey(nombre)){
             
@@ -39,7 +39,8 @@ public class Tabla_Simbolos {
             return false;
         }
         
-        Simbolo tmp = new Simbolo(nombre.toUpperCase(), tipo.toUpperCase(), "funcion", parametros, linea);
+            
+        Simbolo tmp = new Simbolo(nombre.toUpperCase(), tipo.toUpperCase(), "funcion", parametros , linea);
         tabla_simbolos.put(nombre, tmp);
         
         return true;

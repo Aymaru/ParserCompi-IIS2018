@@ -290,11 +290,11 @@ Rutinas ::= Rutina
 	|empty;
 
 Rutina ::= EncabezadoProcedimiento PR_BEGIN Instrucciones PR_END Rutinas
-	|EncabezadoFuncion r;
-
+	|EncabezadoFuncion PR_BEGIN Instrucciones PR_END Rutinas;
+/*
 r ::= SeccionConstantesFuncion SeccionVariablesFuncion PR_BEGIN Instrucciones PR_END Rutinas
     | error rr {: System.out.println("Error en Parametros"); :};
-
+*/
 rr ::= PR_END | Rutinas;
 
 //
@@ -323,18 +323,18 @@ VariableFuncion ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEM
 
 //
 
-EncabezadoProcedimiento ::= PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
+EncabezadoProcedimiento ::= PR_PROCEDURE id O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
         |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
 
-EncabezadoFuncion ::= PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo
+EncabezadoFuncion ::= PR_FUNCTION id:i O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo:t  {: parser.getGenerador().guardar_funcion_TS((String) i,((String) t));:}
         |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
         |PR_FUNCTION IDENTIFICADOR O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS error kk {: System.out.println("Error en Parametros2"); :};
 
 kk ::= Tipo | r;
 
-Parametros ::= Parametro;
+Parametros ::= Parametro ;
 
-Parametro ::= Tipo IDENTIFICADOR masParametros
+Parametro ::= Tipo:t {: parser.getGenerador().recordar_tipo((String) t);:}  id masParametros
         |Tipo error {: System.out.println("Error en Parametros recuperado en Parametro"); :}
 	|empty;
 
@@ -358,7 +358,7 @@ ExpresionOperadoresComparacion ::= OperadoresComparacion Expresion3 ExpresionOpe
 
 Expresion3 ::= Expresion4 ExpresionOperadoresEnteros;
 
-ExpresionOperadoresEnteros ::= OperadoresEnteros Expresion4 ExpresionOperadoresEnteros
+ExpresionOperadoresEnteros ::= OperadoresEnteros:o  {: parser.getGenerador().recordar_operador((String) o);:}  Expresion4 {: parser.getGenerador().eval_exp_binaria();:} ExpresionOperadoresEnteros
 	|empty;
 
 Expresion4 ::= IncrementoDecremento Expresion5
@@ -394,7 +394,7 @@ InstruccionBE ::= IfThenElse
 	|For
         |error PR_END {:System.out.println("Error Sintactico instruccionbe Recuperado con PR_END");:};
 	
-InstruccionSC ::= Expresion O_SEMICOLON //{: parser.getGenerador().eval_exp_binaria();:}
+InstruccionSC ::= Expresion O_SEMICOLON 
         |error O_SEMICOLON {:System.out.println("Error Sintactico instruccion sc Recuperado con O_SEMICOLON");:};
 /*
 //{: parser.getGenerador().start_if(); :}{: System.out.println("start if"); :}
@@ -421,13 +421,13 @@ For ::= PR_FOR IDENTIFICADOR O_COLON_EQUALS Expresion PR_TO Expresion PR_DO PR_B
 IncrementoDecremento ::= O_PLUS_PLUS:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
 	|O_MINUS_MINUS:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
 	|empty;
- 
-OperadoresEnteros ::= O_PLUS:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
-	|O_MINUS:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
-	|O_ASTERISK:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
-	|O_SLASH:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
-	|O_MOD:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
-	|O_DIV:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:};
+
+OperadoresEnteros ::= O_PLUS:o {: RESULT = o; System.out.println("HOLA"+(String) o);:}
+	|O_MINUS:o {: RESULT = o; :}
+	|O_ASTERISK:o {: RESULT = o; :}
+	|O_SLASH:o {: RESULT = o; :}
+	|O_MOD:o {: RESULT = o; :}
+	|O_DIV:o {: RESULT = o; :};
 
 OperadorAsignacion ::= O_COLON_EQUALS:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}
 	|O_PLUS_EQUALS:o {: RESULT = o; parser.getGenerador().recordar_operador((String) o);:}

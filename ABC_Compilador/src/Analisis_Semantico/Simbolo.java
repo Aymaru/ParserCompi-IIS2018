@@ -69,7 +69,15 @@ public class Simbolo
         this.linea = linea;
     }
     
-    
+    public boolean addParametros(Simbolo simbolo){
+        for (int i = 0; i < parametros.size(); i++) {
+            Simbolo tmp = parametros.get(i);
+            if(tmp.getNombre().equals(simbolo.getNombre())){
+                return false;
+            }
+        }
+        return true;
+    }
 
     public String getNombre() {
         return nombre;

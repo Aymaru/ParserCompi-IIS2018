@@ -50,9 +50,17 @@ CaracterInvalidoIdentificador = [ \,\<\>\`\~\!\&\#\|\.\/\@\$\%\^\*\=\+]
 {WHITE} {/*Ignore*/}
 {ENDLINE} {/*Ignore*/}
 
-\'{CChar}\' | \# {D}+ {return new Symbol(sym.L_CHAR, yycolumn, yyline, yytext());}
-\"({WHITE}|{ENDLINE}|{SChar})*\" {return new Symbol(sym.L_STRING, yycolumn, yyline, yytext());}
-{Float} | {Float} {Exponent} {D}+  {return new Symbol(sym.L_FLOAT, yycolumn, yyline, yytext());}
+\'{CChar}\' | \# {D}+ {ScannerABC.agregarToken(yytext(),Token.L_CHAR,(yyline+1));
+                    ScannerABC.nombreTokens.add(yytext());
+                    return new Symbol(sym.L_CHAR, yycolumn, yyline, yytext());}
+\"({WHITE}|{ENDLINE}|{SChar})*\" {ScannerABC.agregarToken(yytext(),Token.L_STRING,(yyline+1));
+                    ScannerABC.nombreTokens.add(yytext());
+                    return new Symbol(sym.L_STRING, yycolumn, yyline, yytext());}
+
+{Float} | {Float} {Exponent} {D}+  {ScannerABC.agregarToken(yytext(),Token.L_FLOAT,(yyline+1));
+                    ScannerABC.nombreTokens.add(yytext());
+                    return new Symbol(sym.L_FLOAT, yycolumn, yyline, yytext());}
+
 {D}+ {ScannerABC.agregarToken(yytext(),Token.L_INTEGER,(yyline+1));
                     ScannerABC.nombreTokens.add(yytext());
                     return new Symbol(sym.L_INTEGER, yycolumn, yyline, yytext());}

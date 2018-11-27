@@ -1142,7 +1142,9 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 114: break;
           case 25: 
-            { return new Symbol(sym.L_STRING, yycolumn, yyline, yytext());
+            { ScannerABC.agregarToken(yytext(),Token.L_STRING,(yyline+1));
+                    ScannerABC.nombreTokens.add(yytext());
+                    return new Symbol(sym.L_STRING, yycolumn, yyline, yytext());
             }
           case 115: break;
           case 26: 
@@ -1170,7 +1172,9 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 119: break;
           case 30: 
-            { return new Symbol(sym.L_CHAR, yycolumn, yyline, yytext());
+            { ScannerABC.agregarToken(yytext(),Token.L_CHAR,(yyline+1));
+                    ScannerABC.nombreTokens.add(yytext());
+                    return new Symbol(sym.L_CHAR, yycolumn, yyline, yytext());
             }
           case 120: break;
           case 31: 
@@ -1246,7 +1250,9 @@ public class Analizador_Lexico implements java_cup.runtime.Scanner {
             }
           case 132: break;
           case 43: 
-            { return new Symbol(sym.L_FLOAT, yycolumn, yyline, yytext());
+            { ScannerABC.agregarToken(yytext(),Token.L_FLOAT,(yyline+1));
+                    ScannerABC.nombreTokens.add(yytext());
+                    return new Symbol(sym.L_FLOAT, yycolumn, yyline, yytext());
             }
           case 133: break;
           case 44: 
