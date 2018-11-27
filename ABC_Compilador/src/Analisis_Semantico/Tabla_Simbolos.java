@@ -48,15 +48,15 @@ public class Tabla_Simbolos {
     // *agregar var global
     
     public boolean agregar_var_global(String nombre, String tipo, int linea){
-        
         if(tabla_simbolos.containsKey(nombre)){
             System.out.println("error sem");
             ScannerABC.errores.add(new ErrorToken(nombre,"ERROR_SEMANTICO","Error Semántico: Variable " + nombre + " ya declarada. Linea: " + (linea), linea));
             return false;
         }
-        
         Simbolo tmp = new Simbolo(nombre.toUpperCase(), tipo.toUpperCase(), "variable_global", linea);
+        
         tabla_simbolos.put(nombre, tmp);
+        
         
         return true;
     }
@@ -101,12 +101,10 @@ public class Tabla_Simbolos {
     
     
     // *buscar 
-    public Simbolo buscarSimblolo(String key)
+    public Simbolo buscarSimbolo(String key)
     {
         Simbolo tmp = tabla_simbolos.get(key);
-        if(tmp!=null)
-            return tmp;
-        return null;
+        return tmp;
     }
     
     

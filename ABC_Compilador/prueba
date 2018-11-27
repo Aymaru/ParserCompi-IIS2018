@@ -2,20 +2,17 @@ PROGRAM Prueba
 
 VAR
  i:int;
- b:int;
+ b:float;
  c:int;
 
 BEGIN
+i := 0;
+b := 7.5;
+c := 45;
 
-if (i > b) then
-
-else
-
-end
-
-if (i < b) then
-
-
+while i = c do
+begin
+	i := 4 + 5;
 end
 
 END

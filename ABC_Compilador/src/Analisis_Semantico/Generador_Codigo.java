@@ -36,16 +36,19 @@ public class Generador_Codigo {
     }
     
     public void recordar_identificador(String id) {
+        System.out.println("recordando id");
         pila_semantica.push(new RS_Identificador(id));
     }
     
     public void recordar_tipo(String tipo) {
+        System.out.println("recordando tipo");
         pila_semantica.push(new RS_Tipo(tipo));
     }
     
     public void recordar_RS_DO(String tipo, String valor) {
+        System.out.println("recordando DO");
         if(valor == null && !registros.contains(tipo)){
-            Simbolo s = tabla_simbolos.buscarSimblolo(tipo);
+            Simbolo s = tabla_simbolos.buscarSimbolo(tipo);
             if(s == null)
                 ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico: Funcion " + tipo + " ya declarada. Linea: -" , 0));            
         }
@@ -53,10 +56,12 @@ public class Generador_Codigo {
     }
 
     public void recordar_operador(String operador) {
+        System.out.println("recordando operador");
          pila_semantica.push(new RS_Operador(operador));
     }
 
        public void guardar_variables_TS(String tipo, int linea) {
+           System.out.println("guardando variable");
         RegistroSemantico top = pila_semantica.top();
         
         while (top instanceof RS_Identificador) {
@@ -175,7 +180,8 @@ public class Generador_Codigo {
         codigo += "end inicio" + System.lineSeparator();
     }
 
-    public void evalBinaria() {
+    public void eval_exp_binaria() {
+        System.out.println("evaluando exp bin");
         RS_DataObject operando2 = (RS_DataObject) pila_semantica.pop();
         RS_Operador operador = (RS_Operador) pila_semantica.pop();
         RS_DataObject operando1 = (RS_DataObject) pila_semantica.pop();      
@@ -209,10 +215,6 @@ public class Generador_Codigo {
 
         }
 
-        //es una operacion que tiene identificadores
-        //validar que existen
-        //validar tipos
-        //generar codigo
         codigo += "     mov ax, ";
         if ((operando1.getTipo().equals("Int") || operando1.getTipo().equals("Float")) && operando1.getValor() != null) {
             //primer operador es un entero o un flotante
@@ -294,7 +296,59 @@ public class Generador_Codigo {
         return 0F;
     }
 
-    //public void generarCodigoAsignacion(String tipo) {
+    public void generarCodigoAsignacion() {
+        RegistroSemantico valorAsignar = (RS_DataObject) pila_semantica.pop();
+        RS_Operador operadorAsignacion = (RS_Operador) pila_semantica.pop();
+        RegistroSemantico identificador =  pila_semantica.pop();
+        
+        Simbolo tmp; 
+        
+        if(identificador.getClass().getName().equals("Analisis_Semantico.RS_Identificador")){            
+            tmp = tabla_simbolos.buscarSimbolo(((RS_Identificador)identificador).getNombre());
+            
+            if(tmp == null){
+                System.out.println("Identificador no definido..."); 
+
+                tabla_simbolos.agregar_var_global(((RS_Identificador)identificador).getNombre(),"error".toUpperCase(),0);
+                generar = false;
+
+            } else if(tmp.getScope().toLowerCase().equals("constante")) {
+                System.out.println("Identificador es constante...");
+
+                generar = false;
+            } else if (tmp.getScope().toLowerCase().equals("funcion")){
+                System.out.println("Identificador es funcion...");
+
+                generar = false;
+            }else{
+                if(valorAsignar.getClass().getName().equals("Analisis_Semantico.RS_DataObject")){
+                    System.out.println(tmp.getTipo());
+                    System.out.println(((RS_DataObject) valorAsignar).getTipo());
+                    if (tmp.getTipo().toUpperCase().equals(((RS_DataObject) valorAsignar).getTipo().toUpperCase())){
+                        
+                        codigo += "mov " + ((RS_Identificador) identificador).getNombre() + ", ";
+                        codigo += ((RS_DataObject) valorAsignar).getValor() + System.lineSeparator() + System.lineSeparator();
+                    } else {
+                        System.out.println("Error: Tipos incorrectos 1");
+                    }
+                } else {
+                    Simbolo tmp2 = tabla_simbolos.buscarSimbolo(((RS_Identificador) valorAsignar).getNombre());
+                    if (tmp.getTipo().equals(tmp2.getTipo())){
+                        
+                        codigo += "mov ax, " + ((RS_Identificador) valorAsignar).getNombre() + System.lineSeparator();
+                        codigo += "mov " + ((RS_Identificador) identificador).getNombre() + ", ax" + System.lineSeparator() + System.lineSeparator();
+                    } else {
+                        System.out.println("Error: Tipos incorrectos 2");
+                    }
+                    
+                }
+            } 
+        } 
+        
+    }/*else if (!tmp.getTipo().toLowerCase().equals(tipo.toLowerCase())) {
+                System.out.println("Identificador no es del tipo correcto...");
+
+                generar = false;*/
 
     //public void preIncDec() {
 
@@ -327,6 +381,7 @@ public class Generador_Codigo {
     }
     
     public void evalExp_if() {
+        System.out.println("evaluando if");
         RS_Operador operador = generarCodigoCmp();
 
         RS_IF rs = (RS_IF) pila_semantica.buscar("Analisis_Semantico.RS_If");
@@ -350,7 +405,8 @@ public class Generador_Codigo {
         codigo += " " + ((RS_While) rs).getEnd_label() + ":"  + System.lineSeparator();
     }
     
-    public void evalExp_While() {
+    public void eval_exp_while() {
+        System.out.println("evaluando while");
         RS_Operador operador = generarCodigoCmp();
 
         RS_While rs = (RS_While) pila_semantica.buscar("Analisis_Semantico.RS_While");
@@ -359,27 +415,43 @@ public class Generador_Codigo {
     }
 
     private RS_Operador generarCodigoCmp() {
-
-        RS_DataObject operando2 = (RS_DataObject) pila_semantica.pop();
+        System.out.println("generando codigo cmp");
+        RegistroSemantico operando2 = pila_semantica.pop();
         RS_Operador operador = (RS_Operador) pila_semantica.pop();
-        RS_DataObject operando1 = (RS_DataObject) pila_semantica.pop();
+        RegistroSemantico operando1 =  pila_semantica.pop();
 
         codigo += "     mov ax, ";
-        if ((operando1.getTipo().equals("Int") || operando1.getTipo().equals("Float")) && operando1.getValor() != null) {
+        
+        if (operando1.getClass().getName().equals("Analisis_Semantico.RS_DataObject")) {
 
-            codigo += operando1.getValor() + System.lineSeparator();
+            codigo += ((RS_DataObject) operando1).getValor() + System.lineSeparator();
             
         } else {
-            codigo += operando1.getTipo() + System.lineSeparator();
+            if (tabla_simbolos.buscarSimbolo(((RS_Identificador) operando1).getNombre()) != null){
+               
+                codigo += ((RS_Identificador) operando1).getNombre()+ System.lineSeparator(); 
+            }
+            else{
+                System.out.println(((RS_Identificador) operando1).getNombre());
+                tabla_simbolos.agregar_var_global(((RS_Identificador) operando1).getNombre(), "error", 0);
+                generar = false;
+            }
         }
 
         codigo += "     mov bx, ";
 
-        if ((operando2.getTipo().equals("Int") || operando2.getTipo().equals("Float")) && operando2.getValor() != null) {
+        if (operando2.getClass().getName().equals("Analisis_Semantico.RS_DataObject")) {
 
-            codigo += operando2.getValor() + System.lineSeparator();
+            codigo += ((RS_DataObject) operando2).getValor() + System.lineSeparator();
+            
         } else {
-            codigo += operando2.getTipo() + System.lineSeparator();
+            if(tabla_simbolos.buscarSimbolo(((RS_Identificador) operando2).getNombre()) != null){
+                
+                codigo += ((RS_Identificador) operando2).getNombre() + System.lineSeparator();
+            } else {
+                tabla_simbolos.agregar_var_global(((RS_Identificador) operando2).getNombre(), "error", 0);
+                generar = false;
+            }
         }
 
         codigo += "     cmp ax, bx"  + System.lineSeparator();

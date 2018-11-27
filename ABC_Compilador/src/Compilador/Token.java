@@ -14,6 +14,7 @@ public enum Token
     error,
     
     O_XOR,
+    PR_FLOAT,
     PR_WRITE,
     PR_WITH,
     PR_WHILE,

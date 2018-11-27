@@ -185,6 +185,10 @@ CaracterInvalidoIdentificador = [ \,\<\>\`\~\!\&\#\|\.\/\@\$\%\^\*\=\+]
                     ScannerABC.nombreTokens.add(yytext());
                     return new Symbol(sym.PR_GOTO, yycolumn, yyline, yytext());}
 
+<YYINITIAL> "FLOAT" {ScannerABC.agregarToken(yytext(),Token.PR_FLOAT,(yyline+1));
+                    ScannerABC.nombreTokens.add(yytext());
+                    return new Symbol(sym.PR_FLOAT, yycolumn, yyline, yytext());}
+
 <YYINITIAL> "FUNCTION" {ScannerABC.agregarToken(yytext(),Token.PR_FUNCTION,(yyline+1));
                     ScannerABC.nombreTokens.add(yytext());
                     return new Symbol(sym.PR_FUNCTION, yycolumn, yyline, yytext());}

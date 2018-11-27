@@ -33,6 +33,7 @@ public class Simbolo
 
     //variable global
     public Simbolo(String nombre, String tipo, String scope, int linea) {
+        
         this.nombre = nombre;
         this.tipo = tipo;
         this.scope = scope;
