@@ -167,7 +167,7 @@ public class ScannerABC
         return resultado;
     }
 
-    public ArrayList<Identificador> getTokenslist() 
+       public ArrayList<Identificador> getTokenslist() 
     {
         return tokenslist;
     }

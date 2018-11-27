@@ -97,12 +97,44 @@ public class Generador_Codigo {
             top = pila_semantica.top();
         }
     }
-
+       /*
     public void guardar_constantes_TS(String nombre, String tipo, Object valor, int linea) {
+        
         boolean resultado = tabla_simbolos.agregar_const_global(nombre, tipo, valor,linea);
-        pila_semantica.pop();
+        
+        RegistroSemantico top = pila_semantica.top();
+        
         generar = resultado;
-    }
+        codigo += ((RS_Identificador) top).getNombre();
+
+        switch (tipo.toUpperCase()) {
+            case "INT":
+                codigo += "\t dd "+ valor.toString() + System.lineSeparator();
+                break;
+            case "SHORTINT":
+                codigo += "\t  dw "+ valor.toString() + System.lineSeparator();
+                break;
+            case "LONGTINT":
+                codigo += "\t dw 3  "+ valor.toString() + System.lineSeparator();
+                break;
+            case "CHAR":
+                codigo += "\t db "+ valor.toString() + System.lineSeparator();
+                break;
+            case "BOOLEAN":
+                codigo += "\t db "+ valor.toString() + System.lineSeparator();
+                break;
+            case "REAL":
+                codigo += "\t dd "+ valor.toString() + System.lineSeparator();
+                break;
+            case "STRING":
+                codigo += "\t dw 30 "+ valor.toString() + System.lineSeparator();
+                break;
+            default:
+                break;
+        }
+        
+        pila_semantica.pop();
+    }*/
     
     public void iniciar_variables() {
         codigo += "datos segment " + System.lineSeparator();
@@ -279,7 +311,7 @@ public class Generador_Codigo {
     
     public void else_if() {
         
-        RegistroSemantico rs = this.pila_semantica.buscar("RS_If");
+        RegistroSemantico rs = this.pila_semantica.buscar("Analisis_Semantico.RS_If");
         
         codigo += "     jmp " + ((RS_IF) rs).getEnd_label() + System.lineSeparator();
         codigo += " " + ((RS_IF) rs).getElse_label() + ":"  + System.lineSeparator();
@@ -379,7 +411,13 @@ public class Generador_Codigo {
     }
 
     public String getCodigo() {
-        return codigo;
+        if (generar)
+            return codigo;
+        return ("Hay errores semanticos, no se genera el codigo");
+    }
+
+    public Tabla_Simbolos getTabla_simbolos() {
+        return tabla_simbolos;
     }
 
     

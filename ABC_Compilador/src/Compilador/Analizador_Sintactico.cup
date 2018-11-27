@@ -157,6 +157,7 @@ terminal O_XOR,
 //------> declaracion de no terminales
 non terminal rrr, rr, r, kk, empty,INICIO,E,
         S,
+        id,
         EntradaPrograma,
         SeccionConstantes,
         Constantes,
@@ -243,7 +244,7 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO ::= PR_PROGRAM IDENTIFICADOR {: parser.getGenerador().iniciar_variables(); :} SeccionConstantes SeccionVariables {: parser.getGenerador().finalizar_variables(); parser.getGenerador().inicializar_pila(); parser.getGenerador().iniciar_codigo(); :} Rutinas EntradaPrograma {: System.out.println(parser.getGenerador().getCodigo()); :}
+INICIO ::= PR_PROGRAM IDENTIFICADOR {: parser.getGenerador().iniciar_variables(); :} SeccionConstantes SeccionVariables {: parser.getGenerador().finalizar_variables(); parser.getGenerador().inicializar_pila(); parser.getGenerador().iniciar_codigo(); :} Rutinas EntradaPrograma {: System.out.println(parser.getGenerador().getCodigo());System.out.println(parser.getGenerador().getTabla_simbolos().toString()); :}
         |error {:System.out.println("Error en la estructura del programa");:};
 
 EntradaPrograma ::= PR_BEGIN {: parser.getGenerador().inicio_programa(); :} Instrucciones PR_END {: parser.getGenerador().fin_programa(); :};
@@ -256,7 +257,7 @@ SeccionConstantes ::= PR_CONST Constantes
 Constantes ::= Constante
 	|empty;
 
-Constante ::= IDENTIFICADOR O_EQUALS literal O_SEMICOLON Constantes
+Constante ::= id O_EQUALS literal O_SEMICOLON Constantes
         |error ErrorConstante {:System.out.println("Error");:};
 
 ErrorConstante ::= O_SEMICOLON Constantes {:System.out.println("Error Sintactico Constantes Recuperado con O_SEMICOLON Constantes");:}
@@ -269,17 +270,17 @@ SeccionVariables ::= PR_VAR Variables
 Variables ::= Variable
 	|empty;
 
-Variable ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON Variables
+Variable ::= id Identificadores O_COLON Tipo:tipo {: parser.getGenerador().guardar_variables_TS((String)tipo,1); :} Inicializar O_SEMICOLON Variables
         |error ErroresVariables {:System.out.println("Error Sintactico Variable Recuperado con ErroresVariables Variables");:};
 
 
 ErroresVariables::= O_SEMICOLON Variables {:System.out.println("Error Sintactico Variable Recuperado con O_SEMICOLON Variables");:}
         |Rutinas {:System.out.println("Error Sintactico Constantes Recuperado con Rutinas");:};
 
-Identificadores ::= O_COMMA IDENTIFICADOR Identificadores
+Identificadores ::= O_COMMA id Identificadores
 	|empty;
 
-Inicializar ::= O_EQUALS literal
+Inicializar ::= O_EQUALS literal 
 	|empty;
 
 /**** Rutinas ****/ 
@@ -394,15 +395,17 @@ InstruccionBE ::= IfThenElse
 	
 InstruccionSC ::= Expresion O_SEMICOLON
         |error O_SEMICOLON {:System.out.println("Error Sintactico instruccion sc Recuperado con O_SEMICOLON");:};
-
-
-IfThenElse ::= PR_IF Expresion PR_THEN Instrucciones Else PR_END
+/*
+//{: parser.getGenerador().start_if(); :}{: System.out.println("start if"); :}
+//{: parser.getGenerador().end_if(); :}{: System.out.println("end if"); :}
+//{: parser.getGenerador().else_if(); :}*/
+IfThenElse ::= PR_IF  Expresion PR_THEN  Instrucciones Else  PR_END {: parser.getGenerador().start_if(); :} {: parser.getGenerador().end_if(); :}
         |PR_IF Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
         |PR_IF error  PR_THEN Instrucciones Else PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
 
-rrr ::= PR_THEN Instrucciones Else PR_END | Instrucciones Else PR_END | Else PR_END | PR_END ;
+//rrr ::= PR_THEN Instrucciones Else PR_END | Instrucciones Else PR_END | Else PR_END | PR_END ;
 
-Else ::= PR_ELSE Instrucciones
+Else ::= PR_ELSE  /*{: System.out.println("else if"); :}*/ Instrucciones 
 	|empty;
 
 While ::= PR_WHILE Expresion PR_DO PR_BEGIN Instrucciones PR_END
@@ -444,15 +447,15 @@ OperadoresLogicosUnarios ::= O_NOT;
 
 /**** Tipos y Literales ****/
 
-Tipo ::= PR_BOOLEAN:t {: RESULT = "BOOLEAN"; :}
-	|PR_INT:t {: RESULT = t; :}
-	|PR_CHAR:t {: RESULT = t; :}
-	|PR_LONGINT:t {: RESULT = t; :}
-	|PR_SHORTINT:t {: RESULT = t; :}
-	|PR_STRING:t {: RESULT = t; :}
-	|PR_REAL:t {: RESULT = t; :};
+Tipo ::= PR_BOOLEAN:t {: RESULT = t;:}
+	|PR_INT:t {: RESULT = t;:}
+	|PR_CHAR:t {: RESULT = t;:}
+	|PR_LONGINT:t {: RESULT = t;:}
+	|PR_SHORTINT:t {: RESULT = t;:}
+	|PR_STRING:t {: RESULT = t;:}
+	|PR_REAL:t {: RESULT = t;:};
 
-literal ::= L_INTEGER
+literal ::= L_INTEGER 
 	|L_FLOAT
 	|L_STRING
 	|L_CHAR
@@ -460,5 +463,7 @@ literal ::= L_INTEGER
 
 Boolean ::= PR_TRUE
 	|PR_FALSE; 
+
+id ::= IDENTIFICADOR: i {: parser.getGenerador().recordar_identificador((String) i);:};
 
 empty ::= /* nothing */;

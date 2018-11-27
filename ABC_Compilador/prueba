@@ -1,7 +1,21 @@
 PROGRAM Prueba
 
 VAR
+ i:int;
+ b:int;
+ c:int;
 
 BEGIN
+
+if (i > b) then
+
+else
+
+end
+
+if (i < b) then
+
+
+end
 
 END

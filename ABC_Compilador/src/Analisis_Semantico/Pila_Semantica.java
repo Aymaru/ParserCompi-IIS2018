@@ -38,6 +38,7 @@ public class Pila_Semantica {
     }
     
     public RegistroSemantico buscar(String nombre_tipo){
+        
         for (int i = pila.size()-1; i >= 0; i--) {
             RegistroSemantico tmp = pila.get(i);
             if(tmp.getClass().getName().equals(nombre_tipo)){

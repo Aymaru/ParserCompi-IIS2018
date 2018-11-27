@@ -5,10 +5,13 @@
  */
 package Analisis_Semantico;
 
+import static Compilador.Analizador_Sintactico.tablaSimbolos;
 import Compilador.ErrorToken;
 import Compilador.ScannerABC;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  *
@@ -47,7 +50,7 @@ public class Tabla_Simbolos {
     public boolean agregar_var_global(String nombre, String tipo, int linea){
         
         if(tabla_simbolos.containsKey(nombre)){
-            
+            System.out.println("error sem");
             ScannerABC.errores.add(new ErrorToken(nombre,"ERROR_SEMANTICO","Error Semántico: Variable " + nombre + " ya declarada. Linea: " + (linea), linea));
             return false;
         }
@@ -108,7 +111,21 @@ public class Tabla_Simbolos {
     
     
     
-    // *generar codigo 
-
+    
+    @Override
+    public String toString() {
+        String result = "Tabla de Simbolos \n-------------------\n";
+        /*Iterator it = tabla_simbolos.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            result += pair.getValue().toString() + "\n";
+        }*/
+        for (Map.Entry<String, Simbolo> entry : tabla_simbolos.entrySet()) {
+            Simbolo value = entry.getValue();
+            result += value.getNombre()+ "  tipo: "+value.getTipo()+"\n";
+            
+        }
+        return result;
+    }
     
 }
