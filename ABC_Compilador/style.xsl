@@ -39,6 +39,22 @@
 					color: white;
 					}
 
+					table.tfmt2 {
+					border: 1px ;
+					}
+
+					td.colfmt2 {
+					border: 1px ;
+					background-color: white;
+					color: black;
+					text-align:center;
+					}
+
+					th.thm2 {
+					background-color: #2E9AFE;
+					color: white;
+					}
+
 				</style>
 			</head>
 
@@ -68,6 +84,33 @@
 						</tr>
 					</xsl:for-each>
 				</table>
+
+				<table class="tfmt2">
+					<tr>
+						<th class="thm2" style="width:250px">Nombre</th>
+						<th class="thm2" style="width:350px">Tipo</th>
+						<th class="thm2" style="width:250px">Scope</th>
+
+
+					</tr>
+
+					<xsl:for-each select="Compilador/Tabla_Simbolos/Simbolo">
+
+						<tr>
+							<td class="colfmt2">
+								<xsl:value-of select="Nombre" />
+							</td>
+							<td class="colfmt2">
+								<xsl:value-of select="Tipo" />
+							</td>
+
+							<td class="colfmt2">
+								<xsl:value-of select="Scope" />
+							</td>
+						</tr>
+					</xsl:for-each>
+				</table>
+
                 <table class="tfmt1">
 					<tr>
                         <th class="thm1" style="width:200px">Tipo Error</th>
