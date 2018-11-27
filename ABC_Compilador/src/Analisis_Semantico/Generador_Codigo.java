@@ -336,18 +336,18 @@ public class Generador_Codigo {
             
             if(tmp == null){
                 System.out.println("Identificador no definido..."); 
-                ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Identificador no definido." , 0)); 
+                ScannerABC.errores.add(new ErrorToken(tmp.getNombre(),"ERROR_SEMANTICO","Error Semántico:Identificador no definido." , 0)); 
                 tabla_simbolos.agregar_var_global(((RS_Identificador)identificador).getNombre(),"error".toUpperCase(),0);
                 generar = false;
 
             } else if(tmp.getScope().toLowerCase().equals("constante")) {
                 System.out.println("Identificador es constante...");
-                ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Identificador es constante." , 0)); 
+                ScannerABC.errores.add(new ErrorToken(tmp.getNombre(),"ERROR_SEMANTICO","Error Semántico:Identificador es constante." , 0)); 
 
                 generar = false;
             } else if (tmp.getScope().toLowerCase().equals("funcion")){
                 System.out.println("Identificador es funcion...");
-                ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Identificador es funcion." , 0)); 
+                ScannerABC.errores.add(new ErrorToken(tmp.getNombre(),"ERROR_SEMANTICO","Error Semántico:Identificador es funcion." , 0)); 
 
                 generar = false;
             }else{
@@ -360,7 +360,7 @@ public class Generador_Codigo {
                         codigo += ((RS_DataObject) valorAsignar).getValor() + System.lineSeparator() + System.lineSeparator();
                     } else {
                         System.out.println("Error: Tipos incorrectos 1");
-                        ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Tipos incorrectos." , 0)); 
+                        ScannerABC.errores.add(new ErrorToken(((RS_DataObject) valorAsignar).getTipo(),"ERROR_SEMANTICO","Error Semántico:Tipos incorrectos." , 0)); 
                     }
                 } else {
                     Simbolo tmp2 = tabla_simbolos.buscarSimbolo(((RS_Identificador) valorAsignar).getNombre());
@@ -369,7 +369,7 @@ public class Generador_Codigo {
                         codigo += "mov ax, " + ((RS_Identificador) valorAsignar).getNombre() + System.lineSeparator();
                         codigo += "mov " + ((RS_Identificador) identificador).getNombre() + ", ax" + System.lineSeparator() + System.lineSeparator();
                     } else {
-                        ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Tipos incorrectos." , 0)); 
+                        ScannerABC.errores.add(new ErrorToken(tmp2.getNombre(),"ERROR_SEMANTICO","Error Semántico:Tipos incorrectos." , 0)); 
                     }
                     
                 }
@@ -519,7 +519,7 @@ public class Generador_Codigo {
                             } else {
                                 System.out.println("Error Semantico: Parametro de entrada no definido. " + ((RS_Identificador)rs).getNombre());
                                 
-                                ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Parametro de entrada no definido." , 0)); 
+                                ScannerABC.errores.add(new ErrorToken(tmp2.getNombre(),"ERROR_SEMANTICO","Error Semántico:Parametro de entrada no definido." , 0)); 
                                 
                                 tabla_simbolos.agregar_var_global(((RS_Identificador)rs).getNombre(), "error", 0);
                                 generar = false;
@@ -530,7 +530,7 @@ public class Generador_Codigo {
                         default:
                             System.out.println(rs.getClass().getName());
                             System.out.println("Error Semantico: Parametro de entrada Invalido");
-                            ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Parametro de entrada Invalido." , 0)); 
+                            ScannerABC.errores.add(new ErrorToken("Funcion","ERROR_SEMANTICO","Error Semántico:Parametro de entrada Invalido." , 0)); 
                             generar = false;
                             break;
                     }
@@ -548,7 +548,7 @@ public class Generador_Codigo {
                         
                         if(!s1.getTipo().toUpperCase().equals(s2.getTipo().toUpperCase())){
                             System.out.println("Error Semantico: Parametro de diferente tipo. "+ s1.getNombre());
-                            ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Parametro de diferente tipo." , 0)); 
+                            ScannerABC.errores.add(new ErrorToken(s1.getNombre(),"ERROR_SEMANTICO","Error Semántico:Parametro de diferente tipo." , 0)); 
                             generar = false;
                             break;
                         }
@@ -556,18 +556,18 @@ public class Generador_Codigo {
                     }
                 } else {
                     System.out.println("Error Semantico: Cantidad de parametros diferente a la esperada.");
-                    ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Cantidad de parametros diferente a la esperada." , 0)); 
+                    ScannerABC.errores.add(new ErrorToken(tmp.getNombre(),"ERROR_SEMANTICO","Error Semántico:Cantidad de parametros diferente a la esperada." , 0)); 
                     generar = false;
                 }
                 
             } else {
                 System.out.println("Error semantico: el identificador no es una funcion. " + funcion);
-                ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:El identificador no es una funcion." , 0)); 
+                ScannerABC.errores.add(new ErrorToken(tmp.getNombre(),"ERROR_SEMANTICO","Error Semántico:El identificador no es una funcion." , 0)); 
                 generar = false;
             }
         } else {
             System.out.println("Error semantico: funcion no declarada. " + funcion);
-            ScannerABC.errores.add(new ErrorToken(tipo,"ERROR_SEMANTICO","Error Semántico:Funcion no declarada." , 0)); 
+            ScannerABC.errores.add(new ErrorToken(tmp.getNombre(),"ERROR_SEMANTICO","Error Semántico:Funcion no declarada." , 0)); 
             tabla_simbolos.agregar_funcion(funcion, "error", null, 0);
             generar = false;
         }
