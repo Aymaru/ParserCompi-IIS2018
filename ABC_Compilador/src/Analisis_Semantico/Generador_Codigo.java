@@ -507,6 +507,87 @@ public class Generador_Codigo {
         codigo += System.lineSeparator();
     }
 
+    public String obtener_funcion(){
+        RegistroSemantico rs = pila_semantica.pop();
+        System.out.println("IDENTIFICADOR FUNCION: " +((RS_Identificador) rs).getNombre());
+        return ((RS_Identificador) rs).getNombre();
+    }
+    
+    public void validar_funcion(String funcion){
+        Simbolo tmp = tabla_simbolos.buscarSimbolo(funcion);
+        
+        if(tmp != null){
+            if(tmp.getScope().equals("funcion")){
+                ArrayList<Simbolo> parametros = new ArrayList<>();
+                System.out.println("PUNTO 1");
+                RegistroSemantico rs = pila_semantica.pop();
+                System.out.println("PUNTO 2");
+                while(rs != null || (rs.getClass().getName().equals("Analisis_Semantico.RS_Identificador") && !((RS_Identificador) rs).getNombre().equals(funcion) )){
+                    System.out.println("PUNTO 5");
+                    switch (rs.getClass().getName()) {
+                        case "Analisis_Semantico.RS_Identificador":
+                            System.out.println("PUNTO 3");
+                            Simbolo tmp2 = tabla_simbolos.buscarSimbolo(((RS_Identificador)rs).getNombre());                           
+                            if(tmp2 != null){
+                                parametros.add(new Simbolo(tmp2.getNombre(), tmp2.getTipo(), tmp2.getScope(), 0));
+                            } else {
+                                System.out.println("Error Semantico: Parametro de entrada no definido. " + ((RS_Identificador)rs).getNombre());
+                                tabla_simbolos.agregar_var_global(((RS_Identificador)rs).getNombre(), "error", 0);
+                                generar = false;
+                            }   break;
+                        case "Analisis_Semantico.RS_DataObject":
+                            System.out.println("PUNTO 4");
+                            parametros.add(new Simbolo(((RS_DataObject)rs).getValor(), ((RS_DataObject)rs).getTipo(), "parametro", 0));
+                            break;
+                        default:
+                            System.out.println(rs.getClass().getName());
+                            System.out.println("Error Semantico: Parametro de entrada Invalido");
+                            generar = false;
+                            break;
+                    }
+                    rs = pila_semantica.pop();
+                    System.out.println("PUNTO 6");
+                    if (rs == null){
+                        break;
+                    }
+                    System.out.println("PUNTO 10");
+                    
+                }
+                System.out.println("PUNTO 8");
+                System.out.println(tmp.getParametros().size());
+                System.out.println("PUNTO 9");
+                if (tmp.getParametros().size() == parametros.size()){
+                    System.out.println("PUNTO 7");
+                    for (int i = 0; i < tmp.getParametros().size(); i++) {
+                        Simbolo s1 = parametros.get(i);
+                        Simbolo s2 = tmp.getParametros().get(i);
+                        System.out.println("S1 = " +s1.getNombre());
+                        System.out.println("S2 = " +s2.getNombre());
+                        
+                        if(!s1.getTipo().toUpperCase().equals(s2.getTipo().toUpperCase())){
+                            System.out.println("Error Semantico: Parametro de diferente tipo. "+ s1.getNombre());
+                            generar = false;
+                            break;
+                        }
+                        
+                    }
+                } else {
+                    System.out.println("Error Semantico: Cantidad de parametros diferente a la esperada.");
+                    generar = false;
+                }
+                
+            } else {
+                System.out.println("Error semantico: el identificador no es una funcion. " + funcion);
+                generar = false;
+            }
+        } else {
+            System.out.println("Error semantico: funcion no declarada. " + funcion);
+            tabla_simbolos.agregar_funcion(funcion, "error", null, 0);
+            generar = false;
+        }
+
+    }
+    
     public String getCodigo() {
         if (generar)
             return codigo;

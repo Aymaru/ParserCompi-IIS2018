@@ -160,6 +160,7 @@ non terminal rrr, rr, r, kk, empty,INICIO,E,
         S,
         id,
         EntradaPrograma,
+        entrada,
         SeccionConstantes,
         continuarIF,
         Constantes,
@@ -200,6 +201,7 @@ non terminal rrr, rr, r, kk, empty,INICIO,E,
         Expresion5,
         Expresion6,
         Expresion7,
+        continuar_exp7,
         LParametro,
         ListaParametros,
         ExpresionAsignacion, 
@@ -368,24 +370,29 @@ Expresion4 ::= IncrementoDecremento Expresion5
 
 Expresion5::= Expresion6 IncrementoDecremento;
 
-Expresion6::= id Expresion7
+Expresion6::= id Expresion7 
 	|O_LEFT_PARENTHESIS Expresion O_RIGHT_PARENTHESIS
         |O_LEFT_PARENTHESIS Expresion error {:System.out.println("Error Sintaxix, ) esperado");:}
 	|literal;
 
 Expresion7::= ExpresionAsignacion
-	|O_LEFT_PARENTHESIS LParametro O_RIGHT_PARENTHESIS
-        |O_LEFT_PARENTHESIS LParametro error {:System.out.println("Error Sintaxix, ) esperado");:};
+	|O_LEFT_PARENTHESIS {: RESULT = parser.getGenerador().obtener_funcion();:} continuar_exp7 {:parser.getGenerador().validar_funcion((String)RESULT);:};
+
+continuar_exp7 ::= LParametro O_RIGHT_PARENTHESIS 
+        |LParametro error {:System.out.println("Error Sintaxix, ) esperado");:};
 
 ExpresionAsignacion::= OperadorAsignacion Expresion {: parser.getGenerador().generarCodigoAsignacion();:}
 	|empty;
 
-LParametro::= Expresion ListaParametros
+LParametro::= entrada ListaParametros 
 	|empty;
 
-ListaParametros::= O_COMMA Expresion ListaParametros
-        |O_COMMA error {:System.out.println("Error Sintaxix: Expresion esperada despues de la coma.");:}//////////////////////////////////
+ListaParametros::= O_COMMA entrada ListaParametros
+        |O_COMMA error {:System.out.println("Error Sintaxix: Expresion esperada despues de la coma.");:}
 	|empty;
+
+entrada ::= id
+            |literal;
 
 Instruccion ::= InstruccionBE
             | InstruccionSC;

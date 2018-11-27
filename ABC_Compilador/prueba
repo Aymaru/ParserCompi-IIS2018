@@ -24,8 +24,10 @@ PROGRAM Prueba
 VAR
 variable : int;
 k:int;
+f:int;
+p:int;
 
-FUNCTION funcionBuena(int Z, int x, int f) : int
+FUNCTION funcionBuena(int Z, float x, int f) : int
 BEGIN
 
 END
@@ -33,17 +35,7 @@ END
 
 BEGIN
 
-while 8 = 4 do
-begin
-
-end	
-
-if 8 = 4 then
-
-else 
-
-
-end
+funcionBuena(2,k);
 
 
 

@@ -7,8 +7,10 @@ package Compilador;
 
 import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.util.Scanner;
@@ -91,6 +93,79 @@ public class Compilador
                 }
                 case EJECUTAR:
                 {
+                    Scanner reader = new Scanner(System.in);  // Reading from System.in
+                    System.out.println("Digite la ruta del archivo fuente (Sin extención): ");
+                    String nombreArchivo = reader.nextLine();
+
+                    ScannerABC s = new ScannerABC();
+                    ScannerABC.errores.clear();
+                    //System.out.println("--Alpha Reached--");
+                    try
+                    {   
+                        ScannerABC.errores.clear();
+                        ScannerABC.nombreTokens.clear();
+                        ScannerABC.tokenslist.clear();
+                        
+                        FileReader fr = new FileReader(nombreArchivo+"");
+                        BufferedReader bf = new BufferedReader(fr);
+
+                        Analizador_Lexico lexico = new Analizador_Lexico(bf);
+
+                        //System.out.println("--Bravo Reached--");
+                        //System.out.println(ScannerABC.nombreTokens.size());
+
+                        /*lexico.
+                        File file=new File(System.getProperty("user.dir")+ "/src/Compilador/Analizador_Lexico.flex");
+                        jflex.Main.generate(file);
+                        */
+                        Analizador_Sintactico sintactico = new Analizador_Sintactico(lexico);
+                        //sintactico.debug_parse();
+                        //System.out.println("--Charlie Reached--");
+                        sintactico.parse();
+
+                        /*
+                        System.out.println("--Charlie Reached--");
+                        System.out.println("1----" + ScannerABC.nombreTokens.size());
+
+                        System.out.println("--Delta Reached--");
+                        System.out.println(sintactico.resultado);
+
+                        System.out.println("--Echo Reached--");
+                        System.out.println("Cantidad de Errores: " + ScannerABC.errores.size());
+
+                        System.out.println("--Foxtrot Reached--");
+                        */
+                        //System.out.println(ScannerABC.imprimir());
+
+                        fr.close();
+
+                        String codigoEnsamblador = sintactico.getGenerador().getCodigo();    ///Cambiar por string con codigo de ensamblador
+                        File ensamblador = new File(nombreArchivo+".asm");
+
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(ensamblador));
+                        writer.write(codigoEnsamblador);
+                        writer.close();
+
+
+                        XML.XML.writeXML(s,nombreArchivo);
+
+                        Source xml = new StreamSource(new File(nombreArchivo+".xml"));
+                        Source xslt = new StreamSource(System.getProperty("user.dir")+"/style.xsl");
+
+                        XML.XML.convertXMLToHTML(xml, xslt, nombreArchivo);
+                        File htmlFile = new File(nombreArchivo+".html");
+                        Desktop.getDesktop().browse(htmlFile.toURI());
+
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("--Hit Alpha--");
+                        System.out.println(e.toString());
+                        System.out.println(e.getCause());
+                        System.out.println(ScannerABC.imprimirErrores());
+                    }
+                    break;
+                    /*
                     String nombreArchivo = "prueba";
                     ScannerABC s = new ScannerABC();
                     ScannerABC.errores.clear();
@@ -111,7 +186,7 @@ public class Compilador
                         /*lexico.
                         File file=new File(System.getProperty("user.dir")+ "/src/Compilador/Analizador_Lexico.flex");
                         jflex.Main.generate(file);
-                        */
+                        
                         Analizador_Sintactico sintactico = new Analizador_Sintactico(lexico);
                         //sintactico.debug_parse();
                         //System.out.println("--Charlie Reached--");
@@ -149,6 +224,7 @@ public class Compilador
                         System.out.println(ScannerABC.imprimirErrores());
                     }
                     break;
+                    */
                 }
                 case SALIR:
                     break;
