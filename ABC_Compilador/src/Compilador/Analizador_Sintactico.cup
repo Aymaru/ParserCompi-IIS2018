@@ -409,12 +409,12 @@ IfThenElse ::= PR_IF Expresion PR_THEN  Instrucciones Else  PR_END
 
 IfThenElse ::= PR_IF {: parser.getGenerador().start_if(); :} continuarIF {: parser.getGenerador().end_if(); :};
 
-continuarIF ::= Expresion  PR_THEN {: parser.getGenerador().eval_exp_if(); System.out.println("Pasa eval");:} Instrucciones Else  PR_END 
+continuarIF ::= Expresion  PR_THEN {: parser.getGenerador().eval_exp_if();:} Instrucciones Else  PR_END 
             |Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
             |error  PR_THEN Instrucciones Else PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
 //rrr ::= PR_THEN Instrucciones Else PR_END | Instrucciones Else PR_END | Else PR_END | PR_END ;
 
-Else ::= PR_ELSE  {: parser.getGenerador().else_if(); :} Instrucciones 
+Else ::= PR_ELSE  {: parser.getGenerador().else_if(); System.out.println("Else IF"); :} Instrucciones 
 	|empty;
 
 While ::= PR_WHILE {: parser.getGenerador().start_while(); :} Expresion PR_DO {: parser.getGenerador().eval_exp_while(); :}PR_BEGIN Instrucciones PR_END {: parser.getGenerador().end_while(); :}

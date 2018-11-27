@@ -92,29 +92,29 @@ public class Generador_Codigo {
 
             pila_semantica.pop();
 
-            codigo += ((RS_Identificador) top).getNombre();
+            codigo += "\t "+((RS_Identificador) top).getNombre();
 
             switch (tipo.toUpperCase()) {
                 case "INT":
-                    codigo += "\t dd dup (?)" + System.lineSeparator();
+                    codigo += " dd dup (?)" + System.lineSeparator();
                     break;
                 case "SHORTINT":
-                    codigo += "\t  dw dup (?)" + System.lineSeparator();
+                    codigo += " dw dup (?)" + System.lineSeparator();
                     break;
                 case "LONGTINT":
-                    codigo += "\t dw 3 dup (?) " + System.lineSeparator();
+                    codigo += " dw 3 dup (?) " + System.lineSeparator();
                     break;
                 case "CHAR":
-                    codigo += "\t db dup (?)" + System.lineSeparator();
+                    codigo += " db dup (?)" + System.lineSeparator();
                     break;
                 case "BOOLEAN":
-                    codigo += "\t db dup (?)" + System.lineSeparator();
+                    codigo += " db dup (?)" + System.lineSeparator();
                     break;
                 case "REAL":
-                    codigo += "\t dd dup (?) " + System.lineSeparator();
+                    codigo += " dd dup (?) " + System.lineSeparator();
                     break;
                 case "STRING":
-                    codigo += "\t dw 30 dup (?) " + System.lineSeparator();
+                    codigo += " dw 30 dup (?) " + System.lineSeparator();
                     break;
                 default:
                     break;
@@ -163,7 +163,7 @@ public class Generador_Codigo {
     }*/
     
     public void iniciar_variables() {
-        codigo += "datos segment " + System.lineSeparator();
+        codigo += System.lineSeparator() + "datos segment " + System.lineSeparator();
     }
     
     public void finalizar_variables() {
@@ -172,7 +172,7 @@ public class Generador_Codigo {
 
     public void inicializar_pila(){
         codigo += "pila segment stack \'stack\'" + System.lineSeparator();
-        codigo += "dw 256 dup (?)" + System.lineSeparator();
+        codigo += "\t dw 256 dup (?)" + System.lineSeparator();
         codigo += "pila ends" + System.lineSeparator()+ System.lineSeparator();
     }
     public void iniciar_codigo() {
@@ -197,7 +197,7 @@ public class Generador_Codigo {
         codigo += "salir:" + System.lineSeparator()+ System.lineSeparator();
         codigo += "    mov ax, 4C00h" + System.lineSeparator();
         codigo += "    int 21h" + System.lineSeparator()+ System.lineSeparator();
-        codigo += "codigo ends" + System.lineSeparator();
+        codigo += "  codigo ends" + System.lineSeparator();
         codigo += "end inicio" + System.lineSeparator();
     }
 
@@ -291,7 +291,6 @@ public class Generador_Codigo {
     }
 
     private boolean isOperacion(String operador) {
-        System.out.println("punto 1.1.1");
         return operador.equals("+") || operador.equals("-") || operador.equals("*") || operador.equals("/")
                 || operador.toUpperCase().equals("O_DIV") || operador.toUpperCase().equals("O_MOD");
     }
@@ -392,17 +391,21 @@ public class Generador_Codigo {
 
 
     public void start_if(){
-        RegistroSemantico RS_IF = new RS_IF();
-        this.pila_semantica.push(RS_IF);
+        System.out.println("Start if");
+        RegistroSemantico rs = new RS_IF();
+        this.pila_semantica.push(rs);
+        System.out.println("Start if else_lbl "+((RS_IF)rs).getElse_label());
+        System.out.println("Start if else_lbl "+((RS_IF)rs).getEnd_label());
     }
     
     
     public void else_if() {
-                    System.out.println("else if");
         RegistroSemantico rs = this.pila_semantica.buscar("Analisis_Semantico.RS_IF");
         
         codigo += "     jmp " + ((RS_IF) rs).getEnd_label() + System.lineSeparator();
-        codigo += " " + ((RS_IF) rs).getElse_label() + ":"  + System.lineSeparator();
+        System.out.println("ELSE_IF END_LBL IF> " +((RS_IF) rs).getEnd_label() );
+        codigo += System.lineSeparator() + " " + ((RS_IF) rs).getElse_label() + ":"  + System.lineSeparator();
+        System.out.println("ELSE_IF ELSE_LBL IF> " +((RS_IF) rs).getElse_label() );
     }
 
     public void end_if() {
@@ -411,20 +414,14 @@ public class Generador_Codigo {
         while (!(rs instanceof RS_IF)) {
             rs = this.pila_semantica.pop();
         }
-        codigo += " " + ((RS_IF) rs).getEnd_label() + ":"  + System.lineSeparator();
+        codigo += System.lineSeparator()+" " + ((RS_IF) rs).getEnd_label() + ":"  + System.lineSeparator();
+        System.out.println("END_IF END_LBL IF> " +((RS_IF) rs).getEnd_label() );
     }
     
     public void eval_exp_if() {
-        System.out.println("evaluando if");
         RS_Operador operador = generarCodigoCmp();
-        System.out.println("evaluando if 1");
         RS_IF rs = (RS_IF) pila_semantica.buscar("Analisis_Semantico.RS_IF");
-        System.out.println("evaluando if 2");
-        System.out.println(operador.getOperador());
-        if (rs == null)
-            System.out.println("ES NULL");
         generarCodigoJump(operador.getOperador(), rs.getElse_label());
-        System.out.println("evaluando if 3");
     }
     
     public void start_while() {
@@ -452,47 +449,31 @@ public class Generador_Codigo {
     }
 
     private RS_Operador generarCodigoCmp() {
-        System.out.println("generando codigo cmp");
         RegistroSemantico operando2 = pila_semantica.pop();
         RS_Operador operador = (RS_Operador) pila_semantica.pop();
         RegistroSemantico operando1 =  pila_semantica.pop();
-        System.out.println("pase 1");
-        codigo += "     mov ax, ";
+        codigo += System.lineSeparator()+"     mov ax, ";
         
         if (operando1.getClass().getName().equals("Analisis_Semantico.RS_DataObject")) {
-            System.out.println("pase 1.1");
             codigo += ((RS_DataObject) operando1).getValor() + System.lineSeparator();
-            System.out.println("pase 1.2");
         } else {
             if (tabla_simbolos.buscarSimbolo(((RS_Identificador) operando1).getNombre()) != null){
-               System.out.println("pase 1.3");
                 codigo += ((RS_Identificador) operando1).getNombre()+ System.lineSeparator(); 
-                System.out.println("pase 1.4");
             }
             else{
-                System.out.println("pase 1.5");
-                System.out.println(((RS_Identificador) operando1).getNombre());
                 tabla_simbolos.agregar_var_global(((RS_Identificador) operando1).getNombre(), "error", 0);
-                System.out.println("pase 1.6");
                 generar = false;
             }
         }
-        System.out.println("pase 2");
-        codigo += "     mov bx, ";
+        codigo += System.lineSeparator()+ "     mov bx, ";
 
         if (operando2.getClass().getName().equals("Analisis_Semantico.RS_DataObject")) {
-            System.out.println("pase 2.1");
-            codigo += ((RS_DataObject) operando2).getValor() + System.lineSeparator();
-            System.out.println("pase 2.2");            
+            codigo += ((RS_DataObject) operando2).getValor() + System.lineSeparator();         
         } else {
             if(tabla_simbolos.buscarSimbolo(((RS_Identificador) operando2).getNombre()) != null){
-                            System.out.println("pase 2.3");
                 codigo += ((RS_Identificador) operando2).getNombre() + System.lineSeparator();
-                            System.out.println("pase 2.4");
             } else {
-                            System.out.println("pase 2.5");
                 tabla_simbolos.agregar_var_global(((RS_Identificador) operando2).getNombre(), "error", 0);
-                            System.out.println("pase 2.6");
                 generar = false;
             }
         }
@@ -523,6 +504,7 @@ public class Generador_Codigo {
                 codigo += "     je " + label + System.lineSeparator();
                 break;
         }
+        codigo += System.lineSeparator();
     }
 
     public String getCodigo() {
