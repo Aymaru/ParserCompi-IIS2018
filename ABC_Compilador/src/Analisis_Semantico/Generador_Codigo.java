@@ -55,17 +55,14 @@ public class Generador_Codigo {
     }
     
     public void recordar_identificador(String id) {
-        System.out.println("recordando id");
         pila_semantica.push(new RS_Identificador(id));
     }
     
     public void recordar_tipo(String tipo) {
-        System.out.println("recordando tipo");
         pila_semantica.push(new RS_Tipo(tipo));
     }
     
     public void recordar_RS_DO(String tipo, String valor) {
-        System.out.println("recordando DO "+valor);
         
         if(valor == null && !registros.contains(tipo)){
             Simbolo s = tabla_simbolos.buscarSimbolo(tipo);
@@ -76,13 +73,11 @@ public class Generador_Codigo {
     }
 
     public void recordar_operador(String operador) {
-        System.out.println("recordando operador");
         System.out.println(operador);
          pila_semantica.push(new RS_Operador(operador));
     }
 
     public void guardar_variables_TS(String tipo, int linea) {
-        System.out.println("guardando variable");
         RegistroSemantico top = pila_semantica.top();
 
         while (top instanceof RS_Identificador) {
@@ -391,11 +386,8 @@ public class Generador_Codigo {
 
 
     public void start_if(){
-        System.out.println("Start if");
         RegistroSemantico rs = new RS_IF();
         this.pila_semantica.push(rs);
-        System.out.println("Start if else_lbl "+((RS_IF)rs).getElse_label());
-        System.out.println("Start if else_lbl "+((RS_IF)rs).getEnd_label());
     }
     
     
@@ -403,19 +395,15 @@ public class Generador_Codigo {
         RegistroSemantico rs = this.pila_semantica.buscar("Analisis_Semantico.RS_IF");
         
         codigo += "     jmp " + ((RS_IF) rs).getEnd_label() + System.lineSeparator();
-        System.out.println("ELSE_IF END_LBL IF> " +((RS_IF) rs).getEnd_label() );
         codigo += System.lineSeparator() + " " + ((RS_IF) rs).getElse_label() + ":"  + System.lineSeparator();
-        System.out.println("ELSE_IF ELSE_LBL IF> " +((RS_IF) rs).getElse_label() );
     }
 
     public void end_if() {
-                    System.out.println("end if");
         RegistroSemantico rs = this.pila_semantica.pop();
         while (!(rs instanceof RS_IF)) {
             rs = this.pila_semantica.pop();
         }
         codigo += System.lineSeparator()+" " + ((RS_IF) rs).getEnd_label() + ":"  + System.lineSeparator();
-        System.out.println("END_IF END_LBL IF> " +((RS_IF) rs).getEnd_label() );
     }
     
     public void eval_exp_if() {
@@ -440,7 +428,6 @@ public class Generador_Codigo {
     }
     
     public void eval_exp_while() {
-        System.out.println("evaluando while");
         RS_Operador operador = generarCodigoCmp();
 
         RS_While rs = (RS_While) pila_semantica.buscar("Analisis_Semantico.RS_While");
@@ -519,14 +506,10 @@ public class Generador_Codigo {
         if(tmp != null){
             if(tmp.getScope().equals("funcion")){
                 ArrayList<Simbolo> parametros = new ArrayList<>();
-                System.out.println("PUNTO 1");
                 RegistroSemantico rs = pila_semantica.pop();
-                System.out.println("PUNTO 2");
                 while(rs != null || (rs.getClass().getName().equals("Analisis_Semantico.RS_Identificador") && !((RS_Identificador) rs).getNombre().equals(funcion) )){
-                    System.out.println("PUNTO 5");
                     switch (rs.getClass().getName()) {
                         case "Analisis_Semantico.RS_Identificador":
-                            System.out.println("PUNTO 3");
                             Simbolo tmp2 = tabla_simbolos.buscarSimbolo(((RS_Identificador)rs).getNombre());                           
                             if(tmp2 != null){
                                 parametros.add(new Simbolo(tmp2.getNombre(), tmp2.getTipo(), tmp2.getScope(), 0));
@@ -536,7 +519,6 @@ public class Generador_Codigo {
                                 generar = false;
                             }   break;
                         case "Analisis_Semantico.RS_DataObject":
-                            System.out.println("PUNTO 4");
                             parametros.add(new Simbolo(((RS_DataObject)rs).getValor(), ((RS_DataObject)rs).getTipo(), "parametro", 0));
                             break;
                         default:
@@ -546,23 +528,16 @@ public class Generador_Codigo {
                             break;
                     }
                     rs = pila_semantica.pop();
-                    System.out.println("PUNTO 6");
                     if (rs == null){
                         break;
                     }
-                    System.out.println("PUNTO 10");
                     
                 }
-                System.out.println("PUNTO 8");
                 System.out.println(tmp.getParametros().size());
-                System.out.println("PUNTO 9");
                 if (tmp.getParametros().size() == parametros.size()){
-                    System.out.println("PUNTO 7");
                     for (int i = 0; i < tmp.getParametros().size(); i++) {
                         Simbolo s1 = parametros.get(i);
                         Simbolo s2 = tmp.getParametros().get(i);
-                        System.out.println("S1 = " +s1.getNombre());
-                        System.out.println("S2 = " +s2.getNombre());
                         
                         if(!s1.getTipo().toUpperCase().equals(s2.getTipo().toUpperCase())){
                             System.out.println("Error Semantico: Parametro de diferente tipo. "+ s1.getNombre());

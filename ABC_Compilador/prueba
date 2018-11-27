@@ -1,3 +1,18 @@
+Program b
+VAR
+x, y: int ;
+y: int ;  // Variable doblemente definida
+FUNCTION func(  a:int ): int 
+BEGIN
+ a, b, c: int;  // doblemente definida para la funcion
+ y: int ;   
+ y:=  2;
+ y:=  2;  z Variable no definida;
+END
+BEGIN
+ y:=  2; // z Variable no definida;
+END
+
 //PROGRAM Prueba
 
 //VAR
@@ -20,23 +35,23 @@
 
 //END
 
-PROGRAM Prueba
-VAR
-variable : int;
-k:int;
-f:int;
-p:int;
+//PROGRAM Prueba
+//VAR
+//variable : int;
+//k:int;
+//f:int;
+//p:int;
 
-FUNCTION funcionBuena(int Z, float x, int f) : int
-BEGIN
+//FUNCTION funcionBuena(int Z, float x, int f) : int
+//BEGIN
 
-END
-
-
-BEGIN
-
-funcionBuena(2,k);
+//END
 
 
+//BEGIN
 
-END
+//funcionBuena(2,k);
+
+
+
+//END
