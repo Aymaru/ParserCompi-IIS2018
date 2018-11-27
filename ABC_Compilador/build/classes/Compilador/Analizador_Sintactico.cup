@@ -161,6 +161,7 @@ non terminal rrr, rr, r, kk, empty,INICIO,E,
         id,
         EntradaPrograma,
         SeccionConstantes,
+        continuarIF,
         Constantes,
         Constante,
         ErrorConstante,
@@ -298,7 +299,7 @@ r ::= SeccionConstantesFuncion SeccionVariablesFuncion PR_BEGIN Instrucciones PR
 rr ::= PR_END | Rutinas;
 
 //
-
+/*
 SeccionConstantesFuncion ::= PR_CONST ConstantesFuncion
 	|empty;
 
@@ -320,12 +321,12 @@ VariablesFuncion ::= VariableFuncion
 
 VariableFuncion ::= IDENTIFICADOR Identificadores O_COLON Tipo Inicializar O_SEMICOLON VariablesFuncion
         |error ErroresVariables {:System.out.println("Error Sintactico Variable Recuperado con ErroresVariables Variables");:};
-
+*/
 //
 
 EncabezadoProcedimiento ::= PR_PROCEDURE id O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS
         |PR_PROCEDURE IDENTIFICADOR O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS {: System.out.println("Error en Parametros"); :};
-//:i :t  {: parser.getGenerador().guardar_funcion_TS((String) i,((String) t));:}
+
 EncabezadoFuncion ::= PR_FUNCTION id:i O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS O_COLON Tipo:t  {: parser.getGenerador().guardar_funcion_TS((String) i,((String) t));:}
         |PR_FUNCTION id O_LEFT_PARENTHESIS error O_RIGHT_PARENTHESIS O_COLON Tipo {: System.out.println("Error en Parametros"); :}
         |PR_FUNCTION id O_LEFT_PARENTHESIS Parametros O_RIGHT_PARENTHESIS error kk {: System.out.println("Error en Parametros2"); :};
@@ -338,7 +339,7 @@ Parametro ::= Tipo:t {: parser.getGenerador().recordar_tipo((String) t);:}  id  
         |Tipo error {: System.out.println("Error en Parametros recuperado en Parametro"); :}
 	|empty;
 
-masParametros ::= O_COMMA Tipo IDENTIFICADOR masParametros
+masParametros ::= O_COMMA Tipo:t {: parser.getGenerador().recordar_tipo((String) t);:} id masParametros
 	|empty;
 
 /**** Expresiones ****/
@@ -400,14 +401,20 @@ InstruccionSC ::= Expresion O_SEMICOLON
 //{: parser.getGenerador().start_if(); :}{: System.out.println("start if"); :}
 //{: parser.getGenerador().end_if(); :}{: System.out.println("end if"); :}
 //{: parser.getGenerador().else_if(); :}*/
-
+/*
 IfThenElse ::= PR_IF Expresion PR_THEN  Instrucciones Else  PR_END 
-        |PR_IF Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
-        |PR_IF error  PR_THEN Instrucciones Else PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
+        |PR_IF   Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
+        |PR_IF  error  PR_THEN Instrucciones Else PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
+*/
 
+IfThenElse ::= PR_IF {: parser.getGenerador().start_if(); :} continuarIF {: parser.getGenerador().end_if(); :};
+
+continuarIF ::= Expresion  PR_THEN {: parser.getGenerador().eval_exp_if(); System.out.println("Pasa eval");:} Instrucciones Else  PR_END 
+            |Expresion error PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END, Espera un PR_THEN");:}
+            |error  PR_THEN Instrucciones Else PR_END {:System.out.println("Error Sintactico instruccion IF Recuperado con PR_END");:};
 //rrr ::= PR_THEN Instrucciones Else PR_END | Instrucciones Else PR_END | Else PR_END | PR_END ;
 
-Else ::= PR_ELSE  /*{: System.out.println("else if"); :}*/ Instrucciones 
+Else ::= PR_ELSE  {: parser.getGenerador().else_if(); :} Instrucciones 
 	|empty;
 
 While ::= PR_WHILE {: parser.getGenerador().start_while(); :} Expresion PR_DO {: parser.getGenerador().eval_exp_while(); :}PR_BEGIN Instrucciones PR_END {: parser.getGenerador().end_while(); :}
@@ -458,15 +465,15 @@ Tipo ::= PR_BOOLEAN:t {: RESULT = t;:}
 	|PR_REAL:t {: RESULT = t;:}
         |PR_FLOAT:t {: RESULT = t;:};
 
-literal ::= L_INTEGER :l {: RESULT = l; parser.getGenerador().recordar_RS_DO("Int",(String) l);:}
-	|L_FLOAT:l {: RESULT = l; parser.getGenerador().recordar_RS_DO("Float",(String) l);:}
-	|L_STRING:l {: RESULT = l; parser.getGenerador().recordar_RS_DO("String",(String) l);:}
-	|L_CHAR:l {: RESULT = l; parser.getGenerador().recordar_RS_DO("Char",(String) l);:}
+literal ::= L_INTEGER :lit {: RESULT = lit; parser.getGenerador().recordar_RS_DO("Int",(String) lit);:}
+	|L_FLOAT:lit {: RESULT = lit; parser.getGenerador().recordar_RS_DO("Float",(String) lit);:}
+	|L_STRING:lit {: RESULT = lit; parser.getGenerador().recordar_RS_DO("String",(String) lit);:}
+	|L_CHAR:lit {: RESULT = lit; parser.getGenerador().recordar_RS_DO("Char",(String) lit);:}
 	|Boolean;
 
 
-Boolean ::= PR_TRUE:l {: RESULT = l; parser.getGenerador().recordar_RS_DO("Boolean",(String) l);:}
-	|PR_FALSE:l {: RESULT = l; parser.getGenerador().recordar_RS_DO("Boolean",(String) l);:}; 
+Boolean ::= PR_TRUE:lit {: RESULT = lit; parser.getGenerador().recordar_RS_DO("Boolean",(String) lit);:}
+	|PR_FALSE:lit {: RESULT = lit; parser.getGenerador().recordar_RS_DO("Boolean",(String) lit);:}; 
 
 id ::= IDENTIFICADOR:i {:RESULT = i; parser.getGenerador().recordar_identificador((String) i);:};
 

@@ -121,13 +121,13 @@ public class Tabla_Simbolos {
         }*/
         for (Map.Entry<String, Simbolo> entry : tabla_simbolos.entrySet()) {
             Simbolo value = entry.getValue();
-            result += value.getNombre()+ "  tipo: "+value.getTipo()+"\n";
-            
+            result += "Nombre: " + value.getNombre()+ ", tipo: "+value.getTipo()+", Scope: "+value.getScope()+"\n";
+            System.out.println("AQUI ESTOY YO");
             if(value.getScope().equals("funcion")){
                 System.out.println("SIZE===="+value.getParametros().size());
                 for (int i = 0; i < value.getParametros().size(); i++) {
-                    Simbolo get = tablaSimbolos.get(i);
-                    result += get.getNombre()+ "  tipo: "+get.getTipo()+"\n";
+                    Simbolo get = value.getParametros().get(i);
+                    result += "Nombre: " + get.getNombre()+ ", tipo: "+get.getTipo()+", Scope: "+get.getScope()+"\n";
                 }
             }
             

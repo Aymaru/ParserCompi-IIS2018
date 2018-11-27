@@ -21,14 +21,30 @@
 //END
 
 PROGRAM Prueba
+VAR
+variable : int;
+k:int;
 
-
-FUNCTION funcionBuena(int Z) : int
+FUNCTION funcionBuena(int Z, int x, int f) : int
 BEGIN
 
 END
 
 
 BEGIN
+
+while 8 = 4 do
+begin
+
+end	
+
+if 8 = 4 then
+
+	if 3 = 4 then 
+	
+	end
+end
+
+
 
 END

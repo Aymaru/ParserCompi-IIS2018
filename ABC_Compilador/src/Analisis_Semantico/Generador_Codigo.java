@@ -398,15 +398,15 @@ public class Generador_Codigo {
     
     
     public void else_if() {
-        
-        RegistroSemantico rs = this.pila_semantica.buscar("Analisis_Semantico.RS_If");
+                    System.out.println("else if");
+        RegistroSemantico rs = this.pila_semantica.buscar("Analisis_Semantico.RS_IF");
         
         codigo += "     jmp " + ((RS_IF) rs).getEnd_label() + System.lineSeparator();
         codigo += " " + ((RS_IF) rs).getElse_label() + ":"  + System.lineSeparator();
     }
 
     public void end_if() {
-        
+                    System.out.println("end if");
         RegistroSemantico rs = this.pila_semantica.pop();
         while (!(rs instanceof RS_IF)) {
             rs = this.pila_semantica.pop();
@@ -414,14 +414,17 @@ public class Generador_Codigo {
         codigo += " " + ((RS_IF) rs).getEnd_label() + ":"  + System.lineSeparator();
     }
     
-    public void evalExp_if() {
+    public void eval_exp_if() {
         System.out.println("evaluando if");
         RS_Operador operador = generarCodigoCmp();
-
-        RS_IF rs = (RS_IF) pila_semantica.buscar("Analisis_Semantico.RS_If");
-
+        System.out.println("evaluando if 1");
+        RS_IF rs = (RS_IF) pila_semantica.buscar("Analisis_Semantico.RS_IF");
+        System.out.println("evaluando if 2");
+        System.out.println(operador.getOperador());
+        if (rs == null)
+            System.out.println("ES NULL");
         generarCodigoJump(operador.getOperador(), rs.getElse_label());
-
+        System.out.println("evaluando if 3");
     }
     
     public void start_while() {
@@ -453,37 +456,43 @@ public class Generador_Codigo {
         RegistroSemantico operando2 = pila_semantica.pop();
         RS_Operador operador = (RS_Operador) pila_semantica.pop();
         RegistroSemantico operando1 =  pila_semantica.pop();
-
+        System.out.println("pase 1");
         codigo += "     mov ax, ";
         
         if (operando1.getClass().getName().equals("Analisis_Semantico.RS_DataObject")) {
-
+            System.out.println("pase 1.1");
             codigo += ((RS_DataObject) operando1).getValor() + System.lineSeparator();
-            
+            System.out.println("pase 1.2");
         } else {
             if (tabla_simbolos.buscarSimbolo(((RS_Identificador) operando1).getNombre()) != null){
-               
+               System.out.println("pase 1.3");
                 codigo += ((RS_Identificador) operando1).getNombre()+ System.lineSeparator(); 
+                System.out.println("pase 1.4");
             }
             else{
+                System.out.println("pase 1.5");
                 System.out.println(((RS_Identificador) operando1).getNombre());
                 tabla_simbolos.agregar_var_global(((RS_Identificador) operando1).getNombre(), "error", 0);
+                System.out.println("pase 1.6");
                 generar = false;
             }
         }
-
+        System.out.println("pase 2");
         codigo += "     mov bx, ";
 
         if (operando2.getClass().getName().equals("Analisis_Semantico.RS_DataObject")) {
-
+            System.out.println("pase 2.1");
             codigo += ((RS_DataObject) operando2).getValor() + System.lineSeparator();
-            
+            System.out.println("pase 2.2");            
         } else {
             if(tabla_simbolos.buscarSimbolo(((RS_Identificador) operando2).getNombre()) != null){
-                
+                            System.out.println("pase 2.3");
                 codigo += ((RS_Identificador) operando2).getNombre() + System.lineSeparator();
+                            System.out.println("pase 2.4");
             } else {
+                            System.out.println("pase 2.5");
                 tabla_simbolos.agregar_var_global(((RS_Identificador) operando2).getNombre(), "error", 0);
+                            System.out.println("pase 2.6");
                 generar = false;
             }
         }
